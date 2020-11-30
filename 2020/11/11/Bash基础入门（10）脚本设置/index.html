@@ -21,14 +21,14 @@
   </script>
 
   <meta name="description" content="描述: 脚本设置set,shopt和排错">
-<meta name="keywords" content="Bash,基础入门,shell技巧">
+<meta name="keywords" content="Bash,Bash基础入门,shell技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bash基础入门（10）脚本设置set和shopt">
 <meta property="og:url" content="http://yoursite.com/2020/11/11/Bash基础入门（10）脚本设置/index.html">
 <meta property="og:site_name" content="HKCM">
 <meta property="og:description" content="描述: 脚本设置set,shopt和排错">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2020-11-11T14:48:58.646Z">
+<meta property="og:updated_time" content="2020-11-16T03:18:46.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bash基础入门（10）脚本设置set和shopt">
 <meta name="twitter:description" content="描述: 脚本设置set,shopt和排错">
@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-11 22:03:10 / Modified: 22:48:58" itemprop="dateCreated datePublished" datetime="2020-11-11T22:03:10+08:00">2020-11-11</time>
+              <time title="Created: 2020-11-11 22:03:10" itemprop="dateCreated datePublished" datetime="2020-11-11T22:03:10+08:00">2020-11-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-16 11:18:46" itemprop="dateModified" datetime="2020-11-16T11:18:46+08:00">2020-11-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -240,7 +246,7 @@
 <a id="more"></a>
 
 <h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p><code>set</code>命令用来修改子 Shell 环境的运行参数，即定制环境。一共有十几个参数可以定制，<a href="https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html" target="_blank" rel="noopener">官方手册</a>有完整清单，本章介绍其中最常用的几个。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">set -u # 脚本中遇到未定义时报错并退出</span><br><span class="line">set -x # 运行代码前先将代码输出，排错推荐</span><br><span class="line"></span><br><span class="line"># 到 -e遇到管道命令时只有管道的最后命令成功-e就会认为成功</span><br><span class="line">set -e # 返回值不为0时终止脚本</span><br><span class="line">set -o pipefail # 解决-e的管道问题</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">set -u # 脚本中遇到未定义变量时报错并退出</span><br><span class="line">set -x # 运行代码前先将代码输出，排错推荐</span><br><span class="line"></span><br><span class="line"># 到 -e遇到管道命令时只有管道的最后命令成功-e就会认为成功</span><br><span class="line">set -e # 返回值不为0时终止脚本</span><br><span class="line">set -o pipefail # 解决-e的管道问题</span><br></pre></td></tr></table></figure>
 
 <p>如果命令可能失败，但是希望继续运行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">command || true</span><br><span class="line"># 或在某段代码前暂时关闭set -e</span><br><span class="line">set +e</span><br><span class="line">command1</span><br><span class="line">command2</span><br><span class="line">set -e</span><br></pre></td></tr></table></figure>
@@ -265,7 +271,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Bash/" rel="tag"># Bash</a>
-              <a href="/tags/基础入门/" rel="tag"># 基础入门</a>
+              <a href="/tags/Bash基础入门/" rel="tag"># Bash基础入门</a>
               <a href="/tags/shell技巧/" rel="tag"># shell技巧</a>
           </div>
 
@@ -354,20 +360,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

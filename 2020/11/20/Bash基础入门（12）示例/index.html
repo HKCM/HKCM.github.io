@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: 基于AWS EC2的Bash脚本示例">
+<meta name="keywords" content="AWS CLI,AWS EC2,Bash,Bash基础入门,shell技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bash基础入门（12）示例">
+<meta property="og:url" content="http://yoursite.com/2020/11/20/Bash基础入门（12）示例/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: 基于AWS EC2的Bash脚本示例">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-11-19T16:34:59.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bash基础入门（12）示例">
+<meta name="twitter:description" content="描述: 基于AWS EC2的Bash脚本示例">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/20/Bash基础入门（12）示例/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>Bash基础入门（12）示例 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/Bash基础入门（12）示例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bash基础入门（12）示例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-20 00:11:30 / Modified: 00:34:59" itemprop="dateCreated datePublished" datetime="2020-11-20T00:11:30+08:00">2020-11-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>描述: 基于AWS EC2的Bash脚本示例</p>
+<a id="more"></a>
+
+<p>本文基于AWS EC2的CLI命令,实现EC2 instance type的转化.代码源于<a href="https://docs.amazonaws.cn/cli/latest/userguide/cli-services-ec2-instance-type-script.html" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/cli-services-ec2-instance-type-script.html</a></p>
+<p>主要是学习Bash shell脚本的格式和规范.例如,函数声明使用,提示信息,测试以及说明文档</p>
+<h3 id="change-ec2-instance-type-sh"><a href="#change-ec2-instance-type-sh" class="headerlink" title="change_ec2_instance_type.sh"></a>change_ec2_instance_type.sh</h3><p>该主脚本文件包含执行以下任务的 change_ec2_instance_type() 函数：</p>
+<ul>
+<li>验证指定的 EC2 实例是否存在。</li>
+<li>除非选择了 -f，否则函数会在停止实例之前向用户发出警告。</li>
+<li>更改实例类型</li>
+<li>如果您设置了 -r，请重启实例并确认实例正在运行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>##############################################################################</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> function change_ec2_instance_type</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> This function changes the instance type of the specified Amazon EC2 instance.</span><br><span class="line"><span class="meta">#</span> </span><br><span class="line"><span class="meta">#</span> Parameters:</span><br><span class="line"><span class="meta">#</span>   -i   [string, mandatory] The instance ID of the instance whose type you</span><br><span class="line"><span class="meta">#</span>                            want to change.</span><br><span class="line"><span class="meta">#</span>   -t   [string, mandatory] The instance type to switch the instance to.</span><br><span class="line"><span class="meta">#</span>   -f   [switch, optional]  If set, the function doesn't pause and ask before</span><br><span class="line"><span class="meta">#</span>                            stopping the instance.</span><br><span class="line"><span class="meta">#</span>   -r   [switch, optional]  If set, the function restarts the instance after</span><br><span class="line"><span class="meta">#</span>                            changing the type.</span><br><span class="line"><span class="meta">#</span>   -h   [switch, optional]  Displays this help.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Example:</span><br><span class="line"><span class="meta">#</span>      The following example converts the specified instance to type "t2.micro"</span><br><span class="line"><span class="meta">#</span>      without pausing to ask permission. It automatically restarts the</span><br><span class="line"><span class="meta">#</span>      instance after changing the type.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span>      change-instance-type -i i-123456789012 -f -r</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Returns:</span><br><span class="line"><span class="meta">#</span>      0 if successful</span><br><span class="line"><span class="meta">#</span>      1 if it fails</span><br><span class="line"><span class="meta">#</span>##############################################################################</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Import the general_purpose functions.</span><br><span class="line">source awsdocs_general.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>##############################################################################</span><br><span class="line"><span class="meta">#</span> function instance-exists</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> This function checks to see if the specified instance already exists. If it</span><br><span class="line"><span class="meta">#</span> does, it sets two global parameters to return the running state and the </span><br><span class="line"><span class="meta">#</span> instance type.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Input parameters:</span><br><span class="line"><span class="meta">#</span>       $1 - The id of the instance to check</span><br><span class="line"><span class="meta">#</span> </span><br><span class="line"><span class="meta">#</span> Returns:</span><br><span class="line"><span class="meta">#</span>       0 if the instance already exists</span><br><span class="line"><span class="meta">#</span>       1 if the instance doesn't exist</span><br><span class="line"><span class="meta">#</span>     AND: </span><br><span class="line"><span class="meta">#</span>       Sets two global variables:</span><br><span class="line"><span class="meta">#</span>            EXISTING_STATE - Contains the running/stopped state of the instance.</span><br><span class="line"><span class="meta">#</span>            EXISTING_TYPE  - Contains the current type of the instance.</span><br><span class="line"><span class="meta">#</span>##############################################################################</span><br><span class="line">function get_instance_info &#123;</span><br><span class="line"></span><br><span class="line">    # Declare local variables.</span><br><span class="line">    local INSTANCE_ID RESPONSE</span><br><span class="line">    </span><br><span class="line">    # This function accepts a single parameter.</span><br><span class="line">    INSTANCE_ID=$1</span><br><span class="line"></span><br><span class="line">    # The following --filters parameter causes server-side filtering to limit</span><br><span class="line">    # results to only the records that match the specified ID. The --query </span><br><span class="line">    # parameter causes CLI client-side filtering to include only the values of</span><br><span class="line">    # the InstanceType and State.Code fields. </span><br><span class="line">    </span><br><span class="line">    RESPONSE=$(aws ec2 describe-instances \</span><br><span class="line">                   --query 'Reservations[*].Instances[*].[State.Name, InstanceType]' \</span><br><span class="line">                   --filters Name=instance-id,Values="$INSTANCE_ID" \</span><br><span class="line">                   --output text \</span><br><span class="line">               )</span><br><span class="line"></span><br><span class="line">    if [[ $? -ne 0 ]] || [[ -z "$RESPONSE" ]]; then</span><br><span class="line">        # There was no response, so no such instance.</span><br><span class="line">        return 1        # 1 in Bash script means error/false</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    # If we got a response, the instance exists.</span><br><span class="line">    # Retrieve the values of interest and set them as global variables.</span><br><span class="line">    EXISTING_STATE=$(echo "$RESPONSE" | cut -f 1 )        </span><br><span class="line">    EXISTING_TYPE=$(echo "$RESPONSE" | cut -f 2 )</span><br><span class="line"></span><br><span class="line">    return 0        # 0 in Bash script means no error/true</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>#####################################</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span>  See header at top of this file</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span>#####################################</span><br><span class="line"></span><br><span class="line">function change_ec2_instance_type &#123;</span><br><span class="line"></span><br><span class="line">    function usage() (</span><br><span class="line">        echo ""</span><br><span class="line">        echo "This function changes the instance type of the specified instance."</span><br><span class="line">        echo "Parameter:"</span><br><span class="line">        echo "  -i  Specify the instance ID whose type you want to modify."</span><br><span class="line">        echo "  -t  Specify the instance type to convert the instance to."</span><br><span class="line">        echo "  -d  If the instance was originally running, this option prevents"</span><br><span class="line">        echo "      automatically restarting the instance."</span><br><span class="line">        echo "  -f  If the instance was originally running, this option prevents"</span><br><span class="line">        echo "      the script from asking permission before stopping the instance."</span><br><span class="line">        echo ""</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    local FORCE RESTART REQUESTED_TYPE INSTANCE_ID VERBOSE OPTION RESPONSE ANSWER </span><br><span class="line">    local OPTIND OPTARG # Required to use getopts command in a function.</span><br><span class="line">    </span><br><span class="line">    # Set default values.</span><br><span class="line">    FORCE=false</span><br><span class="line">    RESTART=false</span><br><span class="line">    REQUESTED_TYPE=""</span><br><span class="line">    INSTANCE_ID=""</span><br><span class="line">    VERBOSE=false</span><br><span class="line"></span><br><span class="line">    # Retrieve the calling parameters.</span><br><span class="line">    while getopts "i:t:frvh" OPTION; do</span><br><span class="line">        case "$&#123;OPTION&#125;"</span><br><span class="line">        in</span><br><span class="line">            i)  INSTANCE_ID="$&#123;OPTARG&#125;";;</span><br><span class="line">            t)  REQUESTED_TYPE="$&#123;OPTARG&#125;";;</span><br><span class="line">            f)  FORCE=true;;</span><br><span class="line">            r)  RESTART=true;;</span><br><span class="line">            v)  VERBOSE=true;;</span><br><span class="line">            h)  usage; return 0;;</span><br><span class="line">            \?) echo "Invalid parameter"; usage; return 1;; </span><br><span class="line">        esac</span><br><span class="line">    done</span><br><span class="line"></span><br><span class="line">    if [[ -z "$INSTANCE_ID" ]]; then</span><br><span class="line">        errecho "ERROR: You must provide an instance ID with the -i parameter."</span><br><span class="line">        usage</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    if [[ -z "$REQUESTED_TYPE" ]]; then</span><br><span class="line">        errecho "ERROR: You must provide an instance type with the -t parameter."</span><br><span class="line">        usage</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    iecho "Parameters:\n"</span><br><span class="line">    iecho "    Instance ID:   $INSTANCE_ID"</span><br><span class="line">    iecho "    Requests type: $REQUESTED_TYPE"</span><br><span class="line">    iecho "    Force stop:    $FORCE"</span><br><span class="line">    iecho "    Restart:       $RESTART"</span><br><span class="line">    iecho "    Verbose:       $VERBOSE"</span><br><span class="line">    iecho ""</span><br><span class="line">    </span><br><span class="line">    # Check that the specified instance exists.</span><br><span class="line">    iecho -n "Confirming that instance $INSTANCE_ID exists..."</span><br><span class="line">    get_instance_info "$INSTANCE_ID"</span><br><span class="line">    # If the instance doesn't exist, the function returns an error code &lt;&gt; 0.</span><br><span class="line">    if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">        errecho "ERROR: I can't find the instance \"$INSTANCE_ID\" in the current AWS account."</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line">    # Function get_instance_info has returned two global values:</span><br><span class="line">    #   $EXISTING_TYPE  -- The instance type of the specified instance</span><br><span class="line">    #   $EXISTING_STATE -- Whether the specified instance is running</span><br><span class="line"></span><br><span class="line">    iecho "confirmed $INSTANCE_ID exists."</span><br><span class="line">    iecho "      Current type: $EXISTING_TYPE"</span><br><span class="line">    iecho "      Current state code: $EXISTING_STATE"</span><br><span class="line"></span><br><span class="line">    # Are we trying to change the instance to the same type?</span><br><span class="line">    if [[ "$EXISTING_TYPE" == "$REQUESTED_TYPE" ]]; then</span><br><span class="line">        errecho "ERROR: Can't change instance type to the same type: $REQUESTED_TYPE."</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    # Check if the instance is currently running.</span><br><span class="line">    # 16="running"</span><br><span class="line">    if [[ "$EXISTING_STATE" == "running" ]]; then</span><br><span class="line">        # If it is, we need to stop it.</span><br><span class="line">        # Do we have permission to stop it? </span><br><span class="line">        # If -f (FORCE) was set, we do.</span><br><span class="line">        # If not, we need to ask the user.</span><br><span class="line">        if [[ $FORCE == false ]]; then</span><br><span class="line">            while true; do</span><br><span class="line">                echo ""</span><br><span class="line">                echo "The instance $INSTANCE_ID is currently running. It must be stopped to change the type."</span><br><span class="line">                read -r -p "ARE YOU SURE YOU WANT TO STOP THE INSTANCE? (Y or N) " ANSWER</span><br><span class="line">                case $ANSWER in</span><br><span class="line">                    [yY]* )</span><br><span class="line">                        break;;</span><br><span class="line">                    [nN]* )</span><br><span class="line">                        echo "Aborting."</span><br><span class="line">                        exit;;</span><br><span class="line">                    * ) </span><br><span class="line">                        echo "Please answer Y or N."</span><br><span class="line">                        ;;</span><br><span class="line">                esac</span><br><span class="line">            done</span><br><span class="line">        else</span><br><span class="line">            iecho "Forcing stop of instance without prompt because of -f."</span><br><span class="line">        fi</span><br><span class="line"></span><br><span class="line">        # stop the instance</span><br><span class="line">        iecho -n "Attempting to stop instance $INSTANCE_ID..."</span><br><span class="line">        RESPONSE=$( aws ec2 stop-instances \</span><br><span class="line">                        --instance-ids "$INSTANCE_ID" )</span><br><span class="line"></span><br><span class="line">        if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">            echo "ERROR - AWS reports that it's unable to stop instance $INSTANCE_ID.\n$RESPONSE"</span><br><span class="line">            return 1</span><br><span class="line">        fi</span><br><span class="line">        iecho "request accepted."</span><br><span class="line">    else</span><br><span class="line">        iecho "Instance is not in running state, so not requesting a stop."</span><br><span class="line">    fi;</span><br><span class="line"></span><br><span class="line">    # Wait until stopped.</span><br><span class="line">    iecho "Waiting for $INSTANCE_ID to report 'stopped' state..."</span><br><span class="line">    aws ec2 wait instance-stopped \</span><br><span class="line">        --instance-ids "$INSTANCE_ID"</span><br><span class="line">    if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">        echo "\nERROR - AWS reports that Wait command failed.\n$RESPONSE"</span><br><span class="line">        return 1</span><br><span class="line">    fi </span><br><span class="line">    iecho "stopped.\n"</span><br><span class="line"></span><br><span class="line">    # Change the type - command produces no output.</span><br><span class="line">    iecho "Attempting to change type from $EXISTING_TYPE to $REQUESTED_TYPE..."</span><br><span class="line">    RESPONSE=$(aws ec2 modify-instance-attribute \</span><br><span class="line">                   --instance-id "$INSTANCE_ID" \</span><br><span class="line">                   --instance-type "&#123;\"Value\":\"$REQUESTED_TYPE\"&#125;"</span><br><span class="line">              )</span><br><span class="line">    if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">        errecho "ERROR - AWS reports that it's unable to change the instance type for instance $INSTANCE_ID from $EXISTING_TYPE to $REQUESTED_TYPE.\n$RESPONSE"</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line">    iecho "changed.\n"</span><br><span class="line"></span><br><span class="line">    # Restart if asked</span><br><span class="line">    if [[ "$RESTART" == "true" ]]; then</span><br><span class="line"></span><br><span class="line">        iecho "Requesting to restart instance $INSTANCE_ID..."</span><br><span class="line">        RESPONSE=$(aws ec2 start-instances \</span><br><span class="line">                        --instance-ids "$INSTANCE_ID" \</span><br><span class="line">                   )</span><br><span class="line">        if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">            errecho "ERROR - AWS reports that it's unable to restart instance $INSTANCE_ID.\n$RESPONSE"</span><br><span class="line">            return 1</span><br><span class="line">        fi</span><br><span class="line">        iecho "started.\n"</span><br><span class="line">        iecho "Waiting for instance $INSTANCE_ID to report 'running' state..."</span><br><span class="line">        RESPONSE=$(aws ec2 wait instance-running \</span><br><span class="line">                       --instance-ids "$INSTANCE_ID" )</span><br><span class="line">        if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">            errecho "ERROR - AWS reports that Wait command failed.\n$RESPONSE"</span><br><span class="line">            return 1</span><br><span class="line">        fi </span><br><span class="line">        </span><br><span class="line">        iecho "running.\n"</span><br><span class="line">        </span><br><span class="line">    else</span><br><span class="line">        iecho "Restart was not requested with -r.\n"</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="test-change-ec2-instance-type-sh"><a href="#test-change-ec2-instance-type-sh" class="headerlink" title="test_change_ec2_instance_type.sh"></a>test_change_ec2_instance_type.sh</h3><p>脚本文件 change_ec2_instance_type_test.sh 会测试 change_ec2_instance_type 函数的各种代码路径。如果测试脚本中的所有步骤都正确完成，测试脚本将会删除它创建的所有资源。</p>
+<p>您可以使用以下参数运行该测试脚本：</p>
+<ul>
+<li>-v -（开关）每个测试在运行时都会显示通过/失败状态。默认情况下，测试以静默方式运行，输出仅包含最终的总体通过/失败状态。</li>
+<li>-i -（开关）脚本会在每个测试后暂停，以便您能查看每个步骤的中间结果。让您能够使用 Amazon EC2 控制台检查实例的当前状态。您在系统提示符处按 Enter 后，脚本才会继续执行下一步。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span><br><span class="line"># This file is licensed under the Apache License, Version 2.0 (the &quot;License&quot;).</span><br><span class="line">#</span><br><span class="line"># You may not use this file except in compliance with the License. A copy of</span><br><span class="line"># the License is located at http://aws.amazon.com/apache2.0/.</span><br><span class="line">#</span><br><span class="line"># This file is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR</span><br><span class="line"># CONDITIONS OF ANY KIND, either express or implied. See the License for the</span><br><span class="line"># specific language governing permissions and limitations under the License.</span><br><span class="line">###############################################################################</span><br><span class="line"></span><br><span class="line">source ./awsdocs_general.sh</span><br><span class="line">source ./change_ec2_instance_type.sh</span><br><span class="line"></span><br><span class="line">function usage &#123;</span><br><span class="line">    echo &quot;This script tests the change_ec2_instance_type function by calling the&quot;</span><br><span class="line">    echo &quot;function in a variety of ways and checking the output. It converts the&quot;</span><br><span class="line">    echo &quot;instance between types t2.nano and t2.micro.&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    echo &quot;Parameters:&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    echo &quot;  -v  Verbose. Shows diagnostic messages about the tests as they run.&quot;</span><br><span class="line">    echo &quot;  -i  Interactive. Pauses the script between steps so you can browse&quot;</span><br><span class="line">    echo &quot;      the results in the AWS Management Console as they occur.&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    echo &quot;IMPORTANT: Running this test script creates an Amazon EC2 instance in&quot;</span><br><span class="line">    echo &quot;   your Amazon account that can incur charges. It is your responsibility&quot;</span><br><span class="line">    echo &quot;   to ensure that no resources are left in your account after the script&quot;</span><br><span class="line">    echo &quot;   completes. If an error occurs during the operation of the script,this&quot;</span><br><span class="line">    echo &quot;   instance can remain. Check for the instance and delete it manually to&quot;</span><br><span class="line">    echo &quot;   avoid charges.&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Set default values.</span><br><span class="line">INTERACTIVE=false</span><br><span class="line"></span><br><span class="line"># Retrieve the calling parameters.</span><br><span class="line">while getopts &quot;ivh&quot; OPTION; do</span><br><span class="line">    case &quot;$&#123;OPTION&#125;&quot;</span><br><span class="line">    in</span><br><span class="line">        i)</span><br><span class="line">            INTERACTIVE=true</span><br><span class="line">            VERBOSE=true</span><br><span class="line">            ;;</span><br><span class="line">        v)</span><br><span class="line">            VERBOSE=true</span><br><span class="line">            ;;</span><br><span class="line">        h)</span><br><span class="line">            usage</span><br><span class="line">            return 0</span><br><span class="line">            ;;</span><br><span class="line">        \?)</span><br><span class="line">            echo &quot;Invalid parameter.&quot;</span><br><span class="line">            usage</span><br><span class="line">            return 1</span><br><span class="line">            ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ &quot;$VERBOSE&quot; == &quot;true&quot; ]; then iecho &quot;Tests running in verbose mode.&quot;; fi</span><br><span class="line">if [ &quot;$INTERACTIVE&quot; == &quot;true&quot; ]; then iecho &quot;Tests running in interactive mode.&quot;; fi</span><br><span class="line"></span><br><span class="line">iecho &quot;&quot;</span><br><span class="line">iecho &quot;***************SETUP STEPS******************&quot;</span><br><span class="line">    # First, get the AMI ID for the one running the latest Amazon Linix 2.</span><br><span class="line">    iecho -n &quot;Retrieving the AMI ID for the latest Amazon Linux 2 AMI...&quot;</span><br><span class="line">    AMI_ID=$(aws ec2 describe-images \</span><br><span class="line">                --owners &apos;amazon&apos; \</span><br><span class="line">                --filters &apos;Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2&apos; &apos;Name=state,Values=available&apos; \</span><br><span class="line">                --query &apos;sort_by(Images, &amp;CreationDate)[-1].[ImageId]&apos; \</span><br><span class="line">                --output &apos;text&apos;)</span><br><span class="line">    if [ $&#123;?&#125; -ne 0 ]; then</span><br><span class="line">        echo &quot;ERROR: Unable to retrieve latest Amazon Linux 2 AMI ID: $AMI_ID&quot;</span><br><span class="line">        echo &quot;Tests canceled.&quot;</span><br><span class="line">        return 1</span><br><span class="line">    else</span><br><span class="line">        iecho &quot;retrieved $AMI_ID.&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    # Now launch the instance as a t2.micro and capture its instance ID.</span><br><span class="line">    # All other instance settings are left to default.</span><br><span class="line">    iecho -n &quot;Requesting new Amazon EC2 instance of type t2.micro...&quot;</span><br><span class="line">    EC2_INSTANCE_ID=$(aws ec2 run-instances \</span><br><span class="line">                        --image-id &quot;$AMI_ID&quot; \</span><br><span class="line">                        --instance-type t2.micro \</span><br><span class="line">                        --query &apos;Instances[0].InstanceId&apos; \</span><br><span class="line">                        --output text)</span><br><span class="line">    if [ $&#123;?&#125; -ne 0 ]; then</span><br><span class="line">        echo &quot;ERROR: Unable to launch EC2 instance: $EC2_INSTANCE_ID&quot;</span><br><span class="line">        echo &quot;Tests canceled.&quot;</span><br><span class="line">        return 1</span><br><span class="line">    else</span><br><span class="line">        iecho &quot;launched. ID:$EC2_INSTANCE_ID&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    iecho -n &quot;Waiting for instance $EC2_INSTANCE_ID to exist...&quot;</span><br><span class="line">    aws ec2 wait instance-exists \</span><br><span class="line">        --instance-id &quot;$EC2_INSTANCE_ID&quot;</span><br><span class="line">    iecho &quot;confirmed.&quot;</span><br><span class="line"></span><br><span class="line">iecho &quot;***************END OF SETUP*****************&quot;</span><br><span class="line">iecho &quot;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">run_test &quot;1. Missing mandatory -i parameter&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type&quot; \</span><br><span class="line">         1 \</span><br><span class="line">         &quot;ERROR: You must provide an instance id.&quot;</span><br><span class="line"></span><br><span class="line">run_test &quot;2. Missing mandatory -t parameter&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type -i abc&quot; \</span><br><span class="line">         1 \</span><br><span class="line">         &quot;ERROR: You must provide an instance type.&quot;</span><br><span class="line"></span><br><span class="line">run_test &quot;3. Using an instance ID that doesn&apos;t exist&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type -i abc -t t2.micro&quot; \</span><br><span class="line">         1 \</span><br><span class="line">         &quot;ERROR: I can&apos;t find the instance.&quot;</span><br><span class="line"></span><br><span class="line"># Test changing to the same type. We can do this while the instance is starting up.</span><br><span class="line">run_test &quot;4. Trying to change to same type&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type -v -i $EC2_INSTANCE_ID -t t2.micro&quot; \</span><br><span class="line">         1 \</span><br><span class="line">         &quot;ERROR: Can&apos;t change instance type to the same type.&quot;</span><br><span class="line"></span><br><span class="line">iecho -n &quot;Waiting for instance $EC2_INSTANCE_ID to reach running state...&quot;</span><br><span class="line">RESPONSE=$(aws ec2 wait instance-running --instance-id &quot;$EC2_INSTANCE_ID&quot;)</span><br><span class="line">if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">    errecho &quot;\nERROR: AWS reports that the Wait command failed.\n$RESPONSE&quot;</span><br><span class="line">    return 1</span><br><span class="line">fi </span><br><span class="line">iecho &quot;running.&quot;</span><br><span class="line"></span><br><span class="line"># Test changing to t2.micro without -r : should still be in stopped state.</span><br><span class="line">run_test &quot;5. Changing to type t2.nano without restart&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type -f -i $EC2_INSTANCE_ID -t t2.nano&quot; \</span><br><span class="line">         0</span><br><span class="line"></span><br><span class="line">         # Validate result was &quot;t2.nano&quot; and that it&apos;s in &quot;stopped&quot; state.</span><br><span class="line">         get_instance_info &quot;$EC2_INSTANCE_ID&quot;</span><br><span class="line">         if [ &quot;$EXISTING_TYPE&quot; != &quot;t2.nano&quot; ]; then</span><br><span class="line">             test_failed &quot;Unable to validate change. Should be t2.nano. Found $EXISTING_TYPE.&quot;</span><br><span class="line">         fi</span><br><span class="line">         if [ &quot;$EXISTING_STATE&quot; != &quot;stopped&quot; ]; then</span><br><span class="line">             test_failed &quot;Unable to validate state. Should be stopped. Found $EXISTING_STATE.&quot;</span><br><span class="line">         fi</span><br><span class="line"></span><br><span class="line"># Test changing back to t2.micro with -r. Should now be in running state</span><br><span class="line">run_test &quot;6. Changing to type t2.micro with restart&quot; \</span><br><span class="line">         &quot;change_ec2_instance_type -f -r -i $EC2_INSTANCE_ID -t t2.micro&quot; \</span><br><span class="line">         0</span><br><span class="line"></span><br><span class="line">         # Validate result was &quot;t2.micro&quot; and that it&apos;s in &quot;running&quot; state.</span><br><span class="line">         get_instance_info &quot;$EC2_INSTANCE_ID&quot;</span><br><span class="line">         if [ &quot;$EXISTING_TYPE&quot; != &quot;t2.micro&quot; ]; then</span><br><span class="line">             test_failed &quot;Unable to validate change. Should be t2.micro. Found $EXISTING_TYPE.&quot;</span><br><span class="line">         fi</span><br><span class="line">         if [ &quot;$EXISTING_STATE&quot; != &quot;running&quot; ]; then</span><br><span class="line">             test_failed &quot;Unable to validate state. Should be running. Found $EXISTING_STATE.&quot;</span><br><span class="line">         fi</span><br><span class="line"></span><br><span class="line">iecho &quot;&quot;</span><br><span class="line">iecho &quot;*************TEAR DOWN STEPS****************&quot;</span><br><span class="line">    iecho -n &quot;Requesting termination of instance $EC2_INSTANCE_ID...&quot;</span><br><span class="line">    # Delete and terminate the instance.</span><br><span class="line">    RESPONSE=$(aws ec2 terminate-instances \</span><br><span class="line">                        --instance-ids &quot;$EC2_INSTANCE_ID&quot;</span><br><span class="line">              )</span><br><span class="line">    if [ $&#123;?&#125; -ne 0 ]; then</span><br><span class="line">        errecho &quot;**** ERROR ****&quot;</span><br><span class="line">        errecho &quot;AWS reported a failure to terminate EC2 instance: $EC2_INSTANCE_ID&quot;</span><br><span class="line">        errecho &quot;You must terminate the instance using the AWS Management Console&quot;</span><br><span class="line">        errecho &quot;or CLI commands. Failure to terminate the instance can result in&quot;</span><br><span class="line">        errecho &quot;charges to your AWS account.\n&quot;</span><br><span class="line">    else</span><br><span class="line">        iecho &quot;request accepted.&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    iecho -n &quot;Waiting for instance $EC2_INSTANCE_ID to terminate...&quot;</span><br><span class="line">    aws ec2 wait instance-terminated \</span><br><span class="line">        --instance-id &quot;$EC2_INSTANCE_ID&quot;</span><br><span class="line">    iecho &quot;confirmed.&quot;</span><br><span class="line">    if [[ $&#123;?&#125; -ne 0 ]]; then</span><br><span class="line">        errecho &quot;ERROR - AWS reports that Wait command failed.&quot;</span><br><span class="line">        errecho &quot;You must ensure that the instance terminated successfully yourself using the&quot;</span><br><span class="line">        errecho &quot;AWS Management Console or CLI commands. Failure to terminate the instance can&quot; </span><br><span class="line">        errecho &quot;result in charges to your AWS account.\n&quot;</span><br><span class="line">        return 1</span><br><span class="line">    fi </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">iecho &quot;************END OF TEAR DOWN****************&quot;</span><br><span class="line">iecho &quot;&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;Tests completed successfully.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="awsdocs-general-sh"><a href="#awsdocs-general-sh" class="headerlink" title="awsdocs_general.sh"></a>awsdocs_general.sh</h3><p>脚本文件 awsdocs_general.sh 中包含了在 AWS CLI 的高级示例中使用的通用函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">###############################################################################</span><br><span class="line"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span><br><span class="line"># This file is licensed under the Apache License, Version 2.0 (the &quot;License&quot;).</span><br><span class="line">#</span><br><span class="line"># You may not use this file except in compliance with the License. A copy of</span><br><span class="line"># the License is located at http://aws.amazon.com/apache2.0/.</span><br><span class="line">#</span><br><span class="line"># This file is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR</span><br><span class="line"># CONDITIONS OF ANY KIND, either express or implied. See the License for the</span><br><span class="line"># specific language governing permissions and limitations under the License.</span><br><span class="line">###############################################################################</span><br><span class="line">#</span><br><span class="line"># This script contains general-purpose functions that are used throughout </span><br><span class="line"># the AWS Command Line Interface (AWS CLI) code examples that are maintained</span><br><span class="line"># in the repo at https://github.com/awsdocs/aws-doc-sdk-examples.</span><br><span class="line">#</span><br><span class="line"># They are intended to abstract functionality that is required for the tests</span><br><span class="line"># to work without cluttering up the code. The intent is to ensure that the </span><br><span class="line"># purpose of the code is clear.</span><br><span class="line"></span><br><span class="line"># Set global defaults:</span><br><span class="line">VERBOSE=false</span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># function run_test</span><br><span class="line">#</span><br><span class="line"># This function is used to perform a command and compare its output to both</span><br><span class="line"># the expected error code and the expected output string. If there isn&apos;t a </span><br><span class="line"># match, then the function invokes the test_failed function.</span><br><span class="line">###############################################################################</span><br><span class="line">function run_test &#123;</span><br><span class="line">    local DESCRIPTION COMMAND EXPECTED_ERR_CODE EXPECTED_OUTPUT RESPONSE</span><br><span class="line">    </span><br><span class="line">    DESCRIPTION=&quot;$1&quot;</span><br><span class="line">    COMMAND=&quot;$2&quot;</span><br><span class="line">    EXPECTED_ERR_CODE=&quot;$3&quot;</span><br><span class="line">    if [[ -z &quot;$4&quot; ]]; then EXPECTED_OUTPUT=&quot;$4&quot;; else EXPECTED_OUTPUT=&quot;&quot;; fi</span><br><span class="line">    </span><br><span class="line">    iecho -n &quot;Running test: $DESCRIPTION...&quot;</span><br><span class="line">    RESPONSE=&quot;$($COMMAND)&quot;</span><br><span class="line">    ERR=&quot;$&#123;?&#125;&quot;</span><br><span class="line"></span><br><span class="line">    # Check to see if we got the expected error code.</span><br><span class="line">    if [[ &quot;$EXPECTED_ERR_CODE&quot; -ne &quot;$ERR&quot; ]]; then</span><br><span class="line">        test_failed &quot;The test \&quot;$DESCRIPTION\&quot; returned an unexpected error code: $ERR&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    # Now check the error message, if we provided other than &quot;&quot;.</span><br><span class="line">    if [[ -n &quot;$EXPECTED_OUTPUT&quot; ]]; then</span><br><span class="line">        MATCH=$(echo &quot;$RESPONSE&quot; | grep &quot;$EXPECTED_OUTPUT&quot;)</span><br><span class="line">        # If there was no match (it&apos;s an empty string), then fail.</span><br><span class="line">        if [[ -z &quot;$MATCH&quot; ]]; then</span><br><span class="line">            test_failed &quot;The test \&quot;$DESCRIPTION\&quot; returned an unexpected output: $RESPONSE&quot;</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">    iecho &quot;OK&quot;</span><br><span class="line">    ipause</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># function test_failed</span><br><span class="line">#</span><br><span class="line"># This function is used to terminate a failed test and to warn the customer</span><br><span class="line"># about possible undeleted resources that could incur costs to their account.</span><br><span class="line">###############################################################################</span><br><span class="line"></span><br><span class="line">function test_failed &#123;</span><br><span class="line">    </span><br><span class="line">    errecho &quot;&quot;</span><br><span class="line">    errecho &quot;===TEST FAILED===&quot;</span><br><span class="line">    errecho &quot;$@&quot;</span><br><span class="line">    errecho &quot;&quot;</span><br><span class="line">    errecho &quot;    One or more of the tests failed to complete successfully. This means that&quot;</span><br><span class="line">    errecho &quot;    any tests after the one that failed didn&apos;t run and might have left resources&quot;</span><br><span class="line">    errecho &quot;    still active in your account.&quot;</span><br><span class="line">    errecho &quot;&quot;</span><br><span class="line">    errecho &quot;IMPORTANT:&quot;</span><br><span class="line">    errecho &quot;    Resources created by this script can incur charges to your AWS account. If the&quot;</span><br><span class="line">    errecho &quot;    script didn&apos;t complete successfully, then you must review and manually delete&quot;</span><br><span class="line">    errecho &quot;    any resources created by this script that were not automatically removed.&quot;</span><br><span class="line">    errecho &quot;&quot;</span><br><span class="line">    exit 1 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># function errecho</span><br><span class="line">#</span><br><span class="line"># This function outputs everything sent to it to STDERR (standard error output).</span><br><span class="line">###############################################################################</span><br><span class="line">function errecho &#123;</span><br><span class="line">    printf &quot;%s\n&quot; &quot;$*&quot; 2&gt;&amp;1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># function iecho</span><br><span class="line">#</span><br><span class="line"># This function enables the script to display the specified text only if </span><br><span class="line"># the global variable $VERBOSE is set to true.</span><br><span class="line">###############################################################################</span><br><span class="line">function iecho &#123;</span><br><span class="line">    if [[ $VERBOSE == true ]]; then</span><br><span class="line">        echo &quot;$@&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">###############################################################################</span><br><span class="line"># function ipause</span><br><span class="line">#</span><br><span class="line"># This function enables the script to pause after each command if interactive</span><br><span class="line"># mode is set (by including -i on the script invocation command).</span><br><span class="line">###############################################################################</span><br><span class="line">function ipause &#123;</span><br><span class="line">    if [[ $INTERACTIVE == true ]]; then</span><br><span class="line">        read -r -p &quot;Press ENTER to continue...&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Initialize the shell&apos;s RANDOM variable.</span><br><span class="line">RANDOM=$$</span><br><span class="line">###############################################################################</span><br><span class="line"># function generate_random_name</span><br><span class="line">#</span><br><span class="line"># This function generates a random file name with using the specified root,</span><br><span class="line"># followed by 4 groups that each have 4 digits.</span><br><span class="line"># The default root name is &quot;test&quot;.</span><br><span class="line">###############################################################################</span><br><span class="line">function generate_random_name &#123;</span><br><span class="line"></span><br><span class="line">    ROOTNAME=&quot;test&quot;</span><br><span class="line">    if [[ -n $1 ]]; then</span><br><span class="line">        ROOTNAME=$1</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    # Initialize the FILENAME variable</span><br><span class="line">    FILENAME=&quot;$ROOTNAME&quot;</span><br><span class="line">    # Configure random number generator to issue numbers between 1000 and 9999, </span><br><span class="line">    # inclusive.</span><br><span class="line">    DIFF=$((9999-1000+1))</span><br><span class="line"></span><br><span class="line">    for _ in &#123;1..4&#125;</span><br><span class="line">    do</span><br><span class="line">        rnd=$(($((RANDOM%DIFF))+X))</span><br><span class="line">        # Make sure that the number is 4 digits long.</span><br><span class="line">        while [ &quot;$&#123;#rnd&#125;&quot; -lt 4 ]; do rnd=&quot;0$rnd&quot;; done</span><br><span class="line">        FILENAME+=&quot;-$rnd&quot;</span><br><span class="line">    done</span><br><span class="line">    echo $FILENAME</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-CLI/" rel="tag"># AWS CLI</a>
+              <a href="/tags/AWS-EC2/" rel="tag"># AWS EC2</a>
+              <a href="/tags/Bash/" rel="tag"># Bash</a>
+              <a href="/tags/Bash基础入门/" rel="tag"># Bash基础入门</a>
+              <a href="/tags/shell技巧/" rel="tag"># shell技巧</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/19/AWS-CLI-4-示例/" rel="prev" title="AWS CLI(4)示例">
+      <i class="fa fa-chevron-left"></i> AWS CLI(4)示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/22/AWS-S3-4-访问点AccessPoint/" rel="next" title="AWS-S3(4)访问点AccessPoint">
+      AWS-S3(4)访问点AccessPoint <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#change-ec2-instance-type-sh"><span class="nav-number">1.</span> <span class="nav-text">change_ec2_instance_type.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#test-change-ec2-instance-type-sh"><span class="nav-number">2.</span> <span class="nav-text">test_change_ec2_instance_type.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#awsdocs-general-sh"><span class="nav-number">3.</span> <span class="nav-text">awsdocs_general.sh</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
