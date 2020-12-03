@@ -21,14 +21,14 @@
   </script>
 
   <meta name="description" content="描述: Ubuntu 日志相关">
-<meta name="keywords" content="Ubuntu,基础入门">
+<meta name="keywords" content="基础入门,Ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu日志">
 <meta property="og:url" content="http://yoursite.com/2020/11/08/Ubuntu日志/index.html">
 <meta property="og:site_name" content="HKCM">
 <meta property="og:description" content="描述: Ubuntu 日志相关">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2020-11-10T05:31:04.464Z">
+<meta property="og:updated_time" content="2020-11-30T12:35:21.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu日志">
 <meta name="twitter:description" content="描述: Ubuntu 日志相关">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 13:31:04" itemprop="dateModified" datetime="2020-11-10T13:31:04+08:00">2020-11-10</time>
+                <time title="Modified: 2020-11-30 20:35:21" itemprop="dateModified" datetime="2020-11-30T20:35:21+08:00">2020-11-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,7 +249,9 @@
 
 <h3 id="在脚本中输出并记录日志"><a href="#在脚本中输出并记录日志" class="headerlink" title="在脚本中输出并记录日志"></a>在脚本中输出并记录日志</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "somethong wrong" | tee -a /var/log/script_log</span><br></pre></td></tr></table></figure>
 
-<h3 id="使用cat-tail-more-less和grep命令。"><a href="#使用cat-tail-more-less和grep命令。" class="headerlink" title="使用cat, tail, more,less和grep命令。"></a>使用cat, tail, more,less和grep命令。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat -n /var/log/syslog |grep &quot;key&quot; |more</span><br><span class="line">tail -f /var/log/apport.log</span><br><span class="line">more /var/log/xorg.0.log</span><br><span class="line">cat /var/log/mysql.err</span><br><span class="line">less /var/log/messages</span><br><span class="line">grep -i fail /var/log/boot</span><br></pre></td></tr></table></figure>
+<h3 id="在脚本中写日志函数"><a href="#在脚本中写日志函数" class="headerlink" title="在脚本中写日志函数"></a>在脚本中写日志函数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOG_FILE='/var/log/script_'$(date +"%Y-%m-%d_%H-%M-%S")'.log'</span><br><span class="line"></span><br><span class="line">function write_log()</span><br><span class="line">&#123;</span><br><span class="line">  now_time='['$(date +"%Y-%m-%d %H:%M:%S")']'</span><br><span class="line">  echo $&#123;now_time&#125; $1 | tee -a $&#123;log_file&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">write_log "everything is ok"</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用cat-tail-more-less和grep命令。"><a href="#使用cat-tail-more-less和grep命令。" class="headerlink" title="使用cat, tail, more,less和grep命令。"></a>使用cat, tail, more,less和grep命令。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat -n /var/log/syslog |grep "key" |more</span><br><span class="line">tail -f /var/log/apport.log</span><br><span class="line">more /var/log/xorg.0.log</span><br><span class="line">cat /var/log/mysql.err</span><br><span class="line">less /var/log/messages</span><br><span class="line">grep -i fail /var/log/boot</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -260,8 +262,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
               <a href="/tags/基础入门/" rel="tag"># 基础入门</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
           </div>
 
         
@@ -335,7 +337,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-Ubuntu-日志相关"><span class="nav-number">1.</span> <span class="nav-text">描述: Ubuntu 日志相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在脚本中写入系统日志"><span class="nav-number">2.</span> <span class="nav-text">在脚本中写入系统日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在脚本中输出并记录日志"><span class="nav-number">3.</span> <span class="nav-text">在脚本中输出并记录日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用cat-tail-more-less和grep命令。"><span class="nav-number">4.</span> <span class="nav-text">使用cat, tail, more,less和grep命令。</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-Ubuntu-日志相关"><span class="nav-number">1.</span> <span class="nav-text">描述: Ubuntu 日志相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在脚本中写入系统日志"><span class="nav-number">2.</span> <span class="nav-text">在脚本中写入系统日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在脚本中输出并记录日志"><span class="nav-number">3.</span> <span class="nav-text">在脚本中输出并记录日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在脚本中写日志函数"><span class="nav-number">4.</span> <span class="nav-text">在脚本中写日志函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用cat-tail-more-less和grep命令。"><span class="nav-number">5.</span> <span class="nav-text">使用cat, tail, more,less和grep命令。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -349,7 +351,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
