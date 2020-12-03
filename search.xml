@@ -8,23 +8,21 @@
       <link href="2020/12/02/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A811-%E7%8A%B6%E8%AF%AD/"/>
       <url>2020/12/02/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A811-%E7%8A%B6%E8%AF%AD/</url>
       
-        <content type="html"><![CDATA[<p>描述:</p><a id="more"></a><p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p><p>本文采用知识共享 署名-相同方式共享 3.0协议</p><p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>]]></content>
+        <content type="html"><![CDATA[<p>描述: adv 状语修饰动词、形容词、副词或整个句子,主要修饰动词</p><a id="more"></a><h3 id="入门判断"><a href="#入门判断" class="headerlink" title="入门判断"></a>入门判断</h3><p>He writes[v] carefully[adv].<br>He walks[v] slowly.<br>He is extremely[adv] happy[adj].  extremely[adv] 修饰 happy[adj]<br>He runs very slowly. very[adv] 修饰 slowly[adv], slowly[adv] 修饰 runs[v]<br>Unfortunately[adv], he lost all of his money.<br>Unluckily[adv], I got up very[adv] late[adv] today[adv].</p><h3 id="频率副词"><a href="#频率副词" class="headerlink" title="频率副词"></a>频率副词</h3><p>alway, usually, often, sometimes, seldom, hardly, never 频率从高到底</p><p>在句中位置位于助动词,系动词,系动词之后,在实义动词之前</p><p>He is alway helping others.<br>He is usually late.<br>She often came late.<br>You can never tell what he will do.</p><h3 id="按意义分类状语"><a href="#按意义分类状语" class="headerlink" title="按意义分类状语"></a>按意义分类状语</h3><p>表示时间,地点,原因,目的,结果,程度,条件,方式,让步,比较,伴随等</p><p>How about meeting again <code>at six</code>?  时间状语<br>Mr. Smith lives <code>on the third floor</code>.  地点状语<br>Last night she didn’t go to the dance party <code>because of the rain</code>.  原因状语<br>She put the eggs in the the basket <code>with great care</code>.  方式状语<br>She came in <code>with a dictionary in her hand</code>.  伴随状语<br><code>In order to catch up with the others</code>, I must work harder.  目的状语<br><code>To make his dream come true</code>, Tom becomes very interested in business.  <del>原因状语</del>目的状语<br>The boy needs a pen <code>very much</code>.  程度状语<br>The boy <code>very</code> needs a pen.  程度状语<br>He was so tired <code>that he fell asleep immediately</code>.  <del>程度状语</del> 结果状语<br>She works very hard <code>though she is old</code>.  <del>伴随状语</del>让步状语 让步状语:即使在最坏的情况下,都要XXX<br>I am taller <code>than he is</code>.  比较状语<br>I shall go there <code>if it doesn&#39;t rain</code>.  条件状语  条件状语:满足什么条件才能发生<br><code>On Sundays</code>, there is no student in the classroom.  时间状语<br><code>Having to finish his homework</code>, the boy needs a pen.  <del>目的状语</del>原因状语    </p><p>发生在行为之前: 原因状语和条件状语<br>发生在行为之后: 目的状语和结果状语<br>时间,地点,方式,让步,比较,伴随,程度状语都在行为之中</p><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p><p>本文采用知识共享 署名-相同方式共享 3.0协议</p><p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>]]></content>
       
       
       <categories>
           
-          <category> AWS </category>
+          <category> 英语 </category>
           
-          <category> S3 </category>
+          <category> 状语 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> AWS S3 </tag>
-            
-            <tag> S3基础入门 </tag>
+            <tag> 英语 </tag>
             
         </tags>
       
@@ -143,7 +141,7 @@
     
     
     <entry>
-      <title>英语入门9-定语</title>
+      <title>英语入门5-定语</title>
       <link href="2020/11/26/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A85-%E5%AE%9A%E8%AF%AD/"/>
       <url>2020/11/26/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A85-%E5%AE%9A%E8%AF%AD/</url>
       
@@ -170,11 +168,11 @@
     
     
     <entry>
-      <title>英语入门8-主语</title>
+      <title>英语入门4-主语</title>
       <link href="2020/11/26/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A84-%E4%B8%BB%E8%AF%AD/"/>
       <url>2020/11/26/%E8%8B%B1%E8%AF%AD%E5%85%A5%E9%97%A84-%E4%B8%BB%E8%AF%AD/</url>
       
-        <content type="html"><![CDATA[<p>描述:</p><a id="more"></a><p>During the 1990s, American country music has become more and more popular.<br><code>American country music</code> 作主语, 名词做主语</p><p>We often speak English in class<br><code>We</code> 人称代词作主语</p><p><strong>One-third of students in this class are girls.</strong><br>One-third 数词作主语</p><p>To swim in the river is a great pleasure.<br><code>To swim in the river</code> 不定式做主语</p><p>The rich should help the poor.</p><p>When we are going to have an English test has not been decided.</p><p>It is necessary to master a foreign language.<br>It 做形式主语, to master a foreign language 不定式做真正的主语</p><p>That he isn’t at home is not true.<br>he isn’t at home, 句子作主语, 可改为 It is not true that he isn’t at home</p><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p><p>本文采用知识共享 署名-相同方式共享 3.0协议</p><p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>]]></content>
+        <content type="html"><![CDATA[<p>描述:</p><a id="more"></a><p>During the 1990s, American country music has become more and more popular.<br><code>American country music</code> 作主语, 名词做主语</p><p>We often speak English in class<br><code>We</code> 人称代词作主语</p><p><strong>One-third of students in this class are girls.</strong><br>One-third 数词作主语</p><p>To swim in the river is a great pleasure.<br><code>To swim in the river</code> 不定式做主语</p><p><code>The rich</code> should help the poor.</p><p>When we are going to have an English test has not been decided.</p><p>It is necessary <code>to master a foreign language</code>.<br>It 做形式主语, to master a foreign language 不定式做真正的主语</p><p>That he isn’t at home is not true.<br>he isn’t at home, 句子作主语, 可改为 It is not true that he isn’t at home</p><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p><p>本文采用知识共享 署名-相同方式共享 3.0协议</p><p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>]]></content>
       
       
       <categories>
@@ -980,9 +978,9 @@
             
             <tag> shell技巧 </tag>
             
-            <tag> shell </tag>
-            
             <tag> shell命令 </tag>
+            
+            <tag> shell </tag>
             
         </tags>
       
