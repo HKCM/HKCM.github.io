@@ -348,13 +348,13 @@
             
             <tag> AWS CLI </tag>
             
-            <tag> AWS EC2 </tag>
-            
             <tag> Bash </tag>
             
             <tag> Bash基础入门 </tag>
             
             <tag> shell技巧 </tag>
+            
+            <tag> AWS EC2 </tag>
             
         </tags>
       
@@ -978,9 +978,9 @@
             
             <tag> shell技巧 </tag>
             
-            <tag> shell命令 </tag>
-            
             <tag> shell </tag>
+            
+            <tag> shell命令 </tag>
             
         </tags>
       
