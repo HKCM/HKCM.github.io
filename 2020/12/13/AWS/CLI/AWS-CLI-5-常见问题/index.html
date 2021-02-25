@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: AWS CLI的常见问题">
+<meta name="keywords" content="AWS CLI,AWS CLI基础入门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS CLI(5)常见问题">
+<meta property="og:url" content="http://yoursite.com/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: AWS CLI的常见问题">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-12-15T05:02:43.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS CLI(5)常见问题">
+<meta name="twitter:description" content="描述: AWS CLI的常见问题">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>AWS CLI(5)常见问题 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS CLI(5)常见问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-13 16:35:42" itemprop="dateCreated datePublished" datetime="2020-12-13T16:35:42+08:00">2020-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-15 13:02:43" itemprop="dateModified" datetime="2020-12-15T13:02:43+08:00">2020-12-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/CLI/" itemprop="url" rel="index"><span itemprop="name">CLI</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>描述: AWS CLI的常见问题</p>
+<a id="more"></a>
+
+<h3 id="使用-–debug-选项"><a href="#使用-–debug-选项" class="headerlink" title="使用 –debug 选项"></a>使用 –debug 选项</h3><p>当 AWS CLI 报告一个你不能立即理解的错误，或者产生你不期望的结果时，首先要做的是获得关于该错误的更多详细信息。通过再次运行该命令并在命令行末尾包含 –debug 选项，即可完成此操作。这会使 AWS CLI 报告有关完成以下过程所需的每个步骤的详细信息：处理命令、将请求发送到 AWS 服务器、接收响应并将响应处理为你所看到的输出。输出中的详细信息可帮助你确定发生错误的步骤，以及获得有关是什么触发错误的线索的上下文。  </p>
+<p>可以将输出发送到一个要捕获它的文本文件以供日后查看，或者按要求将输出发送给 AWS 技术支持。</p>
+<details>
+<summary><strong>不使用 `--debug` 选项运行命令的示例</strong></summary>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">aws iam list-groups --profile MyTestProfile</span><br><span class="line">&#123;</span><br><span class="line">    "Groups": [</span><br><span class="line">        &#123;</span><br><span class="line">            "Path": "/",</span><br><span class="line">            "GroupName": "MyTestGroup",</span><br><span class="line">            "GroupId": "AGPA0123456789EXAMPLE",</span><br><span class="line">            "Arn": "arn:aws:iam::123456789012:group/MyTestGroup",</span><br><span class="line">            "CreateDate": "2019-08-12T19:34:04Z"</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary><strong>使用 `--debug` 选项运行命令的示例</strong></summary>
+
+<p>当包含 –debug 选项时，详细信息包括（或其他）：</p>
+<ul>
+<li>查找凭证</li>
+<li>解析提供的参数</li>
+<li>构建发送到 AWS 服务器的请求</li>
+<li>发送到 AWS 的请求的内容</li>
+<li>原始响应的内容</li>
+<li>带格式的输出</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">aws iam list-groups --profile MyTestProfile --debug</span><br><span class="line">2019-08-12 12:36:18,305 - MainThread - awscli.clidriver - DEBUG - CLI version: aws-cli/1.16.215 Python/3.7.3 Linux/4.14.133-113.105.amzn2.x86_64 botocore/1.12.205</span><br><span class="line">2019-08-12 12:36:18,305 - MainThread - awscli.clidriver - DEBUG - Arguments entered to CLI: ['iam', 'list-groups', '--debug']</span><br><span class="line">2019-08-12 12:36:18,305 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler &lt;function add_scalar_parsers at 0x7fdf173161e0&gt;</span><br><span class="line">2019-08-12 12:36:18,305 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler &lt;function register_uri_param_handler at 0x7fdf17dec400&gt;</span><br><span class="line">2019-08-12 12:36:18,305 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler &lt;function inject_assume_role_provider_cache at 0x7fdf17da9378&gt;</span><br><span class="line">2019-08-12 12:36:18,307 - MainThread - botocore.credentials - DEBUG - Skipping environment variable credential check because profile name was explicitly set.</span><br><span class="line">2019-08-12 12:36:18,307 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler &lt;function attach_history_handler at 0x7fdf173ed9d8&gt;</span><br><span class="line">2019-08-12 12:36:18,308 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /home/ec2-user/venv/lib/python3.7/site-packages/botocore/data/iam/2010-05-08/service-2.json</span><br><span class="line">2019-08-12 12:36:18,317 - MainThread - botocore.hooks - DEBUG - Event building-command-table.iam: calling handler &lt;function add_waiters at 0x7fdf1731a840&gt;</span><br><span class="line">2019-08-12 12:36:18,320 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /home/ec2-user/venv/lib/python3.7/site-packages/botocore/data/iam/2010-05-08/waiters-2.json</span><br><span class="line">2019-08-12 12:36:18,321 - MainThread - awscli.clidriver - DEBUG - OrderedDict([('path-prefix', &lt;awscli.arguments.CLIArgument object at 0x7fdf171ac780&gt;), ('marker', &lt;awscli.arguments.CLIArgument object at 0x7fdf171b09e8&gt;), ('max-items', &lt;awscli.arguments.CLIArgument object at 0x7fdf171b09b0&gt;)])</span><br><span class="line">2019-08-12 12:36:18,322 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.iam.list-groups: calling handler &lt;function add_streaming_output_arg at 0x7fdf17316510&gt;</span><br><span class="line">2019-08-12 12:36:18,322 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.iam.list-groups: calling handler &lt;function add_cli_input_json at 0x7fdf17da9d90&gt;</span><br><span class="line">2019-08-12 12:36:18,322 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.iam.list-groups: calling handler &lt;function unify_paging_params at 0x7fdf17328048&gt;</span><br><span class="line">2019-08-12 12:36:18,326 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /home/ec2-user/venv/lib/python3.7/site-packages/botocore/data/iam/2010-05-08/paginators-1.json</span><br><span class="line">2019-08-12 12:36:18,326 - MainThread - awscli.customizations.paginate - DEBUG - Modifying paging parameters for operation: ListGroups</span><br><span class="line">2019-08-12 12:36:18,326 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.iam.list-groups: calling handler &lt;function add_generate_skeleton at 0x7fdf1737eae8&gt;</span><br><span class="line">2019-08-12 12:36:18,326 - MainThread - botocore.hooks - DEBUG - Event before-building-argument-table-parser.iam.list-groups: calling handler &lt;bound method OverrideRequiredArgsArgument.override_required_args of &lt;awscli.customizations.cliinputjson.CliInputJSONArgument object at 0x7fdf171b0a58&gt;&gt;</span><br><span class="line">2019-08-12 12:36:18,327 - MainThread - botocore.hooks - DEBUG - Event before-building-argument-table-parser.iam.list-groups: calling handler &lt;bound method GenerateCliSkeletonArgument.override_required_args of &lt;awscli.customizations.generatecliskeleton.GenerateCliSkeletonArgument object at 0x7fdf171c5978&gt;&gt;</span><br><span class="line">2019-08-12 12:36:18,327 - MainThread - botocore.hooks - DEBUG - Event operation-args-parsed.iam.list-groups: calling handler functools.partial(&lt;function check_should_enable_pagination at 0x7fdf17328158&gt;, ['marker', 'max-items'], &#123;'max-items': &lt;awscli.arguments.CLIArgument object at 0x7fdf171b09b0&gt;&#125;, OrderedDict([('path-prefix', &lt;awscli.arguments.CLIArgument object at 0x7fdf171ac780&gt;), ('marker', &lt;awscli.arguments.CLIArgument object at 0x7fdf171b09e8&gt;), ('max-items', &lt;awscli.customizations.paginate.PageArgument object at 0x7fdf171c58d0&gt;), ('cli-input-json', &lt;awscli.customizations.cliinputjson.CliInputJSONArgument object at 0x7fdf171b0a58&gt;), ('starting-token', &lt;awscli.customizations.paginate.PageArgument object at 0x7fdf171b0a20&gt;), ('page-size', &lt;awscli.customizations.paginate.PageArgument object at 0x7fdf171c5828&gt;), ('generate-cli-skeleton', &lt;awscli.customizations.generatecliskeleton.GenerateCliSkeletonArgument object at 0x7fdf171c5978&gt;)]))</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.path-prefix: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.marker: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.max-items: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.cli-input-json: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.starting-token: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.page-size: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,328 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.iam.list-groups.generate-cli-skeleton: calling handler &lt;awscli.paramfile.URIArgumentHandler object at 0x7fdf1725c978&gt;</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.hooks - DEBUG - Event calling-command.iam.list-groups: calling handler &lt;bound method CliInputJSONArgument.add_to_call_parameters of &lt;awscli.customizations.cliinputjson.CliInputJSONArgument object at 0x7fdf171b0a58&gt;&gt;</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.hooks - DEBUG - Event calling-command.iam.list-groups: calling handler &lt;bound method GenerateCliSkeletonArgument.generate_json_skeleton of &lt;awscli.customizations.generatecliskeleton.GenerateCliSkeletonArgument object at 0x7fdf171c5978&gt;&gt;</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: assume-role</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: assume-role-with-web-identity</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: shared-credentials-file</span><br><span class="line">2019-08-12 12:36:18,329 - MainThread - botocore.credentials - INFO - Found credentials in shared credentials file: ~/.aws/credentials</span><br><span class="line">2019-08-12 12:36:18,330 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /home/ec2-user/venv/lib/python3.7/site-packages/botocore/data/endpoints.json</span><br><span class="line">2019-08-12 12:36:18,334 - MainThread - botocore.hooks - DEBUG - Event choose-service-name: calling handler &lt;function handle_service_name_alias at 0x7fdf1898eb70&gt;</span><br><span class="line">2019-08-12 12:36:18,337 - MainThread - botocore.hooks - DEBUG - Event creating-client-class.iam: calling handler &lt;function add_generate_presigned_url at 0x7fdf18a028c8&gt;</span><br><span class="line">2019-08-12 12:36:18,337 - MainThread - botocore.regions - DEBUG - Using partition endpoint for iam, us-west-2: aws-global</span><br><span class="line">2019-08-12 12:36:18,337 - MainThread - botocore.args - DEBUG - The s3 config key is not a dictionary type, ignoring its value of: None</span><br><span class="line">2019-08-12 12:36:18,340 - MainThread - botocore.endpoint - DEBUG - Setting iam timeout as (60, 60)</span><br><span class="line">2019-08-12 12:36:18,341 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /home/ec2-user/venv/lib/python3.7/site-packages/botocore/data/_retry.json</span><br><span class="line">2019-08-12 12:36:18,341 - MainThread - botocore.client - DEBUG - Registering retry handlers for service: iam</span><br><span class="line">2019-08-12 12:36:18,342 - MainThread - botocore.hooks - DEBUG - Event before-parameter-build.iam.ListGroups: calling handler &lt;function generate_idempotent_uuid at 0x7fdf189b10d0&gt;</span><br><span class="line">2019-08-12 12:36:18,342 - MainThread - botocore.hooks - DEBUG - Event before-call.iam.ListGroups: calling handler &lt;function inject_api_version_header_if_needed at 0x7fdf189b2a60&gt;</span><br><span class="line">2019-08-12 12:36:18,343 - MainThread - botocore.endpoint - DEBUG - Making request for OperationModel(name=ListGroups) with params: &#123;'url_path': '/', 'query_string': '', 'method': 'POST', 'headers': &#123;'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'User-Agent': 'aws-cli/1.16.215 Python/3.7.3 Linux/4.14.133-113.105.amzn2.x86_64 botocore/1.12.205'&#125;, 'body': &#123;'Action': 'ListGroups', 'Version': '2010-05-08'&#125;, 'url': 'https://iam.amazonaws.com/', 'context': &#123;'client_region': 'aws-global', 'client_config': &lt;botocore.config.Config object at 0x7fdf16e9a4a8&gt;, 'has_streaming_input': False, 'auth_type': None&#125;&#125;</span><br><span class="line">2019-08-12 12:36:18,343 - MainThread - botocore.hooks - DEBUG - Event request-created.iam.ListGroups: calling handler &lt;bound method RequestSigner.handler of &lt;botocore.signers.RequestSigner object at 0x7fdf16e9a470&gt;&gt;</span><br><span class="line">2019-08-12 12:36:18,343 - MainThread - botocore.hooks - DEBUG - Event choose-signer.iam.ListGroups: calling handler &lt;function set_operation_specific_signer at 0x7fdf18996f28&gt;</span><br><span class="line">2019-08-12 12:36:18,343 - MainThread - botocore.auth - DEBUG - Calculating signature using v4 auth.</span><br><span class="line">2019-08-12 12:36:18,343 - MainThread - botocore.auth - DEBUG - CanonicalRequest:</span><br><span class="line">POST</span><br><span class="line">/</span><br><span class="line"></span><br><span class="line">content-type:application/x-www-form-urlencoded; charset=utf-8</span><br><span class="line">host:iam.amazonaws.com</span><br><span class="line">x-amz-date:20190812T193618Z</span><br><span class="line"></span><br><span class="line">content-type;host;x-amz-date</span><br><span class="line">5f776d91EXAMPLE9b8cb5eb5d6d4a787a33ae41c8cd6eEXAMPLEca69080e1e1f</span><br><span class="line">2019-08-12 12:36:18,344 - MainThread - botocore.auth - DEBUG - StringToSign:</span><br><span class="line">AWS4-HMAC-SHA256</span><br><span class="line">20190812T193618Z</span><br><span class="line">20190812/us-east-1/iam/aws4_request</span><br><span class="line">ab7e367eEXAMPLE2769f178ea509978cf8bfa054874b3EXAMPLE8d043fab6cc9</span><br><span class="line">2019-08-12 12:36:18,344 - MainThread - botocore.auth - DEBUG - Signature:</span><br><span class="line">d85a0EXAMPLEb40164f2f539cdc76d4f294fe822EXAMPLE18ad1ddf58a1a3ce7</span><br><span class="line">2019-08-12 12:36:18,344 - MainThread - botocore.endpoint - DEBUG - Sending http request: &lt;AWSPreparedRequest stream_output=False, method=POST, url=https://iam.amazonaws.com/, headers=&#123;'Content-Type': b'application/x-www-form-urlencoded; charset=utf-8', 'User-Agent': b'aws-cli/1.16.215 Python/3.7.3 Linux/4.14.133-113.105.amzn2.x86_64 botocore/1.12.205', 'X-Amz-Date': b'20190812T193618Z', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIA01234567890EXAMPLE-east-1/iam/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature=d85a07692aceb401EXAMPLEa1b18ad1ddf58a1a3ce7EXAMPLE', 'Content-Length': '36'&#125;&gt;</span><br><span class="line">2019-08-12 12:36:18,344 - MainThread - urllib3.util.retry - DEBUG - Converted retries value: False -&gt; Retry(total=False, connect=None, read=None, redirect=0, status=None)</span><br><span class="line">2019-08-12 12:36:18,344 - MainThread - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): iam.amazonaws.com:443</span><br><span class="line">2019-08-12 12:36:18,664 - MainThread - urllib3.connectionpool - DEBUG - https://iam.amazonaws.com:443 "POST / HTTP/1.1" 200 570</span><br><span class="line">2019-08-12 12:36:18,664 - MainThread - botocore.parsers - DEBUG - Response headers: &#123;'x-amzn-RequestId': '74c11606-bd38-11e9-9c82-559da0adb349', 'Content-Type': 'text/xml', 'Content-Length': '570', 'Date': 'Mon, 12 Aug 2019 19:36:18 GMT'&#125;</span><br><span class="line">2019-08-12 12:36:18,664 - MainThread - botocore.parsers - DEBUG - Response body:</span><br><span class="line">b'&lt;ListGroupsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;\n  &lt;ListGroupsResult&gt;\n    &lt;IsTruncated&gt;false&lt;/IsTruncated&gt;\n    &lt;Groups&gt;\n      &lt;member&gt;\n        &lt;Path&gt;/&lt;/Path&gt;\n        &lt;GroupName&gt;MyTestGroup&lt;/GroupName&gt;\n        &lt;Arn&gt;arn:aws:iam::123456789012:group/MyTestGroup&lt;/Arn&gt;\n        &lt;GroupId&gt;AGPA1234567890EXAMPLE&lt;/GroupId&gt;\n        &lt;CreateDate&gt;2019-08-12T19:34:04Z&lt;/CreateDate&gt;\n      &lt;/member&gt;\n    &lt;/Groups&gt;\n  &lt;/ListGroupsResult&gt;\n  &lt;ResponseMetadata&gt;\n    &lt;RequestId&gt;74c11606-bd38-11e9-9c82-559da0adb349&lt;/RequestId&gt;\n  &lt;/ResponseMetadata&gt;\n&lt;/ListGroupsResponse&gt;\n'</span><br><span class="line">2019-08-12 12:36:18,665 - MainThread - botocore.hooks - DEBUG - Event needs-retry.iam.ListGroups: calling handler &lt;botocore.retryhandler.RetryHandler object at 0x7fdf16e9a780&gt;</span><br><span class="line">2019-08-12 12:36:18,665 - MainThread - botocore.retryhandler - DEBUG - No retry needed.</span><br><span class="line">2019-08-12 12:36:18,665 - MainThread - botocore.hooks - DEBUG - Event after-call.iam.ListGroups: calling handler &lt;function json_decode_policies at 0x7fdf189b1d90&gt;</span><br><span class="line">&#123;</span><br><span class="line">    "Groups": [</span><br><span class="line">        &#123;</span><br><span class="line">            "Path": "/",</span><br><span class="line">            "GroupName": "MyTestGroup",</span><br><span class="line">            "GroupId": "AGPA123456789012EXAMPLE",</span><br><span class="line">            "Arn": "arn:aws:iam::123456789012:group/MyTestGroup",</span><br><span class="line">            "CreateDate": "2019-08-12T19:34:04Z"</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+
+<h3 id="运行-aws-时收到“找不到命令”错误"><a href="#运行-aws-时收到“找不到命令”错误" class="headerlink" title="运行 aws 时收到“找不到命令”错误"></a>运行 aws 时收到“找不到命令”错误</h3><p><strong>可能的原因：安装期间未更新操作系统“路径”</strong></p>
+<p>此错误意味着操作系统找不到 AWS CLI 程序。安装可能不完整。</p>
+<p>如果使用 pip 安装 AWS CLI，可能需要将包含 aws 程序的文件夹添加到操作系统的 PATH 环境变量，或更改其模式以使其可执行。</p>
+<p>需要将 aws 可执行文件添加到操作系统的 PATH 环境变量中。按照相应过程中的步骤操作：</p>
+<ul>
+<li>Windows – <a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/install-windows.html#awscli-install-windows-path" target="_blank" rel="noopener">将 AWS CLI 版本 1 可执行文件添加到命令行路径</a></li>
+<li>macOS – <a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/install-macos.html#awscli-install-osx-path" target="_blank" rel="noopener">将 AWS CLI 版本 1 可执行文件添加到 macOS 命令行路径</a></li>
+<li>Linux – <a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/install-linux.html#install-linux-path" target="_blank" rel="noopener">将 AWS CLI 版本 1 可执行文件添加到命令行路径</a></li>
+</ul>
+<h3 id="“拒绝访问”错误"><a href="#“拒绝访问”错误" class="headerlink" title="“拒绝访问”错误"></a>“拒绝访问”错误</h3><p><strong>可能的原因：AWS CLI 程序文件没有“运行”权限</strong></p>
+<p>在 Linux 或 macOS 上，确保 aws 程序具有调用用户的运行权限。通常，权限设置为 755。</p>
+<p>要添加用户的运行权限，请运行以下命令，并将 ~/.local/bin/aws 替换为计算机上指向此程序的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x ~/.local/bin/aws</span><br></pre></td></tr></table></figure>
+
+<h3 id="“凭证无效”错误"><a href="#“凭证无效”错误" class="headerlink" title="“凭证无效”错误"></a>“凭证无效”错误</h3><p><strong>可能的原因：AWS CLI 从意外位置读取了凭证</strong></p>
+<p>AWS CLI 读取凭证的位置可能与预期不同。可以运行 aws configure list 以确认使用哪些凭证。</p>
+<p>以下示例说明如何检查用于默认配置文件的凭证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ aws configure list</span><br><span class="line">      Name                    Value             Type    Location</span><br><span class="line">      ----                    -----             ----    --------</span><br><span class="line">   profile                &lt;not set&gt;             None    None</span><br><span class="line">access_key     ****************XYVA shared-credentials-file</span><br><span class="line">secret_key     ****************ZAGY shared-credentials-file</span><br><span class="line">    region                us-west-2      config-file    ~/.aws/config</span><br></pre></td></tr></table></figure>
+
+<p>以下示例说明如何检查命名配置文件的凭证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ aws configure list --profile saanvi</span><br><span class="line">      Name                    Value             Type    Location</span><br><span class="line">      ----                    -----             ----    --------</span><br><span class="line">   profile                    saanvi           manual    --profile</span><br><span class="line">access_key         **************** shared-credentials-file</span><br><span class="line">secret_key         **************** shared-credentials-file</span><br><span class="line">    region                us-west-2      config-file    ~/.aws/config</span><br></pre></td></tr></table></figure>
+
+<p><strong>可能的原因：计算机的时钟不同步</strong></p>
+<p>如果使用有效的凭证，则时钟可能不同步导致了这个问题。在 Linux 或 macOS 上，运行 date 以检查时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ date</span><br></pre></td></tr></table></figure>
+
+<p>如果系统时钟在几分钟内不正确，则使用 ntpd 进行同步。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service ntpd stop</span><br><span class="line">$ sudo ntpdate time.nist.gov</span><br><span class="line">$ sudo service ntpd start</span><br><span class="line">$ ntpstat</span><br></pre></td></tr></table></figure>
+
+<p>在 Windows 上，使用控制面板中的日期和时间选项来配置系统时钟。</p>
+<h3 id="“签名不匹配”错误。"><a href="#“签名不匹配”错误。" class="headerlink" title="“签名不匹配”错误。"></a>“签名不匹配”错误。</h3><p>当 AWS CLI 运行命令时，它会向 AWS 服务器发送加密请求以执行适当的 AWS 服务操作。凭证（访问密钥和私有密钥）参与了加密过程，使 AWS 能够对发出请求的人员进行身份验证。有多种因素可能会干扰此过程的正常执行，如下所示。</p>
+<p><strong>可能的原因：时钟与 AWS 服务器不同步</strong></p>
+<p>为了帮助防范重播攻击，在加密/解密过程中可能会使用当前时间。如果客户端和服务器的时间不一致超出允许的时间量，该过程可能会失败，并且请求会被拒绝。当在时钟与主机时钟不同步的虚拟机中运行命令时，也可能发生此错误。一个可能原因是，当虚拟机休眠时，唤醒后需要一些时间才能将时钟与主机重新同步。</p>
+<p>在 Linux 或 macOS 上，运行 date 以检查时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ date</span><br></pre></td></tr></table></figure>
+
+<p>如果系统时钟在几分钟内不正确，则使用 ntpd 进行同步。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service ntpd stop</span><br><span class="line">$ sudo ntpdate time.nist.gov</span><br><span class="line">$ sudo service ntpd start</span><br><span class="line">$ ntpstat</span><br></pre></td></tr></table></figure>
+
+<p>在 Windows 上，使用控制面板中的日期和时间选项来配置系统时钟。</p>
+<p><strong>可能的原因：操作系统错误地处理了包含某些特殊字符的 AWS 私有密钥</strong></p>
+<p>如果 AWS 私有密钥包含某些特殊字符（例如 – 、+、/ 或 %），则某些操作系统变体会不正确地处理该字符串，并导致对该私有密钥字符串的解释不正确。huoz</p>
+<p>如果使用其他工具或脚本（例如，在创建新实例期间在其上构建凭证文件的工具）处理访问密钥和私有密钥，则这些工具和脚本可能有自己对特殊字符的处理，这会使它们转换为 AWS 不再识别的内容。</p>
+<p>简单的解决方案是重新生成私有密钥，以获得一个不包含特殊字符的私有密钥。</p>
+<p><strong>可能的原因：配置文件包含额外内容,导致配置文件格式不正确</strong></p>
+<p>重新生成配置文件或手动改正配置文件</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-CLI/" rel="tag"># AWS CLI</a>
+              <a href="/tags/AWS-CLI基础入门/" rel="tag"># AWS CLI基础入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/" rel="prev" title="EFS-常见问题-4">
+      <i class="fa fa-chevron-left"></i> EFS-常见问题-4
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/13/AWS/存储类/S3/AWS-S3-5-S3博客/" rel="next" title="AWS-S3-5-S3博客">
+      AWS-S3-5-S3博客 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-–debug-选项"><span class="nav-number">1.</span> <span class="nav-text">使用 –debug 选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-aws-时收到“找不到命令”错误"><span class="nav-number">2.</span> <span class="nav-text">运行 aws 时收到“找不到命令”错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“拒绝访问”错误"><span class="nav-number">3.</span> <span class="nav-text">“拒绝访问”错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“凭证无效”错误"><span class="nav-number">4.</span> <span class="nav-text">“凭证无效”错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“签名不匹配”错误。"><span class="nav-number">5.</span> <span class="nav-text">“签名不匹配”错误。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: shell-用户,组,权限相关命令">
+<meta name="keywords" content="Bash,shell命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell-用户,组,权限相关命令">
+<meta property="og:url" content="http://yoursite.com/2021/02/02/Bash/shell-用户,组,权限相关命令/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: shell-用户,组,权限相关命令">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2021-02-06T06:53:42.307Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell-用户,组,权限相关命令">
+<meta name="twitter:description" content="描述: shell-用户,组,权限相关命令">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/02/Bash/shell-用户,组,权限相关命令/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>shell-用户,组,权限相关命令 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/02/Bash/shell-用户,组,权限相关命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shell-用户,组,权限相关命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-02 19:28:37" itemprop="dateCreated datePublished" datetime="2021-02-02T19:28:37+08:00">2021-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-06 14:53:42" itemprop="dateModified" datetime="2021-02-06T14:53:42+08:00">2021-02-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="描述-shell-用户-组-权限相关命令"><a href="#描述-shell-用户-组-权限相关命令" class="headerlink" title="描述: shell-用户,组,权限相关命令"></a>描述: shell-用户,组,权限相关命令</h2><a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#描述-shell-用户组权限相关命令">描述: shell-用户,组,权限相关命令</a><ul>
+<li><a href="#相关文件">相关文件</a><ul>
+<li><a href="#etcpasswd文件">/etc/passwd文件</a></li>
+<li><a href="#etcgroup-文件">/etc/group 文件</a></li>
+<li><a href="#etcshadow文件">/etc/shadow文件</a></li>
+</ul>
+</li>
+<li><a href="#用户和组">用户和组</a><ul>
+<li><a href="#创建和删除用户">创建和删除用户</a></li>
+<li><a href="#创建和删除组">创建和删除组</a></li>
+<li><a href="#用户和组-1">用户和组</a></li>
+<li><a href="#用户密码">用户密码</a></li>
+<li><a href="#shell脚本批量将用户添加到组">shell脚本批量将用户添加到组</a></li>
+<li><a href="#用户资料chsh-chfn-chage">用户资料chsh, chfn, chage</a></li>
+</ul>
+</li>
+<li><a href="#文件权限">文件权限</a><ul>
+<li><a href="#可读可写可执行的意义">可读可写可执行的意义</a><ul>
+<li><a href="#umask">umask</a></li>
+<li><a href="#对于文件">对于文件：</a></li>
+<li><a href="#对于目录">对于目录：</a></li>
+</ul>
+</li>
+<li><a href="#chgrp">chgrp</a></li>
+<li><a href="#chown">chown</a></li>
+<li><a href="#chmod">chmod</a></li>
+<li><a href="#组文件共享">组文件共享</a></li>
+</ul>
+</li>
+<li><a href="#补充">补充</a></li>
+<li><a href="#结语">结语</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<h3 id="相关文件"><a href="#相关文件" class="headerlink" title="相关文件"></a>相关文件</h3><h4 id="etc-passwd文件"><a href="#etc-passwd文件" class="headerlink" title="/etc/passwd文件"></a>/etc/passwd文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>登录用户名</li>
+<li>用户密码</li>
+<li>用户账户的UID(数字形式)</li>
+<li>用户账户的组ID(GID)(数字形式) </li>
+<li>用户账户的文本描述(称为备注字段) </li>
+<li>用户HOME目录的位置</li>
+<li>用户的默认shell</li>
+</ul>
+<h4 id="etc-group-文件"><a href="#etc-group-文件" class="headerlink" title="/etc/group 文件"></a>/etc/group 文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:root</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>组名</p>
+</li>
+<li><p>组密码</p>
+</li>
+<li><p>GID</p>
+</li>
+<li><p>属于该组的用户列表<br>组密码允许非组内成员通过它临时成为该组成员。这个功能并不很普遍，但确实存在.千万不能通过直接修改/etc/group文件来添加用户到一个组，要用usermod命令.<br>当一个用户在/etc/passwd文件中指定某个组作为默认组时， 用户账户不会作为该组成员再出现在/etc/group文件中</p>
+<h4 id="etc-shadow文件"><a href="#etc-shadow文件" class="headerlink" title="/etc/shadow文件"></a>/etc/shadow文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rich:$1$.FfcK0ns$f1UgiyHQ25wrB/hykCn020:11627:0:99999:7:::</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>与/etc/passwd文件中的登录名字段对应的登录名</p>
+</li>
+<li><p>加密后的密码</p>
+</li>
+<li><p>自上次修改密码后过去的天数密码(自1970年1月1日开始计算) </p>
+</li>
+<li><p>多少天后才能更改密码</p>
+</li>
+<li><p>多少天后必须更改密码</p>
+</li>
+<li><p>密码过期前提前多少天提醒用户更改密码</p>
+</li>
+<li><p>密码过期后多少天禁用用户账户</p>
+</li>
+<li><p>用户账户被禁用的日期(用自1970年1月1日到当天的天数表示) </p>
+</li>
+<li><p>预留字段给将来使用</p>
+</li>
+</ul>
+<h3 id="用户和组"><a href="#用户和组" class="headerlink" title="用户和组"></a>用户和组</h3><h4 id="创建和删除用户"><a href="#创建和删除用户" class="headerlink" title="创建和删除用户"></a>创建和删除用户</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 添加用户默认会创建用户家目录和用户组, 用户家目录模版源于/etc/skel,所以可以放入一些特定资料</span><br><span class="line"><span class="meta">$</span> adduser elephant </span><br><span class="line">Adding new group 'elephant' (1000) ...</span><br><span class="line">Adding new user 'elephant' (1000) with group 'elephant' ...</span><br><span class="line">Creating home directory '/home/elephant' ...</span><br><span class="line">Copying files from '/etc/skel' ...</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看用户信息</span><br><span class="line"><span class="meta">$</span> cat /etc/passwd</span><br><span class="line"><span class="meta">$</span> id UserName</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除用户</span><br><span class="line"><span class="meta">$</span> deluser elephant</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 连同家目录一起删除,注意检查是否有重要文件,用户删除后,用户曾经的文件会变原属主和属组的ID</span><br><span class="line"><span class="meta">$</span> deluser --remove-home elephant</span><br><span class="line"><span class="meta">#</span> 查找没有属主的文件</span><br><span class="line"><span class="meta">$</span> find . -nouser </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 备份并删除所有属主为elephant的文件,备份文件为username.tar.gz 或 username.tar.bz2</span><br><span class="line"><span class="meta">$</span> deluser --remove-all-files --backup --backup-to /backup elephant</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 解压bz2</span><br><span class="line"><span class="meta">$</span> tar -xvjf username.tar.bz2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 解压gzip</span><br><span class="line"><span class="meta">$</span> tar -xvzf username.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建和删除组"><a href="#创建和删除组" class="headerlink" title="创建和删除组"></a>创建和删除组</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 添加组</span><br><span class="line"><span class="meta">$</span> addgroup share</span><br><span class="line"><span class="meta">#</span> 指定组ID</span><br><span class="line"><span class="meta">$</span> addgroup -g 2000 share</span><br><span class="line"><span class="meta">#</span> 删除组</span><br><span class="line"><span class="meta">$</span> delgroup share</span><br><span class="line"><span class="meta">#</span> 查看组</span><br><span class="line"><span class="meta">$</span> cat /etc/group</span><br><span class="line"><span class="meta">$</span> getent group GroupName</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户和组-1"><a href="#用户和组-1" class="headerlink" title="用户和组"></a>用户和组</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 修改组内用户列表,意味着如果原来组中有用户会被覆盖,Group1中只留下User1和User2</span><br><span class="line"><span class="meta">$</span> gpasswd -M User1,User2 Group1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将用户添加到组</span><br><span class="line"><span class="meta">$</span> adduser UserName GroupName</span><br><span class="line"><span class="meta">$</span> gpasswd -a UserName GroupName</span><br><span class="line"><span class="meta">$</span> usermod -aG GroupName UserName # -a 添加到目标组时不移除其他组 -g会修改用户的主要组,慎用</span><br><span class="line"><span class="meta">$</span> usermod -aG GroupName1,GroupName2,GroupName3 UserName # 将单个用户添加到多个组</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将用户移除组</span><br><span class="line"><span class="meta">$</span> deluser UserName GroupName</span><br><span class="line"><span class="meta">$</span> gpasswd -d UserName GroupName</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 锁定用户</span><br><span class="line"><span class="meta">$</span> usermod -L elephant</span><br><span class="line"><span class="meta">#</span> 解锁用户</span><br><span class="line"><span class="meta">$</span> usermod -U elephant</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户密码"><a href="#用户密码" class="headerlink" title="用户密码"></a>用户密码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> passwd elephant</span><br><span class="line"><span class="meta">#</span> 强制用户下次登录时修改密码</span><br><span class="line"><span class="meta">$</span> passwd -e elephant</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> chpasswd可以批量修改用户密码</span><br><span class="line"><span class="meta">$</span> chpasswd &lt; users.txt</span><br><span class="line"><span class="meta">$</span> cat users.txt</span><br><span class="line">user1:passwd1</span><br><span class="line">user2:passwd2</span><br></pre></td></tr></table></figure>
+
+<h4 id="shell脚本批量将用户添加到组"><a href="#shell脚本批量将用户添加到组" class="headerlink" title="shell脚本批量将用户添加到组"></a>shell脚本批量将用户添加到组</h4><ol>
+<li><p>将批量用户添加到单个组</p>
+<ul>
+<li><p>创建用户列表文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cat userlists.txt</span><br><span class="line">user1</span><br><span class="line">user2</span><br><span class="line">user3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">for user in $(cat userlists.txt)</span><br><span class="line">do</span><br><span class="line">  usermod -a -G mygroup $user</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>将批量用户添加到多个组</p>
+<ul>
+<li><p>创建用户列表文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cat userlists.txt</span><br><span class="line">user1</span><br><span class="line">user2</span><br><span class="line">user3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建组列表文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cat grouplists.txt</span><br><span class="line">group1</span><br><span class="line">group2</span><br><span class="line">group3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">for user in $(cat userlists.txt)</span><br><span class="line">do</span><br><span class="line">  for group in $(cat grouplists.txt)</span><br><span class="line">  do</span><br><span class="line">    usermod -a -G $group $user</span><br><span class="line">  done</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="用户资料chsh-chfn-chage"><a href="#用户资料chsh-chfn-chage" class="headerlink" title="用户资料chsh, chfn, chage"></a>用户资料chsh, chfn, chage</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 修改用户shell,必须用shell的全路径名作为参数，不能只用shell名</span><br><span class="line"><span class="meta">$</span> chsh -s /bin/bash elephant</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 修改用户的备注信息</span><br><span class="line"><span class="meta">$</span> chfn userName</span><br><span class="line">Changing the user information for userName</span><br><span class="line">Enter the new value, or press ENTER for the default</span><br><span class="line">        Full Name [Hello W]: </span><br><span class="line">        Room Number [12]: </span><br><span class="line">        Work Phone [123]: </span><br><span class="line">        Home Phone [123]: </span><br><span class="line">        Other [dddddd]:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 设置账户被禁用的日期</span><br><span class="line"><span class="meta">$</span> chage -E 2021-02-05 -I 0 elephant</span><br><span class="line"><span class="meta">#</span> -d 设置上次修改密码到现在的天数</span><br><span class="line"><span class="meta">#</span> -E 设置密码过期的日期 YYYY-MM-DD</span><br><span class="line"><span class="meta">#</span> -I 设置密码过期到锁定账户的天数</span><br><span class="line"><span class="meta">#</span> -m 设置修改密码之间最少要多少天</span><br><span class="line"><span class="meta">#</span> -W 设置密码过期前多久开始出现提醒信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><h4 id="可读可写可执行的意义"><a href="#可读可写可执行的意义" class="headerlink" title="可读可写可执行的意义"></a>可读可写可执行的意义</h4><p>在Linux中，文件有三种权限－－可读，可写，可执行。目录也有三种权限－－可读，可写，可执行。但是实际上他们有着不同的意义。</p>
+<h5 id="umask"><a href="#umask" class="headerlink" title="umask"></a>umask</h5><p>对文件来说，全权限的值是666(所有用户都有读和写的权限);而对目录来说，则是777(所有用户都有读、写、执行权限)。u这些默认权限是通过“umask”权限掩码控制的。一般默认的umask值为022，其最终效果就是新创建的目录权限为755，文件权限为644。所以只要修改了用户的umask值，就可以控制默认权限。</p>
+<h5 id="对于文件："><a href="#对于文件：" class="headerlink" title="对于文件："></a>对于文件：</h5><ul>
+<li>可读：表示可以读取文件里的数据；</li>
+<li>可写：表示可以改变和删除文件； </li>
+<li>可执行：表示可以执行该程序。</li>
+</ul>
+<h5 id="对于目录："><a href="#对于目录：" class="headerlink" title="对于目录："></a>对于目录：</h5><p>可读：表示，你可以列出目录中有什么文件；<br>示例: 用户A属于share组 shared文件夹也属于share组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 如果对于属组来说只有读权限,只能看不能改,无法知道详情,大小,权限,创建时间</span><br><span class="line"><span class="meta">$</span> sudo chmod 744 shared/</span><br><span class="line"><span class="meta">$</span> ls -al /shared/</span><br><span class="line">ls: cannot access '/shared/.': Permission denied</span><br><span class="line">ls: cannot access '/shared/..': Permission denied</span><br><span class="line">ls: cannot access '/shared/123': Permission denied</span><br><span class="line">total 0</span><br><span class="line">d????????? ? ? ? ?            ? .</span><br><span class="line">d????????? ? ? ? ?            ? ..</span><br><span class="line">-????????? ? ? ? ?            ? 123</span><br></pre></td></tr></table></figure>
+
+<p>可写：表示可以在目录中删除和增加文件；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo chmod 722 /shared/</span><br><span class="line"><span class="meta">$</span> ls -al /shared/</span><br><span class="line">ls: cannot open directory '/shared/': Permission denied</span><br><span class="line"><span class="meta">#</span> 仅有写权限,就算已知文件夹中有文件也无法删除</span><br></pre></td></tr></table></figure>
+
+<p>可执行：表示可以列出目录下文件的信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo chmod 710 /shared/</span><br><span class="line"><span class="meta">$</span> ./shared/test.sh</span><br><span class="line">hello</span><br><span class="line"><span class="meta">#</span> 仅有执行权限,可以执行文件夹内允许share组执行的文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> chgrp groupName fileName</span><br></pre></td></tr></table></figure>
+
+<h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> chown ubuntu:test file.txt</span><br><span class="line"><span class="meta">#</span> 同时改变属主属组</span><br><span class="line"><span class="meta">$</span> chown test. file.txt</span><br><span class="line"><span class="meta">#</span> 仅改变属组</span><br><span class="line"><span class="meta">$</span> chown .test file.txt</span><br></pre></td></tr></table></figure>
+
+<h4 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> chmod +x file</span><br><span class="line"><span class="meta">$</span> chmod 755 file # 常见权限,可读可执行不可更改</span><br><span class="line"><span class="meta">$</span> chmod 755 folder # 常见权限,可读可执行不可添加和删除文件夹内文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="组文件共享"><a href="#组文件共享" class="headerlink" title="组文件共享"></a>组文件共享</h4><ol>
+<li><p>创建共享组shared</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> addgroup shared</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建共享目录,并修改其属组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> mkdir /shared</span><br><span class="line"><span class="meta">$</span> chgrp shared /shared/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将SGID置位</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> chmod g+s /shared/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将所需用户都添加到shared组</p>
+</li>
+</ol>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
+<li>useradd单纯创建用户,不会创建用户目录，不会自动选择shell版本默认/bin/sh，没有设置密码，需要使用passwd修改密码。</li>
+<li>userdel只能删除用户，并不会删除相关的目录文件。</li>
+<li>adduser在使用该命令创建用户会在/home下自动创建用户目录，系统shell版本，会在创建时会提示输入密码，更加友好。</li>
+<li>deluser -r 可以删除用户及相关目录。<br>推荐使用 <code>adduser</code> 和 <code>deluser</code></li>
+</ul>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bash/" rel="tag"># Bash</a>
+              <a href="/tags/shell命令/" rel="tag"># shell命令</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/19/AWS/RDS/RDS概述/" rel="prev" title="AWS RDS概述">
+      <i class="fa fa-chevron-left"></i> AWS RDS概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/04/Bash/shell-find/" rel="next" title="shell-find">
+      shell-find <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述-shell-用户-组-权限相关命令"><span class="nav-number">1.</span> <span class="nav-text">描述: shell-用户,组,权限相关命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关文件"><span class="nav-number">1.1.</span> <span class="nav-text">相关文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-passwd文件"><span class="nav-number">1.1.1.</span> <span class="nav-text">/etc/passwd文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-group-文件"><span class="nav-number">1.1.2.</span> <span class="nav-text">/etc/group 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-shadow文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">/etc/shadow文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户和组"><span class="nav-number">1.2.</span> <span class="nav-text">用户和组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建和删除用户"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建和删除用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建和删除组"><span class="nav-number">1.2.2.</span> <span class="nav-text">创建和删除组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户和组-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">用户和组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户密码"><span class="nav-number">1.2.4.</span> <span class="nav-text">用户密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell脚本批量将用户添加到组"><span class="nav-number">1.2.5.</span> <span class="nav-text">shell脚本批量将用户添加到组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户资料chsh-chfn-chage"><span class="nav-number">1.2.6.</span> <span class="nav-text">用户资料chsh, chfn, chage</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件权限"><span class="nav-number">1.3.</span> <span class="nav-text">文件权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可读可写可执行的意义"><span class="nav-number">1.3.1.</span> <span class="nav-text">可读可写可执行的意义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#umask"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">umask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对于文件："><span class="nav-number">1.3.1.2.</span> <span class="nav-text">对于文件：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对于目录："><span class="nav-number">1.3.1.3.</span> <span class="nav-text">对于目录：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chgrp"><span class="nav-number">1.3.2.</span> <span class="nav-text">chgrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chown"><span class="nav-number">1.3.3.</span> <span class="nav-text">chown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod"><span class="nav-number">1.3.4.</span> <span class="nav-text">chmod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组文件共享"><span class="nav-number">1.3.5.</span> <span class="nav-text">组文件共享</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充"><span class="nav-number">1.4.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">1.5.</span> <span class="nav-text">结语</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

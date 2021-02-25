@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: AWS S3的功能">
+<meta name="keywords" content="AWS S3,S3基础入门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS-S3-2-功能">
+<meta property="og:url" content="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-2-功能/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: AWS S3的功能">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2021-01-12T06:42:28.823Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS-S3-2-功能">
+<meta name="twitter:description" content="描述: AWS S3的功能">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-2-功能/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>AWS-S3-2-功能 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-2-功能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS-S3-2-功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-13 20:25:19" itemprop="dateCreated datePublished" datetime="2020-11-13T20:25:19+08:00">2020-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-12 14:42:28" itemprop="dateModified" datetime="2021-01-12T14:42:28+08:00">2021-01-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/S3/" itemprop="url" rel="index"><span itemprop="name">S3</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>描述: AWS S3的功能</p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#s3访问地址类型">S3访问地址类型</a></li>
+<li><a href="#存储桶加密">存储桶加密</a><ul>
+<li><a href="#存储桶加密分为3种">存储桶加密分为3种</a></li>
+<li><a href="#加密总结">加密总结</a></li>
+</ul>
+</li>
+<li><a href="#cors跨源资源共享">cors（跨源资源共享）</a></li>
+<li><a href="#事件通知">事件通知</a></li>
+<li><a href="#outposts">Outposts</a></li>
+<li><a href="#生命周期">生命周期</a><ul>
+<li><a href="#转换行为">转换行为</a></li>
+<li><a href="#过期行为">过期行为:</a></li>
+<li><a href="#针对过往对象版本的转换和过期行为">针对过往对象版本的转换和过期行为</a></li>
+<li><a href="#注意事项">注意事项</a></li>
+<li><a href="#生命周期日志">生命周期日志</a></li>
+<li><a href="#生命周期示例httpsdocsawsamazoncomzh_cnamazons3latestdevlifecycle-configuration-exampleshtml"><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/lifecycle-configuration-examples.html" target="_blank" rel="noopener">生命周期示例</a></a></li>
+</ul>
+</li>
+<li><a href="#位置">位置</a></li>
+<li><a href="#日志记录">日志记录</a></li>
+<li><a href="#对象锁定">对象锁定</a></li>
+<li><a href="#对象标签">对象标签</a></li>
+<li><a href="#策略-和-acl访问控制列表">策略 和 ACL（访问控制列表）</a></li>
+<li><a href="#分段上传">分段上传</a></li>
+<li><a href="#复制">复制</a></li>
+<li><a href="#requestpayment">requestPayment</a></li>
+<li><a href="#访问点">访问点</a></li>
+<li><a href="#传输加速transfer-acceleration">传输加速Transfer Acceleration</a><ul>
+<li><a href="#cli示例">CLI示例</a></li>
+</ul>
+</li>
+<li><a href="#版本控制">版本控制</a><ul>
+<li><a href="#mfa-删除">MFA 删除</a></li>
+</ul>
+</li>
+<li><a href="#网站">网站</a></li>
+<li><a href="#账单和使用率报告">账单和使用率报告</a></li>
+<li><a href="#结语">结语</a></li>
+</ul>
+<!-- /TOC -->
+
+<h3 id="S3访问地址类型"><a href="#S3访问地址类型" class="headerlink" title="S3访问地址类型"></a>S3访问地址类型</h3><p>S3支持<code>虚拟托管类型访问</code>和<code>路径类型访问</code>, 虚拟托管访问是最新的访问方式.</p>
+<p>Amazon S3 虚拟托管样式 URL 遵循如下所示格式:<br><code>https://bucket-name.s3.Region.amazonaws.com/key name</code></p>
+<p>Amazon S3 路径样式 URL 遵循如下所示格式:<br><code>https://s3.Region.amazonaws.com/bucket-name/key name</code></p>
+<p>S3 访问点仅支持虚拟主机式寻址:<br><code>https://AccessPointName-AccountId.s3-accesspoint.region.amazonaws.com.</code></p>
+<p>路径样式原本与2020年9月23日废除但被延迟了.</p>
+<h3 id="存储桶加密"><a href="#存储桶加密" class="headerlink" title="存储桶加密"></a>存储桶加密</h3><p>在为存储桶启用默认加密后，将会应用以下加密行为：</p>
+<ul>
+<li>在启用默认加密之前，存储桶中已存在的对象的加密没有变化。</li>
+<li>在启用默认加密后上传对象时：<ul>
+<li>如果您的 PUT 请求标头不包含加密信息，则 Amazon S3 将使用存储桶的默认加密设置来加密对象。</li>
+<li>如果您的 PUT 请求标头包含加密信息，则 Amazon S3 将使用 PUT 请求中的加密信息加密对象，然后再将对象存储在 Amazon S3 中。</li>
+</ul>
+</li>
+<li>如果您将 SSE-KMS 选项用于默认加密配置，则您将受到 AWS KMS 的 RPS (每秒请求数) 限制</li>
+</ul>
+<h4 id="存储桶加密分为3种"><a href="#存储桶加密分为3种" class="headerlink" title="存储桶加密分为3种"></a>存储桶加密分为3种</h4><ol>
+<li>SSE-S3</li>
+</ol>
+<p>使用SSE-S3加密时，每个对象均使用唯一密钥加密。作为额外的保护，它将使用定期轮换的主密钥对密钥本身进行加密。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">aws s3api put-object \</span><br><span class="line">  --bucket text-content \</span><br><span class="line">  --key dir-1/my_images.tar.bz2 \</span><br><span class="line">  --body my_images.tar.bz2 \</span><br><span class="line">  --server-side-encryption AES256</span><br></pre></td></tr></table></figure>
+
+<details>
+<summary><strong>SSE-S3 Bucket Policy</strong></summary>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"Version"</span>: <span class="string">"2012-10-17"</span>,</span><br><span class="line">  <span class="attr">"Id"</span>: <span class="string">"PutObjectPolicy"</span>,</span><br><span class="line">  <span class="attr">"Statement"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"Sid"</span>: <span class="string">"DenyIncorrectEncryptionHeader"</span>,</span><br><span class="line">      <span class="attr">"Effect"</span>: <span class="string">"Deny"</span>,</span><br><span class="line">      <span class="attr">"Principal"</span>: <span class="string">"*"</span>,</span><br><span class="line">      <span class="attr">"Action"</span>: <span class="string">"s3:PutObject"</span>,</span><br><span class="line">      <span class="attr">"Resource"</span>: <span class="string">"arn:aws:s3:::awsexamplebucket1/*"</span>,</span><br><span class="line">      <span class="attr">"Condition"</span>: &#123;</span><br><span class="line">        <span class="attr">"StringNotEquals"</span>: &#123;</span><br><span class="line">          <span class="attr">"s3:x-amz-server-side-encryption"</span>: <span class="string">"AES256"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"Sid"</span>: <span class="string">"DenyUnencryptedObjectUploads"</span>,</span><br><span class="line">      <span class="attr">"Effect"</span>: <span class="string">"Deny"</span>,</span><br><span class="line">      <span class="attr">"Principal"</span>: <span class="string">"*"</span>,</span><br><span class="line">      <span class="attr">"Action"</span>: <span class="string">"s3:PutObject"</span>,</span><br><span class="line">      <span class="attr">"Resource"</span>: <span class="string">"arn:aws:s3:::awsexamplebucket1/*"</span>,</span><br><span class="line">      <span class="attr">"Condition"</span>: &#123;</span><br><span class="line">        <span class="attr">"Null"</span>: &#123;</span><br><span class="line">          <span class="attr">"s3:x-amz-server-side-encryption"</span>: <span class="string">"true"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<ol start="2">
+<li>SSE-KMS</li>
+</ol>
+<p>SSE-KMS 与 SSE-S3 类似，使用该服务具有一些额外的好处，但也要额外收取费用。使用 CMK 需要单独的权限，该密钥可进一步防止未经授权地访问 Amazon S3 中的对象。意味着使用SSE-KMS加密的对象即使公开,如果访问者没有密钥的解密权限也依然无法访问该对象.SSE-KMS 还可以提供审核跟踪，显示 CMK 的使用时间和使用者。此外，还可以创建和管理客户托管 CMK，或者使用您、服务和区域独有的 AWS 托管 CMK。手动定期转换密钥也不要删除和禁用旧的密钥.</p>
+<p><strong>重要: 删除和禁用KMS密钥后,曾被密钥加密的对象将不可读取</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 未指定kms-key-id,则使用默认的aws/s3 key</span><br><span class="line">aws s3api put-object \</span><br><span class="line">  --bucket text-content \</span><br><span class="line">  --key my_images.tar.bz2 \</span><br><span class="line">  --body my_images.tar.bz2 \</span><br><span class="line">  --server-side-encryption aws:kms</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用kms key arn</span><br><span class="line">aws s3api put-object \</span><br><span class="line">  --bucket text-content \</span><br><span class="line">  --key my_images.tar.bz2 \</span><br><span class="line">  --body my_images.tar.bz2 \</span><br><span class="line">  --server-side-encryption aws:kms \</span><br><span class="line">  --ssekms-key-id arn:aws:kms:us-east-1:123456789012:key/1234abcd-1234-abcd-1234-12345678abcd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用kms key 别名</span><br><span class="line">aws s3api put-object \</span><br><span class="line">  --bucket text-content \</span><br><span class="line">  --key my_images.tar.bz2 \</span><br><span class="line">  --body my_images.tar.bz2 \</span><br><span class="line">  --server-side-encryption aws:kms \</span><br><span class="line">  --ssekms-key-id arn:aws:kms:us-east-1:123456789012:alias/mykey</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>SSE-C</li>
+</ol>
+<p>使用具有客户提供密钥的服务器端加密 (SSE-C) 时，自己管理加密密钥，而 Amazon S3 管理加密（在它对磁盘进行写入时）和解密（在您访问您的对象时）.AWS不会保管用户密钥,用户要自己保存密钥,并自己控制对象和密钥之间的关系.</p>
+<p><strong>重要:密钥丢失则数据丢失</strong></p>
+<p>以下示例使用 Linux 命令行工具生成一个二进制 256 位 AES 密钥，然后将该密钥提供给 Amazon S3 以对上载的文件服务器端进行加密。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> dd if=/dev/urandom bs=1 count=32 &gt; sse.key</span><br><span class="line">32+0 records in</span><br><span class="line">32+0 records out</span><br><span class="line">32 bytes (32 B) copied, 0.000164441 s, 195 kB/s</span><br><span class="line"><span class="meta">#</span> 上传数据时需要带上用户自定义密钥</span><br><span class="line"><span class="meta">$</span> aws s3api put-object --bucket my-bucket --key mysse.html --body test.txt --sse-customer-key fileb://sse.key --sse-customer-algorithm AES256</span><br><span class="line">&#123;</span><br><span class="line">    "SSECustomerKeyMD5": "iVg8oWa8sy714+FjtesrJg==",</span><br><span class="line">    "SSECustomerAlgorithm": "AES256",</span><br><span class="line">    "ETag": "\"a6118e84b76cf98bf04bbe14b6045c6c\""</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 取回数据时也需要带上加密时所使用的密钥</span><br><span class="line"><span class="meta">$</span> aws s3api get-object --bucket my-bucket --sse-customer-key fileb://sse.key --sse-customer-algorithm AES256 --key mysse.html mysse.html</span><br></pre></td></tr></table></figure>
+
+<h4 id="加密总结"><a href="#加密总结" class="headerlink" title="加密总结"></a>加密总结</h4><p>在第二和第三种加密方式下,对于对象的操作都需要相应地权限.</p>
+<p>还有一种客户端加密方式.</p>
+<p>要通过单个请求加密现有 Amazon S3 对象，可以使用 Amazon S3 批处理操作。您为 S3 批量操作提供要操作的对象的列表，批量操作调用相应的 API 来执行指定的操作。可以使用复制操作复制现有的未加密对象，并将新的加密对象写入同一存储桶。单个批量操作作业可对数十亿个包含 EB 级数据的对象执行指定操作。</p>
+<p><em>使用 SSE-KMS 进行默认存储桶加密的 Amazon S3 存储桶不能用作 Amazon S3 服务器访问日志记录 的目标存储桶。对于服务器访问日志目标存储桶，仅支持 SSE-S3 默认加密。</em></p>
+<p><a href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/s3-object-encrpytion-keys/" target="_blank" rel="noopener">我该使用 AWS KMS 管理的密钥还是自定义 AWS KMS 密钥来加密 Amazon S3 中的对象</a></p>
+<h3 id="cors（跨源资源共享）"><a href="#cors（跨源资源共享）" class="headerlink" title="cors（跨源资源共享）"></a>cors（跨源资源共享）</h3><p>可以配置存储桶以便允许跨源请求。<a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/cors.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/cors.html</a></p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/cors-troubleshooting.html" target="_blank" rel="noopener">问题排查</a></p>
+<h3 id="事件通知"><a href="#事件通知" class="headerlink" title="事件通知"></a>事件通知</h3><p>您可以使存储桶向您发送特定存储桶事件的通知。</p>
+<p>有关更多信息，请参阅 配置 Amazon S3 事件通知。</p>
+<h3 id="Outposts"><a href="#Outposts" class="headerlink" title="Outposts"></a>Outposts</h3><p>AWS提供设备安装在客户的场所(借给你用),为期三年.提供更低的延迟和本地数据处理需求.可以像使用AWS一样使用这些资源. 主要是贵,无预付三年$194,652,有预付三年$169,444.(跟选择的计算容量有关).还不包含存储…</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>要管理对象以使其在整个生命周期内经济高效地存储，可以配置其 Amazon S3 生命周期。其本质是节约费用.S3 生命周期配置是一组规则，用于定义 Amazon S3 对一组对象应用的操作。小于 128 KB 的对象不会进行存储类型转换(因为没有经济效益).生命周期不支持启用了MFA删除的桶.有两种类型的操作：</p>
+<ul>
+<li><strong>转换操作</strong> — 定义一段时间后将对象自动转换为另一个存储类。</li>
+<li><strong>过期操作</strong> — 定义对象的过期时间。Amazon S3 将代表你删除过期的对象。</li>
+</ul>
+<p>用例：</p>
+<ul>
+<li>定期将日志上传到一个存储桶，应用程序可能需要使用这些日志一个星期或一个月。之后，可能永远都不需要这些日志。</li>
+<li>在限定的时间段内可能需要经常访问某些文档。自此之后，这些文档很少被访问。有时，可能不需要对这些文档进行实时访问，但是公司可能要求将它们存档一段特定的时间。之后，可以删除这些文档</li>
+<li>可以主要为了存档目的而将一些类型的数据上传到 Amazon S3。例如，您可以存档数字媒体、财务和健康记录、原始基因组序列数据、长期数据库备份，以及为遵从法规而必须保留的数据</li>
+</ul>
+<h4 id="转换行为"><a href="#转换行为" class="headerlink" title="转换行为"></a>转换行为</h4><p>一切转换行为都是对当前版本操作.转换行为可以理解为从高费用向低费用转换,不可逆.例如，可以选择在对象创建 30 天后将其转换为 S3 标准-IA 存储类，或在对象创建 1 年后将其存档到 S3 Glacier 存储类。<br>可以进行以下转换：</p>
+<ul>
+<li>从 S3 标准 存储类转换为任何其他存储类。</li>
+<li>任何存储类转换为 S3 Glacier 或 S3 Glacier Deep Archive 存储类。</li>
+<li>从 S3 标准-IA 存储类转换为 S3 智能分层 或 S3 单区-IA 存储类。</li>
+<li>从 S3 智能分层 存储类转换为 S3 单区-IA 存储类。</li>
+<li>从 S3 Glacier 存储类转换为 S3 Glacier Deep Archive 存储类。</li>
+</ul>
+<h4 id="过期行为"><a href="#过期行为" class="headerlink" title="过期行为:"></a>过期行为:</h4><p>一切过期行为都是对当前版本操作.过期操作如果删除了没到存储类最低存储对象的收费期的对象,则按照存储类的最低日期收费,例如IA类最低存储30天,但是在10天就删除了,也按照30天时间收费.Glacier最低90天,Deep Archive最低180天.</p>
+<ul>
+<li><strong>不受版本控制的存储桶</strong>: 过期操作将永久删除未启用版本控制的存储桶中的对象</li>
+<li><strong>已启用版本控制的存储桶</strong>: 正常情况Amazon将新建一个具有唯一的版本ID的删除标记的对象.如果当前对象版本是唯一一个且具有删除标记的对象版本,AWS会删除这个标记版本,因为该对象实际已经不存在了.如果该对象具有多个版本且当前版本具有删除标记,则AWS不做任何操作.</li>
+<li><strong>已暂停版本控制的存储桶</strong>: 正常情况Amazon将新建一个具有null版本ID的删除标记的对象.删除标记会在版本层次结构中将替换版本ID为null的对象版本，从而实际上删除版本标记为null的对象。其他行为与已启用版本控制的存储桶一致</li>
+</ul>
+<h4 id="针对过往对象版本的转换和过期行为"><a href="#针对过往对象版本的转换和过期行为" class="headerlink" title="针对过往对象版本的转换和过期行为"></a>针对过往对象版本的转换和过期行为</h4><p>转换和过期行为都是在从对象变为非当前时开始的.例如，可以配置一个到期规则，以便在对象变为非当前版本五天后删除非当前版本。例如，假设在 2014 年 1 月 1 日上午 10:30 UTC，您创建了名为 photo.gif 的对象 (版本 ID 111111)。在 2014 年 2 月 1 日上午 11:30 UTC，您意外删除了 photo.gif (版本 ID 111111)，这将导致使用新版本 ID (如版本 ID 4857693) 创建一个删除标记。您现在有五天时间可以在永久删除之前，恢复原始版本的 photo.gif (版本 ID 111111)。在 2014 年 1 月 8 日 00:00 UTC，有关过期的生命周期规则执行并永久删除 photo.gif（版本 ID 111111）（在它成为非当前版本五天之后）。</p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions" target="_blank" rel="noopener">生命周期与版本控制具体行为</a></p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>Amazon S3 按以下方式计算时间：将在规则中指定的天数与对象创建时间相加，然后将得出的时间舍入至下一日的午夜 UTC。例如，如果对象的创建时间是 2014 年 1 月 15 日上午 10:30 UTC，并且您在转换规则中指定了 3 天，则对象的转换日期将计算为 2014 年 1 月 19 日 00:00 UTC。</p>
+<p>版本控制示例: Amazon S3 按以下方式计算时间,将规则中指定的天数与创建对象新后继者版本的时间相加，然后将得出的时间舍入至下一日的午夜 UTC。例如，在您的存储桶中，假设某个对象的当前版本的创建时间是 2014 年 1 月 1 日上午 10:30 UTC。如果替换当前版本的对象新版本的创建时间是 2014 年 1 月 15 日上午 10:30 UTC，并且您在转换规则中指定了 3 天，则对象的转换日期计算为 2014 年 1 月 19 日 00:00 UTC。</p>
+<p>如果为S3 生命周期操作指定一个过去的日期，所有合格对象会立即符合该生命周期操作的条件,包括新上传的对象.</p>
+<p>生命周期配置可以同时存在多个:</p>
+<ul>
+<li>对相同对象的操作且两个过期策略重叠，将采用较短的过期策略，以便数据存储不会超过预期时间。例如一个策略在30天转化为STANDARD_IA,一个在90天转化为ARCHIVE</li>
+<li>对相同对象的操作且两个但策略不同. 例如策略一,30天后转化存储类型;策略二30天后删除对象.策略二生效</li>
+<li>对象筛选存在包含关系,符合第一个规则.例如策略一对象为全体对象10天后类型转换;策略二以log/为前缀的对象365天后类型转化.策略一生效.</li>
+<li>对象标签冲突.策略一带有tag1/value1标签的对象10天后过期;策略二带有tag2/value2标签的对象100天后转换存储,有对象同时具备2个标签,策略一生效</li>
+</ul>
+<h4 id="生命周期日志"><a href="#生命周期日志" class="headerlink" title="生命周期日志"></a>生命周期日志</h4><p>CloudTrail 捕获向外部 Amazon S3 终端节点发起的 API 请求，而S3 生命周期操作是使用内部 Amazon S3 终端节点执行的。可以在一个 S3 存储桶中启用 Amazon S3 服务器访问日志，以捕获S3 生命周期相关操作，例如，对象转换到另一个存储类，以及对象失效导致永久删除或逻辑删除。<a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/lifecycle-and-other-bucket-config.html#lifecycle-general-considerations-mfa-enabled-bucket" target="_blank" rel="noopener">More Detail</a></p>
+<h4 id="生命周期示例"><a href="#生命周期示例" class="headerlink" title="生命周期示例"></a><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/lifecycle-configuration-examples.html" target="_blank" rel="noopener">生命周期示例</a></h4><p>示例 1：指定筛选条件<br>示例 2：禁用生命周期规则<br>示例 3：在对象的生命周期内逐步将存储类降级<br>示例 4：指定多个规则<br>示例 5：重叠的筛选条件、冲突的生命周期操作以及 Amazon S3 的功能<br>示例 6：为启用了版本控制的存储桶指定生命周期规则<br>示例 7：移除过期对象删除标记<br>示例 8：用于中止分段上传的生命周期配置</p>
+<h3 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h3><p>创建存储桶时，请指定需要 Amazon S3 在其中创建存储桶的 AWS 区域。Amazon S3 将此信息存储在位置子资源中并提供 API 用于检索此信息。</p>
+<h3 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h3><p>日志记录使您可以跟踪针对存储桶的访问请求。每个访问日志记录都提供有关单个访问请求的详细信息，如请求者、存储桶名称、请求时间、请求操作、响应状态和错误代码 (如果有)。访问日志信息可能在安全和访问审核方面十分有用。它还可以帮助您了解您的客户群并了解您的 Amazon S3 账单。 </p>
+<p>有关更多信息，请参阅 Amazon S3 服务器访问日志记录。</p>
+<h3 id="对象锁定"><a href="#对象锁定" class="headerlink" title="对象锁定"></a>对象锁定</h3><p>可以​使用对象锁定在固定的时间段内或无限期地阻止删除或覆盖对象.要使用 S3 对象锁定，必须在创建存储桶时启用(目前不支持在创建存储桶之后启用对象锁定)。还可以选择配置将应用于存储桶中放置的新对象的默认保留模式和保留期限。</p>
+<p>对象锁定是基于版本控制的,所以具有版本控制功能,它加强了对于删除的保护功能.</p>
+<ul>
+<li>只能为新存储桶启用 对象锁定。如果要为现有存储桶开启 对象锁定，请联系 AWS Support。</li>
+<li>如果创建存储桶时启用了 对象锁定，Amazon S3 将自动为该存储桶启用版本控制。</li>
+<li>如果在创建存储桶时启用了对象锁定，将无法为该存储桶禁用对象锁定或暂停版本控制。</li>
+</ul>
+<p>相关权限:<br>s3:GetObjectRetention<br>s3:PutObjectLegalHold<br>s3:GetObjectLegalHold<br>s3:GetBucketObjectLockConfiguration<br>s3:BypassGovernanceRetention</p>
+<p>对象锁定仅适用于受版本控制的存储桶，保留期限和依法保留则适用于单个对象版本。当锁定某一对象版本时，Amazon S3 会将锁定信息存储在该对象版本的元数据中。对对象实施保留期限或依法保留仅保护在请求中指定的版本。它不阻止创建该对象的新版本。如果将一个与现有的受保护对象键名相同的对象放在存储桶中，Amazon S3 将创建该对象的新版本、将其存储在请求的存储桶中，并将该请求报告为已成功完成。现有受保护版本的对象将根据其保留配置保持锁定状态。</p>
+<p>对象版本可以同时具有保留期限和依法保留、具有其中任何一个或不具有任何一个。</p>
+<p>依法保留是一个持续状态直到明确取消,没有保留期限.</p>
+<p>S3 对象锁定中的保留期限提供两种保留模式：</p>
+<ul>
+<li>监管模式<br>监管模式允许具有 s3:BypassGovernanceRetention 权限的用户删除，但必须在需要覆盖监管模式的任何请求中显式包含 x-amz-bypass-governance-retention.S3 控制台默认添加bypass-governance-retention: true.</li>
+<li>合规性模式<br>在合规性 模式中，任何用户都不能覆盖或删除受保护的对象版本，包括 AWS 账户中的根用户。在合规性模式下锁定对象后，其保留模式便无法更改，其保留期限也不能缩短。合规性模式确保在保留期限内无法覆盖或删除对象版本。</li>
+</ul>
+<h3 id="对象标签"><a href="#对象标签" class="headerlink" title="对象标签"></a>对象标签</h3><p>可以将 10 个标签与对象关联.键和值区分大小写.标签采用了最终一致性模型。还可以使用标签进行对象分类,就像对象键名前缀分类存储。但是，基于前缀的分类是一维的。参考以下对象键名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">photos/photo1.jpg</span><br><span class="line">photos/photo2.jpg</span><br><span class="line">project/project1/document.pdf</span><br><span class="line">project/project2/document2.pdf</span><br></pre></td></tr></table></figure>
+
+<p>这些键名具有前缀 photos/、project/project1/ 和 project/project2/。这些前缀支持一维分类。即，一个前缀下的一切都属于一个类别。例如，前缀 project/project1 可确定与项目project1相关的所有文档。</p>
+<p>除了数据分类之外，标签还提供了下列好处：</p>
+<ul>
+<li>对象标签支持权限的精细访问控制。例如，可以向一个 IAM 用户授予仅读取带有特定标签的对象的权限。</li>
+<li>对象标签支持精细的对象生命周期管理，在其中，除了在生命周期规则中指定键名前缀之外，还可以指定基于标签的筛选条件。</li>
+<li>使用 Amazon S3 分析时，可以配置筛选条件，以便按对象标签、键名前缀或前缀和标签的组合对对象进行分组以进行分析。</li>
+<li>还可以自定义 Amazon CloudWatch 指标以按特定标签筛选条件显示信息。</li>
+</ul>
+<p>例如可以对对象添加Department, Environment, Project 和 CostCenter等标签.</p>
+<h3 id="策略-和-ACL（访问控制列表）"><a href="#策略-和-ACL（访问控制列表）" class="headerlink" title="策略 和 ACL（访问控制列表）"></a>策略 和 ACL（访问控制列表）</h3><p>所有资源（如存储桶和对象）在默认情况下均为私有。Amazon S3 支持存储桶策略和访问控制列表 (ACL) 选项，供您用于授予和管理存储桶级权限。Amazon S3 将权限信息存储在策略 和 acl 子资源中。</p>
+<p>有关更多信息，请参阅 Amazon S3 中的 Identity and Access Management。</p>
+<h3 id="分段上传"><a href="#分段上传" class="headerlink" title="分段上传"></a>分段上传</h3><p>分段上传允许上传单个对象作为一组分段。每个分段都是对象数据的连续部分。可以独立上传以及按任意顺序上传这些对象分段。如果任意分段传输失败，可以重新传输该分段且不会影响其他分段。当对象的所有段都上传后，Amazon S3 将这些段汇编起来，然后创建对象。一般而言，如果您的对象大小达到了 100 MB，您应该考虑使用分段上传，而不是在单个操作中上传对象。</p>
+<p>最佳实践是使用 aws s3 命令（例如 aws s3 cp）进行上传和下载，因为这些 aws s3 命令会根据文件大小自动执行分段上传和下载。相比之下，只有在 aws s3 命令不支持特定上传需求（例如，当分段上传涉及多个服务器时，手动停止分段上传并稍后恢复）或者 aws s3 命令不支持所需的请求参数时，才应使用 aws s3api 命令（例如 aws s3api create-multipart-upload）</p>
+<p>使用分段上传可提供以下优势：</p>
+<ul>
+<li>提高吞吐量 – 可以并行上传分段以提高吞吐量。</li>
+<li>从任何网络问题中快速恢复 - 较小的分段大小可以将由于网络错误而需重启失败的上传所产生的影响降至最低。</li>
+<li>暂停和恢复对象上传 – 可以在一段时间内逐步上传对象分段。启动分段上传后，不存在过期期限；必须显式地完成或停止分段上传。</li>
+<li>知道对象的最终大小前开始上传 – 可以在创建对象时将其上传。</li>
+</ul>
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><p>复制是在相同或跨不同 AWS 区域中的存储桶自动、异步地复制对象。有关更多信息，请参阅复制。</p>
+<h3 id="requestPayment"><a href="#requestPayment" class="headerlink" title="requestPayment"></a>requestPayment</h3><p>默认情况下，S3的存储费用和数据流量费用都由S3的拥有者支付.但是当想共享数据，又不希望产生与访问数据等其他操作相关联的费用时，可以将存储桶配置为申请方付款。例如，当使大型数据集 (如邮政编码目录、参考数据、地理空间信息、网盘存储或网络爬取数据) 等,可以使用申请方付款.简单来说请求方支付数据传输和请求方面的费用；存储桶拥有者支付数据存储方面的费用。</p>
+<p>配置为申请方付款存储桶后，请求方必须在其请求中包含 x-amz-request-payer (在 POST、GET 和 HEAD 请求的标头中，或在 REST 请求中作为参数)，以显示他们明确知道请求和数据下载将产生费用。requestPayment是存储桶级别的,不能对特定对象使用.</p>
+<p>但是以下行为依然会向S3拥有者收费,虽然他们的请求失败了:</p>
+<ul>
+<li>申请方未在标头中 (GET、HEAD 或 POST) 包含参数 x-amz-request-payer，或未在请求中将其作为参数 (REST) (HTTP 代码 403)。</li>
+<li>请求身份验证失败 (HTTP 代码 403)。</li>
+<li>请求是匿名的 (HTTP 代码 403)。</li>
+<li>请求是 SOAP 请求。</li>
+</ul>
+<p>有关更多信息，请参阅 申请方付款存储桶。</p>
+<h3 id="访问点"><a href="#访问点" class="headerlink" title="访问点"></a>访问点</h3><p>Amazon S3 访问点简化了 S3 中共享数据集的大规模数据访问管理。访问点是附加到存储桶的命名网络终端节点，您可以使用这些存储桶执行 S3 对象操作（如 GetObject 和 PutObject）。每个访问点都具有不同的权限和网络控制，S3 将它们应用于通过该访问点发出的任何请求。每个访问点强制实施自定义访问点策略，该策略与附加到底层存储桶的存储桶策略结合使用。可以将任何访问点配置为仅接受来自 Virtual Private Cloud (VPC) 的请求，以限制专用网络的 Amazon S3 数据访问。还可以为每个访问点配置自定义阻止公有访问设置。使用访问点来执行对象操作。不能使用访问点执行其他 Amazon S3 操作，例如修改或删除存储桶。</p>
+<p>对于通过访问点发出的任何请求，Amazon S3 会评估该访问点、底层存储桶和存储桶拥有者账户的阻止公有访问设置。如果这些设置中的任何一个指示应阻止请求，则 Amazon S3 会拒绝请求。</p>
+<p>向存储桶添加 S3 访问点不会更改存储桶在通过现有存储桶名称或 ARN 访问时的行为。针对存储桶的所有现有操作将继续像以前一样运行。访问点策略中的限制仅适用于通过该访问点发出的请求。</p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/using-access-points.html#access-points-service-api-support" target="_blank" rel="noopener">访问点与 S3 操作和 AWS 服务的兼容性</a></p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/access-points-restrictions-limitations.html" target="_blank" rel="noopener">访问点的限制</a></p>
+<h3 id="传输加速Transfer-Acceleration"><a href="#传输加速Transfer-Acceleration" class="headerlink" title="传输加速Transfer Acceleration"></a>传输加速Transfer Acceleration</h3><p>Transfer Acceleration 可在客户端与 S3 存储桶之间实现快速、轻松、安全的远距离文件传输。Transfer Acceleration 利用 Amazon CloudFront 的全球分布式边缘站点。启用后有最大0.08 USD/GB的双向流量收费.</p>
+<p>什么时候启用加速:</p>
+<ul>
+<li>位于全球各地的客户需要上传到集中式存储桶</li>
+<li>定期跨大洲传输数 GB 至数 TB 数据</li>
+<li>在上传到 Amazon S3 时无法充分利用 Internet 上的所有可用带宽</li>
+</ul>
+<p><a href="https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html" target="_blank" rel="noopener">加速效果比较</a></p>
+<p>借助传输加速终端节点执行所有 Amazon S3 操作，但以下操作除外：<code>GET 服务（列出存储桶）</code>、<code>PUT 存储桶（创建存储桶）</code>和 <code>DELETE 存储桶</code>。此外，Amazon S3 Transfer Acceleration不支持使用 <code>PUT Object - Copy</code> 进行跨区域复制。</p>
+<p>启用加速后,加速终端节点将随即可用,但最多 20 分钟后才可实现性能提升.使用加速终端节点才能有性能提升.加速终端节点名称类似:</p>
+<ul>
+<li>bucketname.s3-accelerate.amazonaws.com</li>
+<li>bucketname.s3-accelerate.dualstack.amazonaws.com</li>
+</ul>
+<p>重新使用标准上传速度，只需将名称更改回 <code>mybucket.s3.us-east-1.amazonaws.com</code></p>
+<h4 id="CLI示例"><a href="#CLI示例" class="headerlink" title="CLI示例"></a>CLI示例</h4><ol>
+<li><p>下示例设置 Status=Enabled 以对存储桶启用 Transfer Acceleration。可使用 Status=Suspended 暂停 Transfer Acceleration</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3api put-bucket-accelerate-configuration --bucket bucketname --accelerate-configuration Status=Enabled</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下示例在默认配置文件中将 use_accelerate_endpoint 设置为 true</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws configure set default.s3.use_accelerate_endpoint true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>需要对某些 AWS CLI 命令使用加速终端节点，但不对其他此类命令使用加速终端节点，则可使用以下两种方法中的任一方法：</p>
+<ul>
+<li>通过将任何 s3 或 s3api 命令的 –endpoint-url 参数设置为 <a href="https://s3-accelerate.amazonaws.com" target="_blank" rel="noopener">https://s3-accelerate.amazonaws.com</a> 或 <a href="http://s3-accelerate.amazonaws.com" target="_blank" rel="noopener">http://s3-accelerate.amazonaws.com</a> 来对每条命令使用加速终端节点</li>
+<li>可以在 AWS Config 文件中设置单独的配置文件。例如，创建一个将 use_accelerate_endpoint 设置为 true 的配置文件和一个不设置 use_accelerate_endpoint 的配置文件。在运行一条命令时，根据是否需要使用加速终端节点来指定要使用的配置文件</li>
+</ul>
+</li>
+<li><p>将对象上传到已启用 Transfer Acceleration 的存储桶的 AWS CLI 示例<br>以下示例通过使用已配置为使用加速终端节点的默认配置文件来将文件上传到已启用 Transfer Acceleration 的存储桶。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 cp file.txt s3://bucketname/keyname --profile Enable_Acceleration</span><br></pre></td></tr></table></figure>
+
+<p>以下示例通过使用 –endpoint-url 参数指定加速终端节点来将文件上传到已启用 Transfer Acceleration 的存储桶。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws configure set s3.addressing_style virtual</span><br><span class="line">aws s3 cp file.txt s3://bucketname/keyname --region region --endpoint-url http://s3-accelerate.amazonaws.com</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h3><p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/Versioning.html" target="_blank" rel="noopener">版本控制详情</a></p>
+<p>版本控制可帮助恢复意外覆盖和删除。一旦对存储桶启用了版本控制，它将无法返回到无版本控制状态。但是，可以在该存储桶上暂停版本控制。存储桶可处于以下三种状态之一：非版本化 (默认) 、启用版本控制或暂停版本控制.启用版本控制，Amazon S3 会自动为要存储的对象生成唯一版本 ID。例如，在一个存储桶中，可以拥有两个具有相同键的对象，但版本 ID 却不同，例如 photo.gif (版本 111111) 和 photo.gif (版本 121212)。</p>
+<p>版本控制状态将应用到该存储桶中的所有 (不是某些) 对象。第一次对存储桶启用版本控制后，该存储桶中的对象将在之后一直受版本控制，并具有唯一的版本 ID。请注意以下几点：</p>
+<ul>
+<li>在设置版本控制状态之前存储在存储桶中的对象具有版本 ID null。启用版本控制时，存储桶中的现有对象不会更改。更改的是 Amazon S3 在以后的请求中处理这些对象的方式。</li>
+<li>存储桶拥有者 (或任何具有适当权限的用户) 可以暂停版本控制以停止累积对象版本。暂停版本控制时，存储桶中的现有对象不会更改。更改的是 Amazon S3 在以后的请求中处理对象的方式。</li>
+</ul>
+<p>通过启用了版本控制的存储桶可以恢复因意外删除或覆盖操作而失去的对象。例如：</p>
+<ul>
+<li>如果删除对象 (而不是永久移除它)，则 Amazon S3 会插入删除标记，并创建新的版本作为当前版本,访问时会有noSuchKey。始终可以恢复以前的版本。</li>
+<li>如果覆盖对象，则会导致存储桶中出现新的对象版本。始终可以恢复以前的版本。</li>
+</ul>
+<p>版本控制的其中一个价值主张是能够检索对象的早期版本。有两种方法可执行该操作：</p>
+<ul>
+<li>将对象的早期版本复制到同一存储桶中<br>复制的对象将成为该对象的当前版本，且所有对象版本都保留。</li>
+<li>永久删除对象的当前版本<br>当您删除当前对象版本时，实际上会将先前版本转换为该对象的当前版本。</li>
+</ul>
+<p>在存储桶上暂停版本控制后，Amazon S3 会自动将后续对象的存储操作(Put,Post,Copy)添加 null 版本 ID,如果存储桶原本就具有版本ID为 null的对象,那么这个对象将被覆盖</p>
+<p>在存储桶上暂停版本控制后，DELETE 请求：</p>
+<ul>
+<li>可以仅删除其版本 ID 为 null 的对象<br>如果存储桶中没有对象的空版本，则不删除任何内容。</li>
+<li>将删除标记插入到存储桶。<br>Amazon S3 会插入删除标记，并创建新的版本作为当前版本,访问时会有noSuchKey。</li>
+</ul>
+<p><strong>永久删除启用版本控制的对象需要在DELETE 请求带上version ID</strong></p>
+<p>版本对象最好与生命周期结合使用.版本控制会收取所有版本的存储费用.</p>
+<h4 id="MFA-删除"><a href="#MFA-删除" class="headerlink" title="MFA 删除"></a>MFA 删除</h4><p>所有授权 IAM 用户都可以启用版本控制，但只有存储桶拥有者 (根账户) 才能启用 MFA 删除。 启用后<code>更改存储桶的版本控制状态</code>以及<code>永久删除对象版本</code>需要MFA认证.更安全.</p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/Versioning.html" target="_blank" rel="noopener">版本控制详解</a><br><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/troubleshooting.html#troubleshooting-by-symptom-increase-503-reponses" target="_blank" rel="noopener">启用版本控制后，Amazon S3 对存储桶请求的 HTTP 503 响应显著增加</a></p>
+<h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><p>可以配置存储桶以便用于静态网站托管。Amazon S3 通过创建网站 子资源来存储此配置。</p>
+<h3 id="账单和使用率报告"><a href="#账单和使用率报告" class="headerlink" title="账单和使用率报告"></a>账单和使用率报告</h3><p><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/BucketBilling.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/BucketBilling.html</a></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-S3/" rel="tag"># AWS S3</a>
+              <a href="/tags/S3基础入门/" rel="tag"># S3基础入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/13/AWS/存储类/S3/AWS-S3-1-概述/" rel="prev" title="AWS-S3-1-概述">
+      <i class="fa fa-chevron-left"></i> AWS-S3-1-概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/13/AWS/存储类/S3/AWS-S3的服务等级协议-SLA/" rel="next" title="AWS S3的服务等级协议(SLA)">
+      AWS S3的服务等级协议(SLA) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#S3访问地址类型"><span class="nav-number">1.</span> <span class="nav-text">S3访问地址类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储桶加密"><span class="nav-number">2.</span> <span class="nav-text">存储桶加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#存储桶加密分为3种"><span class="nav-number">2.1.</span> <span class="nav-text">存储桶加密分为3种</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加密总结"><span class="nav-number">2.2.</span> <span class="nav-text">加密总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cors（跨源资源共享）"><span class="nav-number">3.</span> <span class="nav-text">cors（跨源资源共享）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件通知"><span class="nav-number">4.</span> <span class="nav-text">事件通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Outposts"><span class="nav-number">5.</span> <span class="nav-text">Outposts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期"><span class="nav-number">6.</span> <span class="nav-text">生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#转换行为"><span class="nav-number">6.1.</span> <span class="nav-text">转换行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过期行为"><span class="nav-number">6.2.</span> <span class="nav-text">过期行为:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#针对过往对象版本的转换和过期行为"><span class="nav-number">6.3.</span> <span class="nav-text">针对过往对象版本的转换和过期行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意事项"><span class="nav-number">6.4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期日志"><span class="nav-number">6.5.</span> <span class="nav-text">生命周期日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期示例"><span class="nav-number">6.6.</span> <span class="nav-text">生命周期示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置"><span class="nav-number">7.</span> <span class="nav-text">位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志记录"><span class="nav-number">8.</span> <span class="nav-text">日志记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象锁定"><span class="nav-number">9.</span> <span class="nav-text">对象锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象标签"><span class="nav-number">10.</span> <span class="nav-text">对象标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略-和-ACL（访问控制列表）"><span class="nav-number">11.</span> <span class="nav-text">策略 和 ACL（访问控制列表）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分段上传"><span class="nav-number">12.</span> <span class="nav-text">分段上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制"><span class="nav-number">13.</span> <span class="nav-text">复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#requestPayment"><span class="nav-number">14.</span> <span class="nav-text">requestPayment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问点"><span class="nav-number">15.</span> <span class="nav-text">访问点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传输加速Transfer-Acceleration"><span class="nav-number">16.</span> <span class="nav-text">传输加速Transfer Acceleration</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CLI示例"><span class="nav-number">16.1.</span> <span class="nav-text">CLI示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本控制"><span class="nav-number">17.</span> <span class="nav-text">版本控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MFA-删除"><span class="nav-number">17.1.</span> <span class="nav-text">MFA 删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网站"><span class="nav-number">18.</span> <span class="nav-text">网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#账单和使用率报告"><span class="nav-number">19.</span> <span class="nav-text">账单和使用率报告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">20.</span> <span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述:">
+<meta name="keywords" content="AWS EFS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EFS-概述-1">
+<meta property="og:url" content="http://yoursite.com/2020/12/11/AWS/存储类/EFS/EFS-概述-1/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述:">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-12-14T08:36:27.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EFS-概述-1">
+<meta name="twitter:description" content="描述:">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/11/AWS/存储类/EFS/EFS-概述-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>EFS-概述-1 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/11/AWS/存储类/EFS/EFS-概述-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          EFS-概述-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-11 20:38:18" itemprop="dateCreated datePublished" datetime="2020-12-11T20:38:18+08:00">2020-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-14 16:36:27" itemprop="dateModified" datetime="2020-12-14T16:36:27+08:00">2020-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述:"></a>描述:</h2><a id="more"></a>
+
+<h3 id="EFS简介"><a href="#EFS简介" class="headerlink" title="EFS简介"></a>EFS简介</h3><p>Amazon Elastic File System (Amazon EFS) 可提供简单、可扩展、完全托管的弹性 NFS 文件系统，可在不中断应用程序的情况下按需扩展到 PB 级，随着添加或删除文件而自动扩展或缩减，无需预置和管理容量，可自适应增长。支持传输中加密和静态加密.支持网络文件系统版本 4（NFSv4.1 和 NFSv4.0）协议,多个 Amazon EC2 实例可以同时访问 Amazon EFS 文件系统，为在多个实例或服务器上运行的工作负载和应用程序提供通用数据源。</p>
+<p>Amazon EFS 提供两种存储类别：Standard 和 Infrequent Access。EFS 生命周期管理是文件系统管理经济高效的文件存储。启用后，生命周期管理会将在一段设定时间内(7,14,30,60和90天)未访问的文件迁移到不常访问 (IA) 存储类别。费用降低10倍,读取是会按读取的文件大小收费.小于 128KB 的文件不符合生命周期管理条件，其将始终存储在标准类别中.</p>
+<p>创建文件系统后，默认情况下，只有根用户 (UID 0) 具有读取、写入和执行权限。为了让其他用户也能修改文件系统，根用户必须明确授予他们访问权限。可以使用访问点自动创建非根用户可从中写入的目录.</p>
+<h3 id="性能模式"><a href="#性能模式" class="headerlink" title="性能模式"></a>性能模式</h3><p>两种性能模式: </p>
+<ul>
+<li>默认通用性能模式,非常适合对延迟敏感的使用案例，如 Web 服务环境、内容管理系统、主目录和一般文件服务.</li>
+<li>最大 I/O 模式下的文件系统可以扩展到更高级别的聚合吞吐量和每秒操作数，但代价是稍高的文件元数据操作延迟. 如大数据分析、媒体处理和基因组分析等高度并行化的应用程序和工作负载可以受益于这种模式.</li>
+</ul>
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/performance.html#throughput-modes" target="_blank" rel="noopener">如何确定性能模式选择</a></p>
+<p>两种吞吐量模式:</p>
+<ul>
+<li>默认突增吞吐量模式，吞吐量随着文件系统的增长而扩展.</li>
+<li>预置吞吐量模式，可以指定与存储的数据量无关的文件系统的吞吐量,贵一些.</li>
+</ul>
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/performance.html#throughput-modes" target="_blank" rel="noopener">如何确认吞吐量模式</a></p>
+<p>EFS定价与存储类别和预置IO有关,与性能模式无关</p>
+<h3 id="EFS与EBS"><a href="#EFS与EBS" class="headerlink" title="EFS与EBS"></a>EFS与EBS</h3><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储特性比较</td>
+<td>Amazon EFS</td>
+<td>Amazon EBS 预置 IOPS</td>
+</tr>
+<tr>
+<td>可用性与持久性</td>
+<td>数据冗余存储在多个可用区中。</td>
+<td>数据冗余存储在一个可用区中</td>
+</tr>
+<tr>
+<td>访问</td>
+<td>多个可用区的多达数千个 Amazon EC2 实例可以同时连接到一个文件系统</td>
+<td>一个可用区的一个 Amazon EC2 实例可以连接到一个文件系统</td>
+</tr>
+<tr>
+<td>使用案例</td>
+<td>大数据和分析、媒体处理工作流、内容管理、Web 服务和主目录</td>
+<td>引导卷、事务型数据库和 NoSQL 数据库、数据仓库和 ETL</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>性能比较</td>
+<td>Amazon EFS</td>
+</tr>
+<tr>
+<td>每次操作的延迟</td>
+<td>低且一致的延迟</td>
+</tr>
+<tr>
+<td>吞吐量规模</td>
+<td>每秒 10+ GB</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单价格比较</td>
+<td>Amazon EFS</td>
+</tr>
+<tr>
+<td>标准存储(GB/月)</td>
+<td>0.3 USD</td>
+</tr>
+</tbody></table>
+<p>Amazon EFS 文件系统的性能特征不依赖于使用 EBS 优化的实例</p>
+<h3 id="定价"><a href="#定价" class="headerlink" title="定价"></a>定价</h3><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标准存储（GB/月）</td>
+<td>0.30 USD</td>
+</tr>
+<tr>
+<td>不频繁访问存储类（GB/月）</td>
+<td>0.025 USD</td>
+</tr>
+<tr>
+<td>不频繁访问请求（根据传输的 GB 数）</td>
+<td>0.01 USD</td>
+</tr>
+<tr>
+<td>预置吞吐量（MB/s/月）</td>
+<td>6.00 USD</td>
+</tr>
+<tr>
+<td><a href="https://aws.amazon.com/cn/efs/pricing/" target="_blank" rel="noopener">EFS定价及示例</a></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="挂载EFS"><a href="#挂载EFS" class="headerlink" title="挂载EFS"></a>挂载EFS</h3><p>一次只能在一个 VPC 中基于 Amazon VPC 服务使用 Amazon EFS 文件系统。也就是说，在 VPC 中为文件系统创建挂载目标，并使用这些挂载目标提供对该文件系统的访问权限。想要切换至不同的VPC,需要先将所有VPC的挂载点删除,该操作不会影响EFS内的数据.</p>
+<p>谁可以挂载:</p>
+<ul>
+<li>同一 VPC 中的 Amazon EC2 实例</li>
+<li>VPC 中通过 VPC 对等连接的 EC2 实例,当跨VPC挂载时可用区 ID需要与EC2 所在的可用区 ID相匹配方可挂载</li>
+<li>通过使用 AWS Direct Connect 的本地服务器</li>
+<li>使用 Amazon VPC 通过 AWS 虚拟专用网络 (VPN) 的本地服务器</li>
+<li><em>Amazon EFS 不支持从 Amazon EC2 Windows 实例挂载</em></li>
+</ul>
+<p>挂载EFS可以使用efs挂载和nfs挂载,efs挂载可以很简单地配置在传输过程中加密</p>
+<h4 id="EFS挂载先决条件"><a href="#EFS挂载先决条件" class="headerlink" title="EFS挂载先决条件"></a>EFS挂载先决条件</h4><p>Amazon EFS client(amazon-efs-utils软件包)是 Amazon EFS 工具, <a href="https://github.com/aws/efs-utils" target="_blank" rel="noopener">GitHub地址</a>.</p>
+<p>Ubuntu安装EFS客户端:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt update &amp;&amp; sudo apt-get -y install binutils</span><br><span class="line"><span class="meta">$</span> git clone https://github.com/aws/efs-utils</span><br><span class="line"><span class="meta">$</span> cd efs-utils &amp;&amp; ./build-deb.sh</span><br><span class="line"><span class="meta">$</span> sudo apt-get -y install ./build/amazon-efs-utils*deb</span><br></pre></td></tr></table></figure>
+
+<h5 id="efs手动挂载"><a href="#efs手动挂载" class="headerlink" title="efs手动挂载"></a>efs手动挂载</h5><p>运行以下命令以挂载文件系统。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo mount -t efs fs-12345678:/ /mnt/efs</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">或者，如果要使用传输中的数据加密，可以使用以下命令挂载文件系统。</span><br><span class="line">```shell</span><br><span class="line"><span class="meta">$</span> sudo mount -t efs -o tls fs-12345678:/ /mnt/efs</span><br></pre></td></tr></table></figure>
+
+<p>访问点挂载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t efs -o tls,accesspoint=fsap-12345678 fs-12345678: /localmountpoint</span><br></pre></td></tr></table></figure>
+
+<h5 id="efs自动挂载"><a href="#efs自动挂载" class="headerlink" title="efs自动挂载"></a>efs自动挂载</h5><p>正常自动挂载文件系统，请将以下行添加到 /etc/fstab 文件中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file-system-id efs-mount-point efs _netdev,tls 0 0</span><br></pre></td></tr></table></figure>
+
+<p>要使用 IAM 授权自动挂载到具有实例配置文件的 Amazon EC2 实例，请将以下行添加 /etc/fstab 文件中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file-system-id:/ efs-mount-point efs _netdev,tls,iam 0 0</span><br></pre></td></tr></table></figure>
+
+<p>要使用凭证文件通过 IAM 授权自动挂载到 Linux 实例，请将以下行添加到 /etc/fstab 文件中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file-system-id:/ efs-mount-point efs _netdev,tls,iam,awsprofile=namedprofile 0 0</span><br></pre></td></tr></table></figure>
+
+<p>要使用 EFS 访问点自动挂载文件系统，请将以下行添加到 /etc/fstab 文件中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file-system-id efs-mount-point efs _netdev,tls,accesspoint=access-point-id 0 0</span><br></pre></td></tr></table></figure>
+
+<p>通过将带 ‘fake’ 选项的 mount 命令与 ‘all’ 和 ‘verbose’ 选项结合使用来测试 fstab 条目。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo mount -fav</span><br><span class="line">home/ec2-user/efs      : successfully mounted</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/mount-multiple-ec2-instances.html" target="_blank" rel="noopener">使用 AWS Systems Manager 将 EFS 挂载到多个 EC2 实例</a></p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/manage-fs-access-vpc-peering.html#mount-fs-different-vpc" target="_blank" rel="noopener">从另一个账户或 VPC 挂载 EFS 文件系统</a></p>
+<h4 id="nfs挂载"><a href="#nfs挂载" class="headerlink" title="nfs挂载"></a>nfs挂载</h4><p>为获得最佳性能以及避免出现各种已知的 NFS 客户端错误，建议使用最新的 Linux 内核。如果使用的是企业 Linux 发行版，建议使用以下版本：</p>
+<ul>
+<li>Amazon Linux 2</li>
+<li>Amazon Linux 2015.09 或更高版本</li>
+<li>RHEL 7.3 或更高版本</li>
+<li>具有内核 2.6.32-696 或更高版本的 RHEL 6.9</li>
+<li>所有 Ubuntu 16.04 版本</li>
+<li>具有内核 3.13.0-83 或更高版本的 Ubuntu 14.04</li>
+<li>SLES 12 Sp2 或更高版本</li>
+<li>如果使用其他发行版或自定义内核，建议使用内核 4.3 或更高版本。</li>
+</ul>
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/mounting-fs-nfs-mount-settings.html" target="_blank" rel="noopener">NFS挂载建议</a></p>
+<p>安装nfs客户端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Red Hat</span><br><span class="line">sudo yum -y update </span><br><span class="line">sudo yum -y install nfs-utils</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Ubuntu</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt -y install nfs-common</span><br><span class="line"></span><br><span class="line">sudo service nfs start</span><br><span class="line">sudo service nfs status</span><br></pre></td></tr></table></figure>
+
+<h5 id="nfs传输加密"><a href="#nfs传输加密" class="headerlink" title="nfs传输加密"></a>nfs传输加密</h5><p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/encryption-in-transit.html#how-encrypt-transit" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/efs/latest/ug/encryption-in-transit.html#how-encrypt-transit</a></p>
+<h5 id="手动nfs挂载"><a href="#手动nfs挂载" class="headerlink" title="手动nfs挂载"></a>手动nfs挂载</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> IP挂载,IP可以在EFS控制台和CLI describe-mount-targets中找到</span><br><span class="line">sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport mount-target-IP:/   ~/efs</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 文件系统DNS挂载</span><br><span class="line">sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport file-system-ID.efs.aws-region.amazonaws.com:/mike  /home/mike/mikeEFS</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 挂载目标DNS挂载,同一可用区中删除并新建挂载目标不会影响挂载目标的DNS</span><br><span class="line">sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport availability-zone.file-system-id.efs.aws-region.amazonaws.com</span><br><span class="line">:/mike  /home/mike/mikeEFS</span><br></pre></td></tr></table></figure>
+
+<h5 id="自动nfs挂载"><a href="#自动nfs挂载" class="headerlink" title="自动nfs挂载"></a>自动nfs挂载</h5><p>将以下行添加到 /etc/fstab 文件中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file-system-ID.efs.aws-region.amazonaws.com:/ /var/www/html/efs-mount-point   nfs4   defaults</span><br></pre></td></tr></table></figure>
+
+<p>卸载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount /mnt/efs</span><br></pre></td></tr></table></figure>
+
+<h3 id="监控EFS"><a href="#监控EFS" class="headerlink" title="监控EFS"></a>监控EFS</h3><p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/monitoring-cloudwatch.html#efs-metrics" target="_blank" rel="noopener">EFS metric</a><br><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/logging-using-cloudtrail.html" target="_blank" rel="noopener">CloudTrail</a></p>
+<table>
+<thead>
+<tr>
+<th>主要指标</th>
+<th>如何确认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>吞吐量</td>
+<td>监控 Sum 指标的每日 TotalIOBytes 统计数据以查看吞吐量</td>
+</tr>
+<tr>
+<td>Amazon EC2 实例链接数数量</td>
+<td>监控 Sum 指标的 ClientConnections 统计数据</td>
+</tr>
+<tr>
+<td>突增积分余额</td>
+<td>监控文件系统的 BurstCreditBalance 指标,如果 BurstCreditBalance 指标的值为零或稳步下降，则使用预置吞吐量</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>监控 PercentIOLimit 百分比达到或接近 100%，应用程序应使用最大 I/O 性能模式</td>
+</tr>
+</tbody></table>
+<p>从存储库安装 amazon-efs-utils 软件包时,可以通过取消 cloudwatch-log 部分中的 # enabled = true 行的注释来手动更新 /etc/amazon/efs/efs-utils.conf 配置文件,CloudWatch日志组: /aws/efs/utils 日志组</p>
+<p>EFS的挂载日志在这<code>/var/log/amazon/efs</code>. </p>
+<h3 id="数据保护"><a href="#数据保护" class="headerlink" title="数据保护"></a>数据保护</h3><p>AWS Backup 是一种统一备份服务，旨在简化备份的创建、迁移、恢复和删除，同时提供改进的报告和审核,它可以:</p>
+<ul>
+<li>配置并审核要备份的 AWS 资源</li>
+<li>自动备份计划</li>
+<li>设置保留策略</li>
+<li>监控所有最近的备份和还原活动</li>
+</ul>
+<h4 id="增量备份"><a href="#增量备份" class="headerlink" title="增量备份:"></a>增量备份:</h4><p>在初始备份期间，将创建整个文件系统的副本。在该文件系统的后续备份期间，只复制已更改、已添加或已删除的文件和目录。</p>
+<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><p>如果在执行备份时对文件系统进行了修改，则可能会出现不一致，例如重复、偏差或排除的数据。这些修改包括写入、重命名、移动或删除操作。为确保一致的备份,备份过程中暂停修改文件系统的应用程序或进程。或者，将备份安排在不修改文件系统期间。</p>
+<h4 id="存储类型"><a href="#存储类型" class="headerlink" title="存储类型"></a>存储类型</h4><p>AWS Backup 备份 EFS 文件系统中的所有数据,对于IA类型的备份,不会产生数据访问费用.还原恢复点时，会将所有文件还原到<em>标准存储类别</em></p>
+<h4 id="并发备份"><a href="#并发备份" class="headerlink" title="并发备份"></a>并发备份</h4><p>AWS Backup 将备份限制为每个资源一个并发备份。因此，如果备份作业已在进行中，则计划备份或按需备份可能会失败。</p>
+<h4 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h4><p>AWS Backup 可以将恢复点还原到新的 EFS 文件系统或源文件系统。可以执行完全还原，这会还原整个文件系统。或者可以使用部分还原来还原特定的文件和目录。还原特定文件或目录，必须指定与挂载点相关的相对路径。例如,如果文件系统挂载到 /user/home/myname/efs 并且文件路径为 user/home/myname/efs/file1,请输入 /file1。 <strong>路径区分大小写,不能包含特殊字符、通配符和正则表达式字符串</strong>。</p>
+<p>执行完全还原或部分还原时，恢复点将还原到根目录下的还原目录 aws-backup-restore_<code>timestamp-of-restore</code>并保留原始文件目录结构.当得到想要的还原数据并另行保存后,记得删除这个还原目录.</p>
+<p><strong>还有2种数据备份方式</strong> </p>
+<ul>
+<li><a href="https://aws.amazon.com/cn/solutions/implementations/efs-to-efs-backup-solution/#" target="_blank" rel="noopener">EFS to EFS</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/alternative-efs-backup.html" target="_blank" rel="noopener">AWS Data pipeline</a></li>
+</ul>
+<h3 id="演练"><a href="#演练" class="headerlink" title="演练"></a>演练</h3><ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/wt2-apache-web-server.html" target="_blank" rel="noopener">演练：设置 Apache Web 服务器并提供 Amazon EFS 文件服务</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/accessing-fs-nfs-permissions-per-user-subdirs.html" target="_blank" rel="noopener">演练：创建可写的每用户子目录以及配置在重启时自动重新挂载</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/efs-onpremises.html#wt5-step4-install-nfs" target="_blank" rel="noopener">演练：使用 AWS Direct Connect 和 VPN 在本地创建和挂载文件系统: 主要修改/etc/host</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/efs-enforce-encryption.html" target="_blank" rel="noopener">演示 强制加密 Amazon EFS 静态文件系统: 将CloudTrail的事件发送到CloudWatch Log然后filter并创建警报</a></li>
+</ul>
+<h3 id="访问点"><a href="#访问点" class="headerlink" title="访问点"></a>访问点</h3><p>如果用户从两个不同的 EC2 实例访问 Amazon EFS 文件系统，根据用户的 UID 在这些实例上是相同还是不同，会看到如下所示的不同行为：</p>
+<ul>
+<li>如果两个 EC2 实例上的用户 IDs 相同,则 Amazon EFS 会将其视为指明同一用户,而不考虑所用的 EC2 实例。从两个 EC2 实例访问文件系统的用户体验相同。</li>
+<li>如果两个 EC2 实例上的用户 IDs 不相同,则 Amazon EFS 会将其视为不同的用户。从两个不同的 EC2 实例访问 Amazon EFS 文件系统的用户体验不相同。</li>
+<li>如果不同 EC2 实例上的两个不同用户共享一个 ID，则 Amazon EFS 会将其视为同一个用户。</li>
+</ul>
+<p>Ubuntu user的默认用户ID和组ID都是1000</p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/accessing-fs-nfs-permissions.html" target="_blank" rel="noopener">详细权限说明看这里</a></p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-EFS/" rel="tag"># AWS EFS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/07/Bash/shell-grep/" rel="prev" title="shell-grep">
+      <i class="fa fa-chevron-left"></i> shell-grep
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/11/AWS/存储类/EFS/EFS-CLI-2/" rel="next" title="EFS-CLI-2">
+      EFS-CLI-2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述"><span class="nav-number">1.</span> <span class="nav-text">描述:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EFS简介"><span class="nav-number">1.1.</span> <span class="nav-text">EFS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能模式"><span class="nav-number">1.2.</span> <span class="nav-text">性能模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EFS与EBS"><span class="nav-number">1.3.</span> <span class="nav-text">EFS与EBS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定价"><span class="nav-number">1.4.</span> <span class="nav-text">定价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载EFS"><span class="nav-number">1.5.</span> <span class="nav-text">挂载EFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EFS挂载先决条件"><span class="nav-number">1.5.1.</span> <span class="nav-text">EFS挂载先决条件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#efs手动挂载"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">efs手动挂载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#efs自动挂载"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">efs自动挂载</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nfs挂载"><span class="nav-number">1.5.2.</span> <span class="nav-text">nfs挂载</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#nfs传输加密"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">nfs传输加密</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#手动nfs挂载"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">手动nfs挂载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自动nfs挂载"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">自动nfs挂载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监控EFS"><span class="nav-number">1.6.</span> <span class="nav-text">监控EFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据保护"><span class="nav-number">1.7.</span> <span class="nav-text">数据保护</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增量备份"><span class="nav-number">1.7.1.</span> <span class="nav-text">增量备份:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性"><span class="nav-number">1.7.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储类型"><span class="nav-number">1.7.3.</span> <span class="nav-text">存储类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#并发备份"><span class="nav-number">1.7.4.</span> <span class="nav-text">并发备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#还原"><span class="nav-number">1.7.5.</span> <span class="nav-text">还原</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#演练"><span class="nav-number">1.8.</span> <span class="nav-text">演练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问点"><span class="nav-number">1.9.</span> <span class="nav-text">访问点</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

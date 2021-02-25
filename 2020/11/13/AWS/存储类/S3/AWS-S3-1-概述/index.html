@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: AWS-S3-1-概述">
+<meta name="keywords" content="AWS S3,S3基础入门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS-S3-1-概述">
+<meta property="og:url" content="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-1-概述/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: AWS-S3-1-概述">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-12-21T04:06:05.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS-S3-1-概述">
+<meta name="twitter:description" content="描述: AWS-S3-1-概述">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-1-概述/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>AWS-S3-1-概述 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/13/AWS/存储类/S3/AWS-S3-1-概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS-S3-1-概述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-13 20:25:18" itemprop="dateCreated datePublished" datetime="2020-11-13T20:25:18+08:00">2020-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-21 12:06:05" itemprop="dateModified" datetime="2020-12-21T12:06:05+08:00">2020-12-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/S3/" itemprop="url" rel="index"><span itemprop="name">S3</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>描述: AWS-S3-1-概述</p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#概述">概述</a><ul>
+<li><a href="#基本概念">基本概念</a></li>
+</ul>
+</li>
+<li><a href="#对象">对象</a><ul>
+<li><a href="#对象命名要注意的问题">对象命名要注意的问题</a></li>
+<li><a href="#对象元数据httpsdocsawsamazoncomzh_cnamazons3latestdevusingmetadatahtmlobject-metadata"><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/UsingMetadata.html#object-metadata" target="_blank" rel="noopener">对象元数据</a></a></li>
+</ul>
+</li>
+<li><a href="#存储类别和定价">存储类别和定价</a><ul>
+<li><a href="#s3-存储分类">S3 存储分类</a></li>
+<li><a href="#对象存储类别httpsdocsawsamazoncomzh_cnamazons3latestdevstorage-class-introhtml"><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/storage-class-intro.html" target="_blank" rel="noopener">对象存储类别</a></a></li>
+<li><a href="#s3-价格">S3 价格</a><ul>
+<li><a href="#存储费用">存储费用</a></li>
+<li><a href="#数据传输费用">数据传输费用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#amazon-s3-数据一致性模型">Amazon S3 数据一致性模型</a></li>
+<li><a href="#限制">限制</a></li>
+<li><a href="#注意事项">注意事项</a></li>
+<li><a href="#aws-集成">AWS 集成</a></li>
+<li><a href="#结语">结语</a></li>
+</ul>
+<!-- /TOC -->
+
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Amazon Simple Storage Service (Amazon S3) 是一项面向 Internet 的对象存储服务。您可以通过 Amazon S3 随时在 Web 上的任何位置存储和检索的任意大小的数据。Amazon S3 仅按照实际使用容量收费，没有任何隐性收费和超容量收费。这为开发人员提供了一种可变成本服务，这种服务可以伴随业务共同发展，同时还可以享受 AWS 的基础设施成本优势。</p>
+<p>我们使用一个东西我们会问，它能用来干什么：</p>
+<ol>
+<li>备份和存储 – 为其他应用程序提供数据备份和存储服务。</li>
+<li>应用程序托管 – 提供部署、安装和管理 Web 应用程序的服务。</li>
+<li>媒体托管 – 构建托管视频、照片或音乐上传和下载的高可用性、冗余式、可扩展基础设施。</li>
+<li>软件传输 – 托管可供客户下载的软件应用程序。</li>
+</ol>
+<p>下一个问题，对象存储服务很多公司都有，为什么选择S3：</p>
+<ol>
+<li>无限容量 - 单个bucket没有容量限制，可以无限存储，但是单个对象最大为5T</li>
+<li>对象版本控制 - 版本控制无需解释吧</li>
+<li>对象生命周期控制 - 例如对象只存储7天，自动删除</li>
+<li>智能分层 - 短时间频繁访问的数据，一周后不一定还有人访问，可以将不频繁访问的数据自动归档节约成本</li>
+<li>可以托管静态网站 - 例如放入html可以当个网站来用</li>
+<li>精细的权限控制</li>
+<li>可以使用 BitTorrent 协议</li>
+<li>使用基于标准的 REST 接口</li>
+<li>在指定年度内为对象提供 99.999999999% 的持久性和 99.99% 的可用性</li>
+<li>落盘加密,Amazon S3 在将对象保存到其磁盘上之前对其进行加密，并在下载对象时对其进行解密。</li>
+</ol>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li>存储桶 - bucket 存储对象的容器</li>
+<li>对象 - object 要存储的对象（文件，音频，视频等）</li>
+<li>键 - key 对象存入存储桶后唯一的标识符</li>
+<li>区域 - 你选择的AWS S3服务的所在位置</li>
+</ul>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>Amazon S3 存储桶和对象没有层次结构。但是，通过在对象键名中使用前缀和分隔符，Amazon S3 控制台和 AWS 开发工具包可以推断层次结构并引入文件夹的概念。</p>
+<h4 id="对象命名要注意的问题"><a href="#对象命名要注意的问题" class="headerlink" title="对象命名要注意的问题"></a>对象命名要注意的问题</h4><ol>
+<li>可能需要特殊处理的字符</li>
+</ol>
+<p>键名中的以下字符可能需要另外进行代码处理，并且可能需要以十六进制形式在 URL 中编码或引用。其中部分字符是不可打印的字符，浏览器可能无法处理它们，这也需要特殊处理：</p>
+<ul>
+<li>表示和的符号 (“&amp;”)</li>
+<li>美元 (“$”)</li>
+<li>ASCII 字符范围 00–1F 十六进制（0–31 十进制）和 7F（127 十进制）</li>
+<li>“At”符号 (“@”)</li>
+<li>等于 (“=”)</li>
+<li>分号 (“;”)</li>
+<li>冒号 (“:”)</li>
+<li>加号 (“+”)</li>
+<li>空格 – 大量连续空格可能会在某些使用情形中丢失（特别是多个空格）</li>
+<li>逗号 (“,”)</li>
+<li>问号 (“?”)</li>
+</ul>
+<ol start="2">
+<li>要避免的字符</li>
+</ol>
+<p>避免在键名中使用以下字符，因为这些字符需要进行大量的特殊处理，才能在所有应用程序间保持一致性。</p>
+<ul>
+<li>反斜杠 (“&quot;)</li>
+<li>左大括号 (“{”)</li>
+<li>不可打印的 ASCII 字符（128–255 十进制字符）</li>
+<li>插入符号 (“^”)</li>
+<li>右大括号 (“}”)</li>
+<li>百分比字符 (“%”)</li>
+<li>重音符/反勾号 (“`”)</li>
+<li>右方括号 (“]”)</li>
+<li>引号</li>
+<li>“大于”符号 (“&gt;”)</li>
+<li>左方括号 (“[”)</li>
+<li>波浪字符 (“~”)</li>
+<li>“小于”符号（“&lt;”）</li>
+<li>“井号”字符 (“#”)</li>
+<li>竖线 (“|”)</li>
+</ul>
+<h4 id="对象元数据"><a href="#对象元数据" class="headerlink" title="对象元数据"></a><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/UsingMetadata.html#object-metadata" target="_blank" rel="noopener">对象元数据</a></h4><h3 id="存储类别和定价"><a href="#存储类别和定价" class="headerlink" title="存储类别和定价"></a>存储类别和定价</h3><h4 id="S3-存储分类"><a href="#S3-存储分类" class="headerlink" title="S3 存储分类"></a>S3 存储分类</h4><p>存储大致分为4类，每种的适用性不同，</p>
+<ol>
+<li>经常访问对象的存储类 </li>
+</ol>
+<p>S3标准，频繁访问层，适用于经常访问的数据，标准费用</p>
+<ol start="2">
+<li>不经常访问对象的存储类</li>
+</ol>
+<p>S3标准-IA（Infrequent Access），不频繁访问层，不经常访问对象的存储类称为IA，费用比标准费用低一些。又分为两类，S3 标准-IA（也就是多可用区）和S3 单区-IA</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>价格</th>
+<th>可用性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S3 标准-IA</td>
+<td>高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>S3 单区-IA</td>
+<td>低</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>S3智能分层</li>
+</ol>
+<p>结合了<code>1</code>和<code>2</code>，当数据30天内没有访问就自动将对象从<code>S3标准</code>转变为<code>S3标准IA</code>,如果不频繁访问层中的对象被访问，则对象将自动移回频繁访问层。但是智能分层要收取一个0.0025 USD/1000 个对象的管理费. 在 S3 智能分层存储类中的访问层之间移动对象时，不会产生额外的分层费用。</p>
+<ol start="4">
+<li>存档对象的存储类</li>
+</ol>
+<p><code>S3 Glacier</code> 和 <code>S3 Glacier Deep Archive</code> 存储类别是专门为低成本的数据存档而设计的。费用很低，只有标准存储的5分之一，适合在政策层面上要求长时间存储的数据，对象不可用于实时访问。而上述<code>1</code>，<code>2</code>，<code>3</code>都可以实时访问。</p>
+<p>例如，证券公司或者财务公司要求对客户资料必须存储2年以上，但其实存储之后并不会频繁访问而仅是用于备份。如果需要访问存档对象的话，需要提前<code>解冻</code>时间在几分钟到2天不等。</p>
+<p>简单理解就是存档对象进行了加压，读取时需要解压所以需要时间</p>
+<p>存储类别   |设计专门针对                              |持久性(设计目标)|可用性|可用区|最小存储持续时间|最小可计费对象|其他考虑因素<br>|-|-|-|-|-|-|-|-|<br>S3 标准    |经常访问的数据                            |99.999999999%   |99.99%|&gt;=3   |无              |无            |无<br>S3 标准-IA |长时间存在的、不经常访问的数据            |99.999999999%   |99.9% |&gt;=3   |30 天           |128 KB        |按每GB收取检索费用。<br>S3 智能分层|访问模式发生变化或未知的长时间存在的数据  |99.999999999%   |99.9% |&gt;=3   |30 天           |无            |按对象收取监控和自动化费用。无检索费用。<br>S3 单区-IA |长时间存在的、不经常访问的、非关键数据    |99.999999999%   |99.5% |1     |30 天           |128 KB        |按每GB收取检索费用。无法灵活地应对可用区丢失的情况。<br>S3 Glacier |检索时间从数分钟到数小时不等的长期数据存档|99.999999999%     |99.99%|&gt;=3   |90 天           |40 KB         |按每GB收取检索费用。必须先还原存档对象，然后才可以访问它<br>S3 Glacier Deep Archive|存档很少访问的数据，默认检索时间为 12 小时    |99.999999999%    |99.99% (在您还原对象之后)|&gt;=3|180 天|40 KB|按每GB收取检索费用。必须先还原存档对象，然后才可以访问它们</p>
+<h4 id="对象存储类别"><a href="#对象存储类别" class="headerlink" title="对象存储类别"></a><a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/storage-class-intro.html" target="_blank" rel="noopener">对象存储类别</a></h4><h4 id="S3-价格"><a href="#S3-价格" class="headerlink" title="S3 价格"></a>S3 价格</h4><p>S3价格由4各方面组成</p>
+<ol>
+<li>存储费用</li>
+<li>请求和检索费用 - 可以理解为API的调用费用，PUT，LIST</li>
+<li>数据传输费用 - 带宽也是要钱的</li>
+<li>管理和复制费用 - 这个可以理解为S3 bucket的功能费用，使用了相关功能就需要付费，例如跨区复制功能和对象标记功能</li>
+</ol>
+<p>我主要讲讲存储和数据传输费用,因为请求和检索费用以及管理和复制费用取决于个人的使用情况不太好分析。</p>
+<h5 id="存储费用"><a href="#存储费用" class="headerlink" title="存储费用"></a>存储费用</h5><p>这个价格基于<code>us-east-1</code>区域<br>存储类别|价格<br>-|-<br>S3标准|每 GB 0.023 USD<br>S3标准-IA|每 GB 0.0125 USD<br>S3单区-IA|每 GB 0.01 USD<br>S3 Glacier|每 GB 0.004 USD<br>S3 Glacier Deep Archive|每 GB 0.00099 USD</p>
+<p>智能分层还要收取一个0.0025 USD/1000 个对象的管理费.</p>
+<h5 id="数据传输费用"><a href="#数据传输费用" class="headerlink" title="数据传输费用"></a>数据传输费用</h5><ol>
+<li>所有传入不收费</li>
+<li>传出到同一区域的EC2（不论是不是你的）不收费</li>
+<li>传出到CloudFront不收费，因为CloudFront要收费,CloudFront是AWS的CDN服务，以后单讲</li>
+</ol>
+<p>所以传出费用大概是每 GB 0.09 USD，这是传出的最高值，具体规则参考官方文档。</p>
+<p>所以举例说明，假如你只存了1G数据在S3上并公开，但是有人疯狂下载，S3费用可能也会很高。</p>
+<p>费用详情请参考官方文档：<a href="https://amazonaws-china.com/cn/s3/pricing/" target="_blank" rel="noopener">https://amazonaws-china.com/cn/s3/pricing/</a></p>
+<h3 id="Amazon-S3-数据一致性模型"><a href="#Amazon-S3-数据一致性模型" class="headerlink" title="Amazon S3 数据一致性模型"></a>Amazon S3 数据一致性模型</h3><p>Amazon S3 在所有区域为 S3 存储桶中的<strong>新对象的 PUTS 提供写后读一致性</strong>，不过有一条警告。需要注意的是，如果在创建对象之前向键名称发出 HEAD 或 GET 请求，然后在此之后不久创建对象，则由于最终一致性，后续 GET 可能不会返回该对象。</p>
+<p>Amazon S3 在所有区域提供最终一致性用于覆盖 PUTS 和 DELETES。</p>
+<p>单个键的更新是原子更新。例如，如果您对一个现有键执行 PUT 操作，则后续读取可能会返回旧数据或已更新的数据，但它永远不会返回损坏的数据或部分数据。</p>
+<p>Amazon S3 通过在 AWS 数据中心内的多个服务器之间复制数据，从而实现高可用性。如果 PUT 请求成功，则数据已安全存储。但是，有关更改的信息必须在 Amazon S3 间进行复制，这可能需要一些时间，因此您可能会观察到以下行为：</p>
+<ul>
+<li>这是一个过程，会将一个新对象写入 Amazon S3，并立即列出其存储桶内的密钥。在充分传播此更改前，此对象可能不会显示在列表中。</li>
+<li>这是一个过程，会替换一个现有的对象，并立即尝试读取此对象。在充分传播此更改前，Amazon S3 可能会返回先前的数据。</li>
+<li>这是一个过程，会删除一个现有的对象，并立即尝试读取此对象。在充分传播此删除前，Amazon S3 可能会返回删除的数据。</li>
+<li>这是一个过程，会删除一个现有的对象，并立即列出其存储桶内的键。在充分传播此删除前，Amazon S3 可能会列出删除的对象。</li>
+</ul>
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><ol>
+<li>分区中bucket名字必须唯一,只能由小写字母、数字、句点 (.) 和连字符 (-) 组成。<br>分区唯一 ，分区是一组区域。AWS 目前有三个分区：aws（标准区域）、aws-cn（中国区域）和 aws-us-gov（AWS GovCloud [美国] 区域）</li>
+<li>单个文件5T大小限制</li>
+<li>每个 AWS 账户中创建多达 100 个存储桶,通过提交服务限制提高请求将账户的存储桶限制提高至最多 1,000 个存储桶</li>
+<li>存储桶归创建它的 AWS 账户所有。存储桶所有权不可转让</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>使用S3最重要就是注意S3的权限，千万不能把机密的bucket公开可访问。创建bucket时默认是不公开的。</li>
+<li>因为bucket名字是唯一的，可能某些原因你删除了bucket，再想创建时可能就被其他人提前创建，而导致你无法创建。跟进一步的问题可能是，程序代码中有写到向这个S3发送东西，会造成意想不到的事。尤其是bucket的访问日志存储桶。所以如果bucket后续还要使用，请不要删除。</li>
+<li>S3存储是最终一致性的，存储了一个对象，马上去访问不一定能拿到你要的结果，但最终会是你要的结果。A和B同时存储一个对象</li>
+<li>所有未经身份验证的请求均由匿名用户发起。此用户在访问控制列表 (ACL) 中由特定的规范用户 ID 65a011a29cdf8ec533ec3d1ccaae921c 表示。</li>
+</ol>
+<h3 id="AWS-集成"><a href="#AWS-集成" class="headerlink" title="AWS 集成"></a>AWS 集成</h3><p>可以单独使用 Amazon S3，也可以将其与一个或多个 Amazon 产品配合使用。以下是最常用于 Amazon S3 的产品：</p>
+<ul>
+<li>Amazon EC2</li>
+<li>Amazon EMR</li>
+<li>Amazon SQS</li>
+<li>Amazon CloudFront</li>
+</ul>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-S3/" rel="tag"># AWS S3</a>
+              <a href="/tags/S3基础入门/" rel="tag"># S3基础入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/11/Bash/Bash基础入门（11）临时文件mktemp和trap/" rel="prev" title="Bash基础入门（11）临时文件mktemp和trap">
+      <i class="fa fa-chevron-left"></i> Bash基础入门（11）临时文件mktemp和trap
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/13/AWS/存储类/S3/AWS-S3-2-功能/" rel="next" title="AWS-S3-2-功能">
+      AWS-S3-2-功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象"><span class="nav-number">2.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对象命名要注意的问题"><span class="nav-number">2.1.</span> <span class="nav-text">对象命名要注意的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象元数据"><span class="nav-number">2.2.</span> <span class="nav-text">对象元数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储类别和定价"><span class="nav-number">3.</span> <span class="nav-text">存储类别和定价</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#S3-存储分类"><span class="nav-number">3.1.</span> <span class="nav-text">S3 存储分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象存储类别"><span class="nav-number">3.2.</span> <span class="nav-text">对象存储类别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#S3-价格"><span class="nav-number">3.3.</span> <span class="nav-text">S3 价格</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#存储费用"><span class="nav-number">3.3.1.</span> <span class="nav-text">存储费用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据传输费用"><span class="nav-number">3.3.2.</span> <span class="nav-text">数据传输费用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-S3-数据一致性模型"><span class="nav-number">4.</span> <span class="nav-text">Amazon S3 数据一致性模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限制"><span class="nav-number">5.</span> <span class="nav-text">限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">6.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AWS-集成"><span class="nav-number">7.</span> <span class="nav-text">AWS 集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">8.</span> <span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

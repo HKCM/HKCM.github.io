@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: find命令">
+<meta name="keywords" content="Bash,shell命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell-find">
+<meta property="og:url" content="http://yoursite.com/2021/02/04/Bash/shell-find/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: find命令">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2021-02-06T05:06:49.599Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell-find">
+<meta name="twitter:description" content="描述: find命令">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/04/Bash/shell-find/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>shell-find | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/04/Bash/shell-find/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shell-find
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-04 20:33:48" itemprop="dateCreated datePublished" datetime="2021-02-04T20:33:48+08:00">2021-02-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-06 13:06:49" itemprop="dateModified" datetime="2021-02-06T13:06:49+08:00">2021-02-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="描述-find命令"><a href="#描述-find命令" class="headerlink" title="描述: find命令"></a>描述: find命令</h2><a id="more"></a>
+
+<h3 id="按文件名查找"><a href="#按文件名查找" class="headerlink" title="按文件名查找"></a>按文件名查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> find . -name "*.p y" # 在当前目录查找</span><br><span class="line"><span class="meta">$</span> find /etc /tmp /root -iname "*.sh" # 在指定目录查找 -iname 忽略大小写</span><br></pre></td></tr></table></figure>
+
+<h3 id="按文件类型查找"><a href="#按文件类型查找" class="headerlink" title="按文件类型查找"></a>按文件类型查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> find /tmp -type f</span><br><span class="line"><span class="meta">#</span> f 普通文件 </span><br><span class="line"><span class="meta">#</span> d 目录 </span><br><span class="line"><span class="meta">#</span> l 符号链接文件 </span><br><span class="line"><span class="meta">#</span> c 字符设备文件 </span><br><span class="line"><span class="meta">#</span> p 管道文件 </span><br><span class="line"><span class="meta">#</span> b 块设备文件</span><br><span class="line"><span class="meta">#</span> s socket文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="按文件时间查找"><a href="#按文件时间查找" class="headerlink" title="按文件时间查找"></a>按文件时间查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -atime    最近一次访问时间      单位：天</span><br><span class="line"><span class="meta">#</span> -mtime 最近一次内容修改时间  单位：天</span><br><span class="line"><span class="meta">#</span> -ctime   最近一次属性修改时间  单位：天</span><br><span class="line"><span class="meta">#</span> -amin    最近一次访问时间      单位：分钟</span><br><span class="line"><span class="meta">#</span> -mmin  最近一次内容修改时间  单位：分钟</span><br><span class="line"><span class="meta">#</span> -cmin    最近一次属性修改时间  单位：分钟</span><br><span class="line"><span class="meta">#</span> -newer file1 ! file2 查找更改时间比文件file1新但比文件file2旧的文件 </span><br><span class="line"><span class="meta">$</span> find /tmp -mtime +5 # 查找修改时间大于5天</span><br><span class="line"><span class="meta">$</span> find /tmp -mtime -5 # 查找在五天内改动过的文件</span><br><span class="line"><span class="meta">$</span> find . -newer Feb1 ! -newer Feb5 # 比二月1日新 比二月5日旧</span><br></pre></td></tr></table></figure>
+
+<h3 id="按文件大小查找"><a href="#按文件大小查找" class="headerlink" title="按文件大小查找"></a>按文件大小查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> find /tmp -size  2M  #查找在/tmp 目录下等于2M的文件</span><br><span class="line"><span class="meta">$</span> find /tmp -size +2M  #查找在/tmp 目录下大于2M的文件</span><br><span class="line"><span class="meta">$</span> find /tmp -size -2M  #查找在/tmp 目录下小于2M的文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="按条件"><a href="#按条件" class="headerlink" title="按条件"></a>按条件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -a 且</span><br><span class="line"><span class="meta">$</span> find . -name "*.sh" -a -user ubuntu # 查找以.sh结尾并且属主为ubuntu的文件</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> -o 或</span><br><span class="line"><span class="meta">$</span> find . -name "*.sh" -o -user ubuntu # 查找以.sh结尾或者属主为ubuntu的文件</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> -not 非</span><br><span class="line"><span class="meta">$</span> find . -name "*.sh" -not -user ubuntu # 查找以.sh结尾并且属主不是ubuntu的文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="按文件权限查找"><a href="#按文件权限查找" class="headerlink" title="按文件权限查找"></a>按文件权限查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> find /tmp -perm 755 </span><br><span class="line"><span class="meta">$</span> find /tmp -perm +222 # 匹配属主,属组和其他其中个一项具有写权限</span><br><span class="line"><span class="meta">$</span> find /tmp -perm -222 # 匹配属主,属组和其他全部具有写权限</span><br></pre></td></tr></table></figure>
+
+<h3 id="按属主属组查找"><a href="#按属主属组查找" class="headerlink" title="按属主属组查找"></a>按属主属组查找</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> find . -user ubuntu # 查找属于ubuntu用户的文件</span><br><span class="line"><span class="meta">$</span> find . -group ubuntu # 查找属于ubuntu组的文件	</span><br><span class="line"><span class="meta">$</span> find . -uid UserID # 查找属主为指定的UID号的文件</span><br><span class="line"><span class="meta">$</span> find . -gid GroupID # 查找属组为指定的GID号的文件</span><br><span class="line"><span class="meta">$</span> find . -nouser # 查找没有属主的文件</span><br><span class="line"><span class="meta">$</span> find . -nogroup # 查找没有属组的文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="按动作分类"><a href="#按动作分类" class="headerlink" title="按动作分类"></a>按动作分类</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -print find默动作</span><br><span class="line"><span class="meta">#</span> -ok [commend]  查找后执行命令的时候询问用户是否要执行</span><br><span class="line"><span class="meta">#</span> -exec [commend] 查找后执行命令的时候不询问用户，直接执行</span><br><span class="line"><span class="meta">$</span> find . -name "*.sh" -ok rm &#123;&#125; \; # 会询问每一个找到的文件</span><br><span class="line"><span class="meta">$</span> find . -name "*.sh" -exec rm &#123;&#125; \; # 直接执行不询问</span><br><span class="line"><span class="meta">$</span> find . -name "*.html" -ok cp &#123;&#125; ~/test/ \; # 复制前询问</span><br><span class="line"><span class="meta">$</span> find . -name "*.html" -exec ls -hl &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<p><strong>魔术字符串{}是-ok和-exec命令的一个特殊类型的参数，它将被当前文件的完整路径取代</strong></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bash/" rel="tag"># Bash</a>
+              <a href="/tags/shell命令/" rel="tag"># shell命令</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/02/Bash/shell-用户,组,权限相关命令/" rel="prev" title="shell-用户,组,权限相关命令">
+      <i class="fa fa-chevron-left"></i> shell-用户,组,权限相关命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/09/AWS/EC2/EC2-扩展EBS/" rel="next" title="EC2-扩展EBS">
+      EC2-扩展EBS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述-find命令"><span class="nav-number">1.</span> <span class="nav-text">描述: find命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#按文件名查找"><span class="nav-number">1.1.</span> <span class="nav-text">按文件名查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按文件类型查找"><span class="nav-number">1.2.</span> <span class="nav-text">按文件类型查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按文件时间查找"><span class="nav-number">1.3.</span> <span class="nav-text">按文件时间查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按文件大小查找"><span class="nav-number">1.4.</span> <span class="nav-text">按文件大小查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按条件"><span class="nav-number">1.5.</span> <span class="nav-text">按条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按文件权限查找"><span class="nav-number">1.6.</span> <span class="nav-text">按文件权限查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按属主属组查找"><span class="nav-number">1.7.</span> <span class="nav-text">按属主属组查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按动作分类"><span class="nav-number">1.8.</span> <span class="nav-text">按动作分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">1.9.</span> <span class="nav-text">结语</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: EFS常见问题">
+<meta name="keywords" content="AWS EFS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EFS-常见问题-4">
+<meta property="og:url" content="http://yoursite.com/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: EFS常见问题">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-12-13T06:27:11.256Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EFS-常见问题-4">
+<meta name="twitter:description" content="描述: EFS常见问题">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>EFS-常见问题-4 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          EFS-常见问题-4
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-12-13 10:54:04 / Modified: 14:27:11" itemprop="dateCreated datePublished" datetime="2020-12-13T10:54:04+08:00">2020-12-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="描述-EFS常见问题"><a href="#描述-EFS常见问题" class="headerlink" title="描述: EFS常见问题"></a>描述: EFS常见问题</h2><a id="more"></a>
+
+<h3 id="无法创建-EFS-文件系统"><a href="#无法创建-EFS-文件系统" class="headerlink" title="无法创建 EFS 文件系统"></a>无法创建 EFS 文件系统</h3><p>创建 EFS 文件系统的请求失败,并显示以下消息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User: arn:aws:iam::111122223333:user/username is not authorized to</span><br><span class="line">perform: elasticfilesystem:CreateFileSystem on the specified resource.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要采取的操作</strong>:<br>这通常是由IAM权限限制引起的,检查当前用户的权限,以及特定规则.<br>例如:</p>
+<ul>
+<li>用户是否有权限创建EFS</li>
+<li>用户创建EFS是否有特定条件:必须加密?必须带某些tags?必须在特定region?</li>
+</ul>
+<h3 id="凭证进行身份验证时出错"><a href="#凭证进行身份验证时出错" class="headerlink" title="凭证进行身份验证时出错"></a>凭证进行身份验证时出错</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthFailure: An error occurred authenticating your credentials for XXXXXXXX</span><br></pre></td></tr></table></figure>
+
+<p><strong>要采取的操作</strong>:</p>
+<ul>
+<li>查看用户的凭证是否正确</li>
+<li>查看用户客户端时间是否准确</li>
+</ul>
+<h3 id="Amazon-EC2-实例挂起"><a href="#Amazon-EC2-实例挂起" class="headerlink" title="Amazon EC2 实例挂起"></a>Amazon EC2 实例挂起</h3><p>Amazon EC2 实例挂起的原因可能是，在未首先卸载文件系统的情况下删除了文件系统挂载目标。</p>
+<p><strong>要采取的操作</strong><br>在删除文件系统挂载目标之前，请卸载文件系统。</p>
+<h3 id="Disk-quota-exceeded"><a href="#Disk-quota-exceeded" class="headerlink" title="Disk quota exceeded"></a>Disk quota exceeded</h3><p>Amazon EFS 当前不支持用户磁盘配额。如果超出了以下任何限制，则可能会出现该错误：</p>
+<p>一个实例同一时刻最多可以有 128 个活动用户账户打开文件。</p>
+<p>一个实例同一时刻最多可打开 32,768 个文件。</p>
+<p>实例上的每个唯一挂载可以在 256 个唯一文件/进程对中最多获取总共 8192 个锁。例如，单个进程可以在 256 个单独的文件上获取一个或多个锁，或者说 8 个进程中的每个进程均可以在 32 个文件上获取一个或多个锁。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果遇到该问题，可通过确定超出了上述哪个限制，然后进行更改以满足该限制，加以解决。</p>
+<h3 id="I-O-error"><a href="#I-O-error" class="headerlink" title="I/O error"></a>I/O error</h3><p>遇到下列问题之一时会发生此错误：</p>
+<ol>
+<li><p>每个实例同一时刻最多有 128 个活动用户账户打开文件。</p>
+<p> <strong>要采取的操作</strong></p>
+<p> 如果遇到该问题，可以满足在实例上支持的打开文件数限制以解决该问题。为此，请减少在实例上同时打开 Amazon EFS 文件系统中的文件的活动用户数。</p>
+</li>
+<li><p>已删除加密的文件系统的 AWS KMS 密钥。</p>
+<p> <strong>要采取的操作</strong>:</p>
+<p> 如果遇到此问题，则表示不能再解密用该密钥加密的数据，这意味着该数据将无法恢复。</p>
+</li>
+</ol>
+<h3 id="File-name-is-too-long"><a href="#File-name-is-too-long" class="headerlink" title="File name is too long"></a>File name is too long</h3><p>当文件名或其符号链接 (symbol link) 太长时，会出现该错误。文件名具有以下限制：</p>
+<ul>
+<li>名称的长度最多为 255 个字节。</li>
+<li>符号链接的大小最多为 4080 个字节。</li>
+</ul>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果遇到该问题，可通过减小文件名或符号链接的长度以满足支持的限制，加以解决。</p>
+<h3 id="Too-many-links"><a href="#Too-many-links" class="headerlink" title="Too many links"></a>Too many links</h3><p>当文件的硬链接太多时，会出现该错误。一个文件中最多可有 177 个硬链接。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果遇到该问题，可通过减少文件硬链接的数量以满足支持的限制，加以解决。</p>
+<h3 id="File-too-large"><a href="#File-too-large" class="headerlink" title="File too large"></a>File too large</h3><p>当文件太大时，会出现该错误。单个文件的大小最多为 52,673,613,135,872 个字节 (47.9 TiB)。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果遇到该问题，可通过减小文件的大小以满足支持的限制，加以解决。</p>
+<h3 id="无法更改所有权"><a href="#无法更改所有权" class="headerlink" title="无法更改所有权"></a>无法更改所有权</h3><p>当使用 Linux chown 命令时，无法更改文件/目录的所有权。</p>
+<p>出现该错误的内核版本</p>
+<p><em>2.6.32</em></p>
+<p><strong>要采取的操作</strong>:<br>内核升级</p>
+<h3 id="由于客户端错误，文件系统重复执行操作"><a href="#由于客户端错误，文件系统重复执行操作" class="headerlink" title="由于客户端错误，文件系统重复执行操作"></a>由于客户端错误，文件系统重复执行操作</h3><p>由于某个客户端错误，文件系统重复执行操作。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>将客户端软件更新为最新版本。</p>
+<h3 id="客户端发生死锁"><a href="#客户端发生死锁" class="headerlink" title="客户端发生死锁"></a>客户端发生死锁</h3><p>客户端变为死锁状态。</p>
+<p>出现该错误的内核版本</p>
+<ul>
+<li>CentOS -7,内核为 Linux 3.10.0-229.20.1.el7.x86_64</li>
+<li>内核为 Linux 4.2.0-18-generic 的 Ubuntu 15.10</li>
+</ul>
+<p><strong>要采取的操作</strong>:</p>
+<p>执行下列操作之一：</p>
+<ul>
+<li>升级为更新的内核版本。对于 CentOS-7,内核版本 Linux 3.10.0-327 或更高版本包含修复。</li>
+<li>降级为较旧的内核版本。</li>
+</ul>
+<h3 id="列出大型目录中的文件需要很长时间"><a href="#列出大型目录中的文件需要很长时间" class="headerlink" title="列出大型目录中的文件需要很长时间"></a>列出大型目录中的文件需要很长时间</h3><p>如果在 NFS 客户端遍历目录以完成列出操作时，目录正在发生更改，则可能会出现这种情况。每当 NFS 客户端在这种遍历期间注意到目录内容发生更改时，它都会从头开始重新遍历。因此，对于包含经常更改的文件的大型目录，ls 命令可能需要很长时间才能完成。</p>
+<p>出现该错误的内核版本</p>
+<p>CentOS 和低于 2.6.32-696.el6 的 RHEL 内核版本</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>要解决该问题，请升级到较新的内核版本。</p>
+<h3 id="在-Windows-实例上挂载文件系统失败"><a href="#在-Windows-实例上挂载文件系统失败" class="headerlink" title="在 Windows 实例上挂载文件系统失败"></a>在 Windows 实例上挂载文件系统失败</h3><p>在 Microsoft Windows Amazon EC2 实例上挂载文件系统失败。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>不要将 Amazon EFS 与 Windows EC2 实例一起使用，不支持该配置。</p>
+<h3 id="自动挂载失败，并且实例没有响应"><a href="#自动挂载失败，并且实例没有响应" class="headerlink" title="自动挂载失败，并且实例没有响应"></a>自动挂载失败，并且实例没有响应</h3><p>如果在实例上自动挂载文件系统，并且未声明 _netdev 选项，则可能会出现该问题。如果缺少 _netdev EC2 实例可能会停止响应。出现该结果是因为，需要在计算实例启动其网络后初始化网络文件系统。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果出现该问题，请与 AWS Support 联系。</p>
+<h3 id="在-etc-fstab-中挂载多个-Amazon-EFS-文件系统失败"><a href="#在-etc-fstab-中挂载多个-Amazon-EFS-文件系统失败" class="headerlink" title="在 /etc/fstab 中挂载多个 Amazon EFS 文件系统失败"></a>在 /etc/fstab 中挂载多个 Amazon EFS 文件系统失败</h3><p>如果实例使用的 systemd 初始化系统在 /etc/fstab 中具有两个或更多 Amazon EFS 条目，有时可能会没有挂载其中的部分或全部条目。在这种情况下，dmesg 输出显示类似于以下内容的一行或多行。</p>
+<p><code>NFS: nfs4_discover_server_trunking unhandled error -512. Exiting with error EIO</code></p>
+<p><strong>要采取的操作</strong>:</p>
+<p>在这种情况下，使用以下内容在 /etc/systemd/system/mount-nfs-sequentially.service 中创建新的 systemd 服务文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Workaround for mounting NFS file systems sequentially at boot time</span><br><span class="line">After=remote-fs.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStart=/bin/mount -avt nfs4</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>在执行该操作后，运行以下两个命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">sudo systemctl enable mount-nfs-sequentially.service</span><br></pre></td></tr></table></figure>
+
+<p>然后，重新启动 Amazon EC2 实例。通常在一秒内将按需挂载文件系统</p>
+<h3 id="挂载命令失败，并显示“wrong-fs-type”错误消息"><a href="#挂载命令失败，并显示“wrong-fs-type”错误消息" class="headerlink" title="挂载命令失败，并显示“wrong fs type”错误消息"></a>挂载命令失败，并显示“wrong fs type”错误消息</h3><p>挂载命令失败，并显示如下错误消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mount: wrong fs type, bad option, bad superblock on 10.1.25.30:/, </span><br><span class="line">missing codepage or helper program, or other error (for several filesystems </span><br><span class="line">(e.g. nfs, cifs) you might need a /sbin/mount.&lt;type&gt; helper program)</span><br><span class="line">In some cases useful info is found in syslog - try dmesg | tail or so.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要采取的操作</strong>:</p>
+<p>如果收到该消息，请安装 nfs-utils（或 Ubuntu 上的 nfs-common）软件包</p>
+<h3 id="挂载命令失败，并显示“incorrect-mount-option”错误消息"><a href="#挂载命令失败，并显示“incorrect-mount-option”错误消息" class="headerlink" title="挂载命令失败，并显示“incorrect mount option”错误消息"></a>挂载命令失败，并显示“incorrect mount option”错误消息</h3><p>挂载命令失败，并显示如下错误消息。</p>
+<p><code>mount.nfs: an incorrect mount option was specified</code></p>
+<p><strong>要采取的操作</strong>:</p>
+<p>该错误消息很可能意味着 Linux 发行版不支持 4.0 和 4.1 版网络文件系统 (NFSv4)。要确认是否属于这种情况，可以运行以下命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> grep CONFIG_NFS_V4_1 /boot/config*</span><br></pre></td></tr></table></figure>
+
+<p>如果上述命令返回 <code># CONFIG_NFS_V4_1 is not set</code>,则表明你的 Linux 发行版不支持 NFSv4.1。有关支持 Amazon Elastic Compute Cloud 的 Amazon EC2 (NFSv4.1,) 的 Amazon 系统映像 (AMI) 的列表,请参阅NFS 支持。</p>
+<h3 id="在创建文件系统后文件系统挂载立即失败"><a href="#在创建文件系统后文件系统挂载立即失败" class="headerlink" title="在创建文件系统后文件系统挂载立即失败"></a>在创建文件系统后文件系统挂载立即失败</h3><p>在创建域名服务 (DNS) 记录的挂载目标后，可能最多需要 90 秒的时间才能在 AWS 区域中完全传播。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果以编程方式创建和挂载文件系统（例如，使用 AWS CloudFormation 模板），建议实施等待条件</p>
+<h3 id="文件系统挂载挂起，然后失败，并显示超时错误"><a href="#文件系统挂载挂起，然后失败，并显示超时错误" class="headerlink" title="文件系统挂载挂起，然后失败，并显示超时错误"></a>文件系统挂载挂起，然后失败，并显示超时错误</h3><p>文件系统挂载命令挂起一两分钟，然后失败，并显示超时错误。下面的代码显示了一个示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport mount-target-ip:/ mnt</span><br><span class="line"></span><br><span class="line">[2+ minute wait here]</span><br><span class="line">mount.nfs: Connection timed out</span><br></pre></td></tr></table></figure>
+
+<p><strong>要采取的操作</strong>:</p>
+<p>出现该错误的原因可能是，Amazon EC2 实例或挂载目标安全组的配置不正确。确保挂载目标安全组具有允许从 EC2 安全组进行 NFS 访问的2049入站规则。或者可能挂载的IP不正确</p>
+<h3 id="Name-or-service-not-known"><a href="#Name-or-service-not-known" class="headerlink" title="Name or service not known"></a>Name or service not known</h3><p>使用 DNS 名称的文件系统挂载失败。下面的代码显示了一个示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport file-system-id.efs.aws-region.amazonaws.com:/ mnt   </span><br><span class="line">mount.nfs: Failed to resolve server file-system-id.efs.aws-region.amazonaws.com: </span><br><span class="line">  Name or service not known.   </span><br><span class="line"></span><br><span class="line">$  </span><br><span class="line">``` </span><br><span class="line">**要采取的操作**:</span><br><span class="line"></span><br><span class="line">请检查 VPC 配置。如果使用自定义 VPC，请确保已启用 DNS 设置。</span><br><span class="line">* 确保 Amazon EC2 实例所在的同一可用区中有一个 Amazon EFS 挂载目标</span><br><span class="line">* 确保在与 Amazon EC2 实例相同的 VPC 中有一个挂载目标。否则，不能对位于其他 VPC 中的 EFS 挂载目标使用 DNS 名称解析</span><br><span class="line">* 在配置为使用由 Amazon 提供的 DNS 服务器的 Amazon VPC 内连接至您的 Amazon EC2 实例</span><br><span class="line">* 确保连接 Amazon EC2 实例的 Amazon VPC 已启用 DNS 主机名</span><br><span class="line"></span><br><span class="line">### nfs not responding</span><br><span class="line"></span><br><span class="line">Amazon EFS 文件系统挂载因传输控制协议 (TCP) 重新连接事件失败，返回错误&quot;nfs: server_name still not responding&quot;。</span><br><span class="line"></span><br><span class="line">**要采取的操作**:</span><br><span class="line"></span><br><span class="line">请使用 noresvport 挂载选项，以确保在重新建立网络连接时，NFS 客户端将使用新的 TCP 源端口。这样做有助于确保在网络恢复事件后具有不间断的可用性。</span><br><span class="line"></span><br><span class="line">### 挂载没有响应</span><br><span class="line">Amazon EFS 挂载看起来没有响应。例如，ls 等命令挂起。</span><br><span class="line"></span><br><span class="line">**要采取的操作**:</span><br><span class="line"></span><br><span class="line">如果另一个应用程序正在将大量数据写入文件系统，则可能会出现该错误。在该操作完成前，可能会阻止对正在被写入的文件的访问。一般来说，尝试访问正在被写入的文件的任何命令或应用程序均可能会显示为挂起状态。例如，ls 命令可能会在访问正在被写入的文件时挂起。出现该结果是因为，某些 Linux 发行版在 ls 命令中使用别名，以便检索文件属性以及列出目录内容。</span><br><span class="line"></span><br><span class="line">要解决此问题，请验证另一个应用程序是否正在将文件写入 Amazon EFS 挂载，并验证它是否处于 Uninterruptible sleepD 状态，如下面的示例所示：</span><br></pre></td></tr></table></figure>
+
+<p>$ ps aux | grep large_io.py<br>root 33253 0.5 0.0 126652 5020 pts/3 D+ 18:22 0:00 python large_io.py /efs/large_file</p>
+<p>```<br>在已验证确属这种情况之后，您可以通过等待其他写入操作完成或通过实施一种变通解决办法来解决问题。在 ls 示例中，您可以直接使用 /bin/ls 命令，而不是使用别名。这样做可以继续执行命令，而不会在写入的文件处挂起。通常，如果写入数据的应用程序可能会定期强制执行数据刷新（可能使用 fsync(2)），这样做可能有助于提高文件系统对其他应用程序的响应能力。但是，在应用程序写入数据时，这种改善可能会牺牲性能。</p>
+<h3 id="bad-file-handle"><a href="#bad-file-handle" class="headerlink" title="bad file handle"></a>bad file handle</h3><p>针对新挂载的文件系统执行的操作返回 bad file handle 错误。</p>
+<p>如果 Amazon EC2 实例连接到了一个文件系统和一个具有指定 IP 地址的挂载目标，然后该文件系统和挂载目标被删除，则可能会出现该错误。如果您创建新的文件系统和挂载目标，以连接到具有相同挂载目标 IP 地址的 Amazon EC2 实例，则可能会发生该问题。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>可以卸载文件系统，然后在 Amazon EC2 实例上重新挂载文件系统以解决该问题。</p>
+<h3 id="卸载文件系统失败"><a href="#卸载文件系统失败" class="headerlink" title="卸载文件系统失败"></a>卸载文件系统失败</h3><p>如果文件系统繁忙，则无法将其卸载。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>可以通过以下方法解决该问题：</p>
+<ul>
+<li>等待所有读取和写入操作完成，然后再次尝试执行 umount 命令。</li>
+<li>使用 umount 选项强制完成 -f 命令。</li>
+</ul>
+<h3 id="具有传输中的数据加密的挂载失败"><a href="#具有传输中的数据加密的挂载失败" class="headerlink" title="具有传输中的数据加密的挂载失败"></a>具有传输中的数据加密的挂载失败</h3><p>默认情况下，当您使用带有传输层安全性 (TLS) 的 Amazon EFS 挂载帮助程序时，它会强制执行主机名检查。某些系统不支持此功能,例如,当您使用 Red Hat Enterprise Linux 或 CentOS 时。 在这些情况下,使用 TLS 挂载 EFS 文件系统会失败。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>我们建议您升级客户端上的 stunnel 版本以支持主机名检查。<a href="https://docs.aws.amazon.com/zh_cn/efs/latest/ug/upgrading-stunnel.html" target="_blank" rel="noopener">升级stunnel</a></p>
+<h3 id="具有传输中的数据加密的挂载中断"><a href="#具有传输中的数据加密的挂载中断" class="headerlink" title="具有传输中的数据加密的挂载中断"></a>具有传输中的数据加密的挂载中断</h3><p>在极少数情况下，客户端事件可能会导致到您的 Amazon EFS 文件系统的加密连接挂起或中断。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>如果到使用传输中的数据加密的 Amazon EFS 文件系统的连接中断，请执行以下步骤：</p>
+<ul>
+<li>确保正在客户端上运行 stunnel 服务。</li>
+<li>确认正在客户端上运行监控程序应用程序 amazon-efs-mount-watchdog。您可以使用以下命令确定是否正在运行该应用程序：<br>  <code>ps aux | grep [a]mazon-efs-mount-watchdog</code></li>
+<li>检查日志，可以查找在 /var/log/amazon/efs 中存储的日志。</li>
+<li>（可选）可以启用 stunnel 日志以及检查这些日志中的信息。可以在 /etc/amazon/efs/efs-utils.conf 中更改日志配置以启用 stunnel 日志。但是，这样做需要卸载文件系统，然后使用挂载帮助程序重新挂载以使更改生效。</li>
+</ul>
+<h3 id="无法创建静态加密的文件系统"><a href="#无法创建静态加密的文件系统" class="headerlink" title="无法创建静态加密的文件系统"></a>无法创建静态加密的文件系统</h3><p>您已尝试创建新的静态加密的文件系统。不过，您会收到一条错误消息，指出 AWS KMS 不可用。</p>
+<p><strong>要采取的操作</strong>:</p>
+<p>在极少数情况下，AWS KMS 可能在您的 AWS 区域中暂时不可用，从而出现该错误。如果发生这种情况，请等到 AWS KMS 恢复完全可用，然后重试以创建文件系统。</p>
+<h3 id="无法使用的加密文件系统"><a href="#无法使用的加密文件系统" class="headerlink" title="无法使用的加密文件系统"></a>无法使用的加密文件系统</h3><p>加密的文件系统持续返回 NFS 服务器错误。如果由于以下原因之一 EFS 无法从 AWS KMS 中检索主密钥，则可能会出现这些错误：</p>
+<ul>
+<li>禁用了密钥。</li>
+<li>删除了密钥。</li>
+<li>撤销了 Amazon EFS 使用密钥的权限。</li>
+<li>AWS KMS 暂时不可用。</li>
+</ul>
+<p><strong>要采取的操作</strong>:</p>
+<ul>
+<li>确认已启用 AWS KMS 密钥。为此，您可以在控制台中查看这些密钥。</li>
+<li>如果未启用密钥，请将其启用。</li>
+<li>如果密钥处于待删除状态，该状态将禁用密钥。可以取消删除，然后重新启用密钥。</li>
+<li>如果已启用密钥并且仍遇到问题，或者在重新启用密钥时遇到问题，请与 AWS Support 联系。</li>
+</ul>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-EFS/" rel="tag"># AWS EFS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/12/AWS/EC2/EC2-2-CLI/" rel="prev" title="EC2-2-CLI">
+      <i class="fa fa-chevron-left"></i> EC2-2-CLI
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/" rel="next" title="AWS CLI(5)常见问题">
+      AWS CLI(5)常见问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述-EFS常见问题"><span class="nav-number">1.</span> <span class="nav-text">描述: EFS常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无法创建-EFS-文件系统"><span class="nav-number">1.1.</span> <span class="nav-text">无法创建 EFS 文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#凭证进行身份验证时出错"><span class="nav-number">1.2.</span> <span class="nav-text">凭证进行身份验证时出错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-EC2-实例挂起"><span class="nav-number">1.3.</span> <span class="nav-text">Amazon EC2 实例挂起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Disk-quota-exceeded"><span class="nav-number">1.4.</span> <span class="nav-text">Disk quota exceeded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O-error"><span class="nav-number">1.5.</span> <span class="nav-text">I/O error</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-name-is-too-long"><span class="nav-number">1.6.</span> <span class="nav-text">File name is too long</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Too-many-links"><span class="nav-number">1.7.</span> <span class="nav-text">Too many links</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-too-large"><span class="nav-number">1.8.</span> <span class="nav-text">File too large</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无法更改所有权"><span class="nav-number">1.9.</span> <span class="nav-text">无法更改所有权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由于客户端错误，文件系统重复执行操作"><span class="nav-number">1.10.</span> <span class="nav-text">由于客户端错误，文件系统重复执行操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端发生死锁"><span class="nav-number">1.11.</span> <span class="nav-text">客户端发生死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出大型目录中的文件需要很长时间"><span class="nav-number">1.12.</span> <span class="nav-text">列出大型目录中的文件需要很长时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Windows-实例上挂载文件系统失败"><span class="nav-number">1.13.</span> <span class="nav-text">在 Windows 实例上挂载文件系统失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动挂载失败，并且实例没有响应"><span class="nav-number">1.14.</span> <span class="nav-text">自动挂载失败，并且实例没有响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-etc-fstab-中挂载多个-Amazon-EFS-文件系统失败"><span class="nav-number">1.15.</span> <span class="nav-text">在 /etc/fstab 中挂载多个 Amazon EFS 文件系统失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载命令失败，并显示“wrong-fs-type”错误消息"><span class="nav-number">1.16.</span> <span class="nav-text">挂载命令失败，并显示“wrong fs type”错误消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载命令失败，并显示“incorrect-mount-option”错误消息"><span class="nav-number">1.17.</span> <span class="nav-text">挂载命令失败，并显示“incorrect mount option”错误消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在创建文件系统后文件系统挂载立即失败"><span class="nav-number">1.18.</span> <span class="nav-text">在创建文件系统后文件系统挂载立即失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统挂载挂起，然后失败，并显示超时错误"><span class="nav-number">1.19.</span> <span class="nav-text">文件系统挂载挂起，然后失败，并显示超时错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-or-service-not-known"><span class="nav-number">1.20.</span> <span class="nav-text">Name or service not known</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bad-file-handle"><span class="nav-number">1.21.</span> <span class="nav-text">bad file handle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载文件系统失败"><span class="nav-number">1.22.</span> <span class="nav-text">卸载文件系统失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具有传输中的数据加密的挂载失败"><span class="nav-number">1.23.</span> <span class="nav-text">具有传输中的数据加密的挂载失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具有传输中的数据加密的挂载中断"><span class="nav-number">1.24.</span> <span class="nav-text">具有传输中的数据加密的挂载中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无法创建静态加密的文件系统"><span class="nav-number">1.25.</span> <span class="nav-text">无法创建静态加密的文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无法使用的加密文件系统"><span class="nav-number">1.26.</span> <span class="nav-text">无法使用的加密文件系统</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

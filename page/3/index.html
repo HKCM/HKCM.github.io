@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/13/AWS-S3-2-存储类型和价格/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/15/AWS/EC2/EC2脚本/向指定SG的SSH端口添加IP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/13/AWS-S3-2-存储类型和价格/" class="post-title-link" itemprop="url">AWS S3(2)存储类型和价格</a>
+            <a href="/2020/12/15/AWS/EC2/EC2脚本/向指定SG的SSH端口添加IP/" class="post-title-link" itemprop="url">向指定SG的SSH端口添加IP</a>
         </h2>
 
         <div class="post-meta">
@@ -207,14 +207,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-13 20:25:19" itemprop="dateCreated datePublished" datetime="2020-11-13T20:25:19+08:00">2020-11-13</time>
+              <time title="Created: 2020-12-15 15:59:24" itemprop="dateCreated datePublished" datetime="2020-12-15T15:59:24+08:00">2020-12-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-22 21:59:31" itemprop="dateModified" datetime="2020-11-22T21:59:31+08:00">2020-11-22</time>
+                <time title="Modified: 2020-12-18 13:20:16" itemprop="dateModified" datetime="2020-12-18T13:20:16+08:00">2020-12-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,7 +226,11 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AWS/S3/" itemprop="url" rel="index"><span itemprop="name">S3</span></a>
+                  <a href="/categories/AWS/EC2/" itemprop="url" rel="index"><span itemprop="name">EC2</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/EC2/脚本/" itemprop="url" rel="index"><span itemprop="name">脚本</span></a>
                 </span>
             </span>
 
@@ -241,10 +245,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: AWS S3存储类型和价格</p>
+          <h2 id="描述-向指定SG的SSH端口添加IP"><a href="#描述-向指定SG的SSH端口添加IP" class="headerlink" title="描述: 向指定SG的SSH端口添加IP"></a>描述: 向指定SG的SSH端口添加IP</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/13/AWS-S3-2-存储类型和价格/#more" rel="contents">
+              <a class="btn" href="/2020/12/15/AWS/EC2/EC2脚本/向指定SG的SSH端口添加IP/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -268,7 +272,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/13/AWS-S3-1-概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/15/AWS/EC2/EC2脚本/通过Snapshot恢复脚本/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -282,7 +286,165 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/13/AWS-S3-1-概述/" class="post-title-link" itemprop="url">AWS S3(1) 概述</a>
+            <a href="/2020/12/15/AWS/EC2/EC2脚本/通过Snapshot恢复脚本/" class="post-title-link" itemprop="url">通过Snapshot恢复脚本</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-12-15 15:41:13 / Modified: 15:48:30" itemprop="dateCreated datePublished" datetime="2020-12-15T15:41:13+08:00">2020-12-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/EC2/" itemprop="url" rel="index"><span itemprop="name">EC2</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/EC2/脚本/" itemprop="url" rel="index"><span itemprop="name">脚本</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="描述-这是一个通过EBS的snapshot还原Instance的脚本"><a href="#描述-这是一个通过EBS的snapshot还原Instance的脚本" class="headerlink" title="描述: 这是一个通过EBS的snapshot还原Instance的脚本"></a>描述: 这是一个通过EBS的snapshot还原Instance的脚本</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/15/AWS/EC2/EC2脚本/通过Snapshot恢复脚本/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/15/AWS/AWS导航链接/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/15/AWS/AWS导航链接/" class="post-title-link" itemprop="url">AWS 导航链接</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-12-15 13:16:34 / Modified: 13:25:23" itemprop="dateCreated datePublished" datetime="2020-12-15T13:16:34+08:00">2020-12-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="描述-记录AWS常用的网址"><a href="#描述-记录AWS常用的网址" class="headerlink" title="描述: 记录AWS常用的网址"></a>描述: 记录AWS常用的网址</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/15/AWS/AWS导航链接/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/AWS/存储类/S3/AWS-S3-5-S3博客/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/AWS/存储类/S3/AWS-S3-5-S3博客/" class="post-title-link" itemprop="url">AWS-S3-5-S3博客</a>
         </h2>
 
         <div class="post-meta">
@@ -292,14 +454,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-13 20:25:18" itemprop="dateCreated datePublished" datetime="2020-11-13T20:25:18+08:00">2020-11-13</time>
+              <time title="Created: 2020-12-13 17:18:15" itemprop="dateCreated datePublished" datetime="2020-12-13T17:18:15+08:00">2020-12-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-15 20:30:42" itemprop="dateModified" datetime="2020-11-15T20:30:42+08:00">2020-11-15</time>
+                <time title="Modified: 2020-12-21 12:05:40" itemprop="dateModified" datetime="2020-12-21T12:05:40+08:00">2020-12-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -311,7 +473,11 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AWS/S3/" itemprop="url" rel="index"><span itemprop="name">S3</span></a>
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/S3/" itemprop="url" rel="index"><span itemprop="name">S3</span></a>
                 </span>
             </span>
 
@@ -326,10 +492,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述:</p>
+          <h2 id="描述-AWS-S3相关的博客"><a href="#描述-AWS-S3相关的博客" class="headerlink" title="描述: AWS S3相关的博客"></a>描述: AWS S3相关的博客</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/13/AWS-S3-1-概述/#more" rel="contents">
+              <a class="btn" href="/2020/12/13/AWS/存储类/S3/AWS-S3-5-S3博客/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -353,7 +519,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/11/Bash基础入门（11）临时文件mktemp和trap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -367,7 +533,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/Bash基础入门（11）临时文件mktemp和trap/" class="post-title-link" itemprop="url">Bash基础入门（11）临时文件mktemp和trap</a>
+            <a href="/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/" class="post-title-link" itemprop="url">AWS CLI(5)常见问题</a>
         </h2>
 
         <div class="post-meta">
@@ -377,14 +543,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-11 22:33:20" itemprop="dateCreated datePublished" datetime="2020-11-11T22:33:20+08:00">2020-11-11</time>
+              <time title="Created: 2020-12-13 16:35:42" itemprop="dateCreated datePublished" datetime="2020-12-13T16:35:42+08:00">2020-12-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:48" itemprop="dateModified" datetime="2020-11-13T19:55:48+08:00">2020-11-13</time>
+                <time title="Modified: 2020-12-15 13:02:43" itemprop="dateModified" datetime="2020-12-15T13:02:43+08:00">2020-12-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -392,7 +558,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/CLI/" itemprop="url" rel="index"><span itemprop="name">CLI</span></a>
                 </span>
             </span>
 
@@ -407,10 +577,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: 临时文件安全性以及mktemp和trap的使用</p>
+          <p>描述: AWS CLI的常见问题</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/Bash基础入门（11）临时文件mktemp和trap/#more" rel="contents">
+              <a class="btn" href="/2020/12/13/AWS/CLI/AWS-CLI-5-常见问题/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -434,7 +604,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/11/Bash基础入门（10）脚本设置/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -448,7 +618,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/Bash基础入门（10）脚本设置/" class="post-title-link" itemprop="url">Bash基础入门（10）脚本设置set和shopt</a>
+            <a href="/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/" class="post-title-link" itemprop="url">EFS-常见问题-4</a>
         </h2>
 
         <div class="post-meta">
@@ -457,23 +627,25 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-11-11 22:03:10" itemprop="dateCreated datePublished" datetime="2020-11-11T22:03:10+08:00">2020-11-11</time>
+              <time title="Created: 2020-12-13 10:54:04 / Modified: 14:27:11" itemprop="dateCreated datePublished" datetime="2020-12-13T10:54:04+08:00">2020-12-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-16 11:18:46" itemprop="dateModified" datetime="2020-11-16T11:18:46+08:00">2020-11-16</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
                 </span>
             </span>
 
@@ -488,10 +660,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: 脚本设置set,shopt和排错</p>
+          <h2 id="描述-EFS常见问题"><a href="#描述-EFS常见问题" class="headerlink" title="描述: EFS常见问题"></a>描述: EFS常见问题</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/Bash基础入门（10）脚本设置/#more" rel="contents">
+              <a class="btn" href="/2020/12/13/AWS/存储类/EFS/EFS-常见问题-4/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -515,7 +687,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/11/Bash基础入门（9）函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/12/AWS/EC2/EC2-2-CLI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -529,7 +701,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/Bash基础入门（9）函数/" class="post-title-link" itemprop="url">Bash基础入门（9）函数</a>
+            <a href="/2020/12/12/AWS/EC2/EC2-2-CLI/" class="post-title-link" itemprop="url">EC2-2-CLI</a>
         </h2>
 
         <div class="post-meta">
@@ -539,14 +711,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-11 16:19:06" itemprop="dateCreated datePublished" datetime="2020-11-11T16:19:06+08:00">2020-11-11</time>
+              <time title="Created: 2020-12-12 14:26:46" itemprop="dateCreated datePublished" datetime="2020-12-12T14:26:46+08:00">2020-12-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:32" itemprop="dateModified" datetime="2020-11-13T19:55:32+08:00">2020-11-13</time>
+                <time title="Modified: 2020-12-16 14:33:35" itemprop="dateModified" datetime="2020-12-16T14:33:35+08:00">2020-12-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -554,7 +726,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/EC2/" itemprop="url" rel="index"><span itemprop="name">EC2</span></a>
                 </span>
             </span>
 
@@ -569,10 +745,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: Bash脚本中的函数</p>
+          <h2 id="描述-常用EC2-CLI"><a href="#描述-常用EC2-CLI" class="headerlink" title="描述: 常用EC2 CLI"></a>描述: 常用EC2 CLI</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/Bash基础入门（9）函数/#more" rel="contents">
+              <a class="btn" href="/2020/12/12/AWS/EC2/EC2-2-CLI/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -596,7 +772,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/11/Bash基础入门（8）循环语句/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/12/AWS/存储类/EFS/EFS-Policy-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -610,7 +786,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/Bash基础入门（8）循环语句/" class="post-title-link" itemprop="url">Bash基础入门（8）循环语句</a>
+            <a href="/2020/12/12/AWS/存储类/EFS/EFS-Policy-3/" class="post-title-link" itemprop="url">EFS-Policy-3</a>
         </h2>
 
         <div class="post-meta">
@@ -620,14 +796,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-11 14:38:47" itemprop="dateCreated datePublished" datetime="2020-11-11T14:38:47+08:00">2020-11-11</time>
+              <time title="Created: 2020-12-12 00:11:27" itemprop="dateCreated datePublished" datetime="2020-12-12T00:11:27+08:00">2020-12-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:23" itemprop="dateModified" datetime="2020-11-13T19:55:23+08:00">2020-11-13</time>
+                <time title="Modified: 2020-12-13 11:56:24" itemprop="dateModified" datetime="2020-12-13T11:56:24+08:00">2020-12-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -635,7 +811,15 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
                 </span>
             </span>
 
@@ -650,10 +834,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: while</p>
+          <h2 id="描述-EFS-Policy"><a href="#描述-EFS-Policy" class="headerlink" title="描述: EFS-Policy"></a>描述: EFS-Policy</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/Bash基础入门（8）循环语句/#more" rel="contents">
+              <a class="btn" href="/2020/12/12/AWS/存储类/EFS/EFS-Policy-3/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -677,7 +861,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/11/Bash基础入门（7）条件判断if和case/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/11/AWS/存储类/EFS/EFS-CLI-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -691,7 +875,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/Bash基础入门（7）条件判断if和case/" class="post-title-link" itemprop="url">Bash基础入门（7）条件判断if和case</a>
+            <a href="/2020/12/11/AWS/存储类/EFS/EFS-CLI-2/" class="post-title-link" itemprop="url">EFS-CLI-2</a>
         </h2>
 
         <div class="post-meta">
@@ -701,14 +885,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-11 09:50:48" itemprop="dateCreated datePublished" datetime="2020-11-11T09:50:48+08:00">2020-11-11</time>
+              <time title="Created: 2020-12-11 22:50:14" itemprop="dateCreated datePublished" datetime="2020-12-11T22:50:14+08:00">2020-12-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:13" itemprop="dateModified" datetime="2020-11-13T19:55:13+08:00">2020-11-13</time>
+                <time title="Modified: 2020-12-13 11:56:26" itemprop="dateModified" datetime="2020-12-13T11:56:26+08:00">2020-12-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -716,7 +900,15 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
                 </span>
             </span>
 
@@ -731,10 +923,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: if和case</p>
+          <h2 id="描述-EFS-相关CLI命令"><a href="#描述-EFS-相关CLI命令" class="headerlink" title="描述: EFS 相关CLI命令"></a>描述: EFS 相关CLI命令</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/Bash基础入门（7）条件判断if和case/#more" rel="contents">
+              <a class="btn" href="/2020/12/11/AWS/存储类/EFS/EFS-CLI-2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -758,7 +950,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/10/Bash基础入门（6）脚本基础参数及用户输入/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/11/AWS/存储类/EFS/EFS-概述-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -772,7 +964,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/10/Bash基础入门（6）脚本基础参数及用户输入/" class="post-title-link" itemprop="url">Bash基础入门（6）脚本基础参数及用户输入</a>
+            <a href="/2020/12/11/AWS/存储类/EFS/EFS-概述-1/" class="post-title-link" itemprop="url">EFS-概述-1</a>
         </h2>
 
         <div class="post-meta">
@@ -782,14 +974,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-10 19:36:04" itemprop="dateCreated datePublished" datetime="2020-11-10T19:36:04+08:00">2020-11-10</time>
+              <time title="Created: 2020-12-11 20:38:18" itemprop="dateCreated datePublished" datetime="2020-12-11T20:38:18+08:00">2020-12-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:07" itemprop="dateModified" datetime="2020-11-13T19:55:07+08:00">2020-11-13</time>
+                <time title="Modified: 2020-12-14 16:36:27" itemprop="dateModified" datetime="2020-12-14T16:36:27+08:00">2020-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -797,7 +989,15 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/" itemprop="url" rel="index"><span itemprop="name">存储类</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/存储类/EFS/" itemprop="url" rel="index"><span itemprop="name">EFS</span></a>
                 </span>
             </span>
 
@@ -812,172 +1012,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>描述: Bash脚本入门</p>
+          <h2 id="描述"><a href="#描述" class="headerlink" title="描述:"></a>描述:</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/10/Bash基础入门（6）脚本基础参数及用户输入/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/10/Bash基础入门（5）history/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HKCM">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="HKCM">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/10/Bash基础入门（5）history/" class="post-title-link" itemprop="url">Bash基础入门（5）history</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-10 19:21:34" itemprop="dateCreated datePublished" datetime="2020-11-10T19:21:34+08:00">2020-11-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:55:00" itemprop="dateModified" datetime="2020-11-13T19:55:00+08:00">2020-11-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>描述: 介绍history命令</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/10/Bash基础入门（5）history/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/10/Bash基础入门（4）快捷键/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HKCM">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="HKCM">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/10/Bash基础入门（4）快捷键/" class="post-title-link" itemprop="url">Bash基础入门（4）快捷键</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-10 16:11:06" itemprop="dateCreated datePublished" datetime="2020-11-10T16:11:06+08:00">2020-11-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-13 19:54:49" itemprop="dateModified" datetime="2020-11-13T19:54:49+08:00">2020-11-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>描述: Bash命令行快捷键</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/10/Bash基础入门（4）快捷键/#more" rel="contents">
+              <a class="btn" href="/2020/12/11/AWS/存储类/EFS/EFS-概述-1/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1000,7 +1038,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1066,20 +1104,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1106,7 +1144,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

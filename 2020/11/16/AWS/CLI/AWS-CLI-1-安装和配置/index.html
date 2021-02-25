@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述: AWS CLI安装和配置">
+<meta name="keywords" content="AWS CLI,AWS CLI基础入门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS CLI(1)安装和配置">
+<meta property="og:url" content="http://yoursite.com/2020/11/16/AWS/CLI/AWS-CLI-1-安装和配置/index.html">
+<meta property="og:site_name" content="HKCM">
+<meta property="og:description" content="描述: AWS CLI安装和配置">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-12-15T05:02:42.534Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS CLI(1)安装和配置">
+<meta name="twitter:description" content="描述: AWS CLI安装和配置">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/16/AWS/CLI/AWS-CLI-1-安装和配置/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh'
+  };
+</script>
+
+  <title>AWS CLI(1)安装和配置 | HKCM</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HKCM</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/16/AWS/CLI/AWS-CLI-1-安装和配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HKCM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HKCM">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS CLI(1)安装和配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-16 20:18:14" itemprop="dateCreated datePublished" datetime="2020-11-16T20:18:14+08:00">2020-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-15 13:02:42" itemprop="dateModified" datetime="2020-12-15T13:02:42+08:00">2020-12-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/CLI/" itemprop="url" rel="index"><span itemprop="name">CLI</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>描述: AWS CLI安装和配置</p>
+<a id="more"></a>
+
+<p>到文章发布AWS CLI有两个版本，V1和V2. V2中添加很多修改，具体看这里:<br> <a href="https://docs.amazonaws.cn/cli/latest/userguide/cliv2-migration.html" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/cliv2-migration.html</a></p>
+<p><strong>默认情况下，AWS CLI 版本 2 会对所有输出使用分页程序,在Linux 和 macOS 上是 <code>less</code> 程序</strong></p>
+<p>如果不想使用分页程序或者换成其他分页程序，可以配置 <code>AWS_PAGER</code> 环境变量或者在<code>~/.aws/config</code>文件中添加<code>cli_pager</code>。设置为空则表示不使用分页。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ export AWS_PAGER=&quot;&quot;</span><br><span class="line"></span><br><span class="line">$ aws configure set cli_pager &apos;&apos;</span><br><span class="line"></span><br><span class="line">$ cat ~/.aws/config</span><br><span class="line">[default]</span><br><span class="line">cli_pager=</span><br></pre></td></tr></table></figure>
+
+<p>所以下面我们直接安装V2版本，推荐用官方的方式安装，由于 AWS 不维护第三方存储库，因此不能保证它们包含最新版本的 AWS CLI。</p>
+<h2 id="CLI-安装更新和删除"><a href="#CLI-安装更新和删除" class="headerlink" title="CLI 安装更新和删除"></a>CLI 安装更新和删除</h2><h3 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h3><figure class="highlight plain"><figcaption><span>X86</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 下载最新版本</span><br><span class="line">$ curl &quot;https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip&quot; -o &quot;awscliv2.zip&quot;</span><br><span class="line"></span><br><span class="line"># 下载指定版本，例如版本 2.0.30</span><br><span class="line"># $ curl &quot;https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip&quot; -o &quot;awscliv2.zip&quot;</span><br><span class="line"></span><br><span class="line"># 解压</span><br><span class="line">$ unzip awscliv2.zip</span><br><span class="line"></span><br><span class="line"># 安装至指定路径</span><br><span class="line"># -i – 此选项指定要将所有文件复制到的目录，程序实际所在路径，默认值为 /usr/local/aws-cli</span><br><span class="line"># -b – 此选项指定安装目录中的主 aws 程序通过符号链接指向指定路径中的 aws 文件，默认值为 /usr/local/bin，所以无需再将安装目录添加到用户的 $PATH 变量中</span><br><span class="line">$ sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 验证安装</span><br><span class="line">$ aws --version</span><br><span class="line">aws-cli/2.0.47 Python/3.7.4 Linux/4.14.133-113.105.amzn2.x86_64 botocore/2.0.0</span><br></pre></td></tr></table></figure>
+
+<p>版本列表: <a href="https://github.com/aws/aws-cli/blob/v2/CHANGELOG.rst" target="_blank" rel="noopener">https://github.com/aws/aws-cli/blob/v2/CHANGELOG.rst</a></p>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>更新其实就是用新文件覆盖旧文件,和安装基本一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载最新版本</span><br><span class="line">$ curl &quot;https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip&quot; -o &quot;awscliv2.zip&quot;</span><br><span class="line"></span><br><span class="line"># 解压</span><br><span class="line">$ unzip awscliv2.zip</span><br><span class="line"></span><br><span class="line"># 使用 which 命令查找符号链接</span><br><span class="line">$ which aws</span><br><span class="line">/usr/local/bin/aws</span><br><span class="line"></span><br><span class="line"># 使用 ls 命令查找符号链接指向的目录</span><br><span class="line">$ ls -l /usr/local/bin/aws</span><br><span class="line">lrwxrwxrwx 1 ec2-user ec2-user 49 Oct 22 09:49 /usr/local/bin/aws -&gt; /usr/local/aws-cli/v2/current/bin/aws</span><br><span class="line"></span><br><span class="line"># 使用带有 --update 参数的 install 命令。</span><br><span class="line"># --bin-dir - which命令返回的目录</span><br><span class="line"># --install-dir - ls显示的链接的实际路径</span><br><span class="line">$ sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>卸载其实就是删除相关文件和链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 首先使用 which 命令查找符号链接</span><br><span class="line">$ which aws</span><br><span class="line">/usr/local/bin/aws</span><br><span class="line"></span><br><span class="line"># 使用 ls 命令查找符号链接指向的目录</span><br><span class="line">$ ls -l /usr/local/bin/aws</span><br><span class="line">lrwxrwxrwx 1 ec2-user ec2-user 49 Oct 22 09:49 /usr/local/bin/aws -&gt; /usr/local/aws-cli/v2/current/bin/aws</span><br><span class="line"></span><br><span class="line"># 最后删除链接和目录</span><br><span class="line">$ sudo rm /usr/local/bin/aws</span><br><span class="line">$ sudo rm /usr/local/bin/aws_completer</span><br><span class="line">$ sudo rm -rf /usr/local/aws-cli</span><br></pre></td></tr></table></figure>
+
+<p>其他系统安装方式可以参考官方文档，官方文档： <a href="https://docs.amazonaws.cn/cli/latest/userguide/install-cliv2-linux.html" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/install-cliv2-linux.html</a></p>
+<h2 id="配置CLI"><a href="#配置CLI" class="headerlink" title="配置CLI"></a>配置CLI</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><ol>
+<li><p>默认配置命令 <code>aws configure</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 创建默认名称为default的配置文件</span><br><span class="line">$ aws configure</span><br><span class="line">AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE</span><br><span class="line">AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span><br><span class="line">Default region name [None]: us-west-2</span><br><span class="line">Default output format [None]: json</span><br><span class="line"></span><br><span class="line"># 创建名为 produser的配置文件</span><br><span class="line">$ aws configure --profile produser</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>AWS Access Key ID：源于IAM创建的访问密钥</li>
+<li>AWS Secret Access Key：源于IAM创建的访问密钥</li>
+<li>Region：运行CLI命令时，命令发送的区域，取决于服务部署在哪个Region</li>
+<li>Output：输出格式</li>
+</ul>
+<p>CLI 为使用 <code>aws configure</code> 配置的默认配置文件生成的文件看起来类似于以下内容。</p>
+<p><code>~/.aws/credentials</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[default]</span><br><span class="line">aws_access_key_id=AKIAIOSFODNN7EXAMPLE</span><br><span class="line">aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span><br></pre></td></tr></table></figure>
+
+<p><code>~/.aws/config</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[default]</span><br><span class="line">region=us-east-1</span><br><span class="line">output=json</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>configure</code>的 <code>set</code>, <code>get</code> 和 <code>list</code>, <code>list-profiles</code> 子命令:<br>进行单独配置，对于<code>assume role</code>操作很有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 使用set配置</span><br><span class="line">$ aws configure set aws_access_key_id AKIAIOSFODNN7EXAMPLE --profile example</span><br><span class="line">$ aws configure set aws_secret_access_key wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY --profile example</span><br><span class="line">$ aws configure set region us-east-1 --profile example</span><br><span class="line">$ aws configure set aws_access_key_id AKIAIOSFODNN7EXAMPLE --profile example</span><br><span class="line"></span><br><span class="line"># 使用get获取</span><br><span class="line">$ aws configure get aws_access_key_id --profile example</span><br><span class="line">AKIAIOSFODNN7EXAMPLE</span><br><span class="line"></span><br><span class="line"># 使用lit获取</span><br><span class="line">$ aws configure get aws_access_key_id --profile example</span><br><span class="line">      Name                    Value             Type    Location</span><br><span class="line">      ----                    -----             ----    --------</span><br><span class="line">  profile                  example           manual    --profile</span><br><span class="line">access_key     ****************MPLE shared-credentials-file    </span><br><span class="line">secret_key     ****************EKEY shared-credentials-file    </span><br><span class="line">    region                us-east-1      config-file    ~/.aws/config</span><br><span class="line"></span><br><span class="line"># 查看当前的profile</span><br><span class="line">$ aws configure list-profiles</span><br><span class="line">default</span><br><span class="line">example</span><br></pre></td></tr></table></figure>
+
+<p><code>assume role</code>举例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">KST=($(aws sts assume-role \</span><br><span class="line">--role-arn &quot;arn:aws:iam::$&#123;AWSAccount&#125;:role/$&#123;RoleName&#125;&quot; \</span><br><span class="line">--role-session-name &quot;role-session&quot; \</span><br><span class="line">--query &apos;Credentials.[AccessKeyId,SecretAccessKey,SessionToken]&apos; \</span><br><span class="line">--profile &apos;bot-aws-profile&apos; \</span><br><span class="line">--output text))</span><br><span class="line"></span><br><span class="line">echo &quot;Setting AWS configs:&quot;</span><br><span class="line">aws configure set aws_access_key_id &quot;$&#123;KST[0]&#125;&quot; --profile role-profile</span><br><span class="line">aws configure set aws_secret_access_key &quot;$&#123;KST[1]&#125;&quot; --profile role-profile</span><br><span class="line">aws configure set aws_session_token &quot;$&#123;KST[2]&#125;&quot; --profile role-profile</span><br><span class="line">aws configure set region &quot;$&#123;REGION&#125;&quot; --profile role-profile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>import</code></p>
+<p>这是最方便的方式，当需要配置本机CLI时，大概率你手里已经有了credentials.csv文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aws configure import –-csv file://./credentials.csv</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="配置设置"><a href="#配置设置" class="headerlink" title="配置设置"></a>配置设置</h3><p>config文件支持大量的字段,下面介绍一些常用的：</p>
+<ul>
+<li>cli_pager<br>分页功能，仅适用于 AWS CLI 版本 2，可以被 AWS_PAGER 环境变量覆盖</li>
+<li>duration_seconds<br>指定角色会话的最大持续时间（以秒为单位），默认为3600秒</li>
+<li>max_attempts<br>指定 AWS CLI 重试处理程序使用的最大重试次数值，其中初始调用计入您提供的 max_attempts 值。可以使用 AWS_MAX_ATTEMPTS 环境变量覆盖此值。</li>
+<li>output<br>CLI命令的输出格式<ul>
+<li>json – 输出采用 JSON 字符串的格式。</li>
+<li>yaml – 输出采用 YAML 字符串的格式。（仅在 AWS CLI 版本 2 中可用。）</li>
+<li>yaml-stream – 输出被流式处理并采用 YAML 字符串的格式。流式处理支持更快地处理大型数据类型。（仅在 AWS CLI 版本 2 中可用。）</li>
+<li>text – 输出采用多个制表符分隔字符串值行的格式。这对于将输出传递到文本处理器（如 grep、sed 或 awk）很有用。</li>
+<li>table – 输出采用表格形式，使用字符 +|- 以形成单元格边框。它通常以“人性化”格式呈现信息，这种格式比其他格式更容易阅读，但从编程方面来讲不是那么有用。</li>
+</ul>
+</li>
+<li>region<br>对于使用该配置文件请求的命令，指定要将请求发送到的 AWS 区域</li>
+<li>role_arn<br>指定要用于运行 AWS CLI 命令的 IAM 角色的 Amazon 资源名称 (ARN)。此外，还必须指定以下参数之一以标识有权代入此角色的凭证：<ul>
+<li>source_profile</li>
+<li>credential_source</li>
+</ul>
+</li>
+<li>source_profile<br>指定包含长期凭证的命名配置文件，AWS CLI 可使用这些凭证代入通过 role_arn 参数指定的角色。不能在同一配置文件中同时指定 source_profile 和 credential_source。</li>
+<li>credential_source<br>在 Amazon EC2 实例或 EC2 容器中使用，指定 AWS CLI 在何处可以找到要用于代入通过 role_arn 参数指定的角色的凭证。不能在同一配置文件中同时指定 source_profile 和 credential_source。<br>此参数具有三个值：<ul>
+<li>Environment – 指定 AWS CLI 从环境变量检索源凭证。</li>
+<li>Ec2InstanceMetadata – 指定 AWS CLI 将使用附加到 EC2 实例配置文件的 IAM 角色以获取源凭证。</li>
+<li>EcsContainer – 指定 AWS CLI 将附加到 ECS 容器的 IAM 角色用作源凭证。</li>
+</ul>
+</li>
+<li>retry_mode<br>重试操作，有三种类型传统重试模式（legacy），标准重试模式（standard）和自适应重试模式（adaptive）<br>传统模式：AWS CLI 版本 1 使用的默认模式，重试4次，总共可发出 5 次调用尝试。<br>标准模式：AWS CLI 版本 2 使用的默认模式，最大重试次数的默认值为 2，总共可发出 3 次调用尝试。多了一些报错代码。<br>自适应模式：自适应模式是一种试验模式，AWSCLI会自己根据情况改变重试次数</li>
+<li>max_attempts<br>最大重试次数</li>
+</ul>
+<h3 id="config中的s3设置"><a href="#config中的s3设置" class="headerlink" title="config中的s3设置"></a>config中的s3设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[profile development]</span><br><span class="line">s3 =</span><br><span class="line">  max_concurrent_requests = 20</span><br><span class="line">  max_queue_size = 10000</span><br><span class="line">  multipart_threshold = 64MB</span><br><span class="line">  multipart_chunksize = 16MB</span><br><span class="line">  max_bandwidth = 50MB/s</span><br><span class="line">  use_accelerate_endpoint = true</span><br><span class="line">  addressing_style = path</span><br></pre></td></tr></table></figure>
+
+<p>具体信息：<a href="https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where</a></p>
+<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><p>AWS CLI 凭证和配置设置的优先顺序如下：</p>
+<ol>
+<li>命令行选项 – 覆盖任何其他位置的设置。可以在命令行上指定 –region、–output 和 –profile 作为参数。</li>
+<li>环境变量 – 您可以在系统的环境变量中存储值。 环境变量参考：<a href="https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-envvars.html" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-envvars.html</a></li>
+<li>CLI 凭证文件 – credentials 文件。credentials 文件位于 ~/.aws/credentials（在 Linux 或 macOS 上）或 C:\Users\USERNAME.aws\credentials（在 Windows 上）。该文件可以包含 default 配置文件和任何命名配置文件的<code>凭证详细信息</code>。</li>
+<li>CLI 配置文件 – config 文件。config 文件位于 ~/.aws/config（在 Linux 或 macOS 上）或 C:\Users\USERNAME.aws\config（在 Windows 上）。该文件包含默认配置文件和任何命名配置文件的<code>配置设置</code>。</li>
+<li>容器凭证 – ECS的IAM role</li>
+<li>实例配置文件凭证 – EC2的IAM role</li>
+</ol>
+<h2 id="CLI常用命令行选项"><a href="#CLI常用命令行选项" class="headerlink" title="CLI常用命令行选项"></a>CLI常用命令行选项</h2><ol>
+<li><p><strong>–profile</strong></p>
+<p>最常用的选项没有之一，当你具有多个配置文件时，用于让AWS命令运行在不同配置下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aws --profile dev servicename commandname options</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>–region</strong><br>一般般，当你的资源在同一个AWS账号下但是不在同一个region时，在不同region之间控制资源需要用到。</p>
+</li>
+<li><p><strong>–output &lt;json|yaml|text|table&gt;</strong><br>比较常用，尤其是编程时与<code>--query</code>结合</p>
+</li>
+<li><p><strong>–query <string></string></strong><br>比较常用，尤其是编程时与<code>--output</code>结合</p>
+</li>
+<li><p><strong>–debug</strong><br>不算常用，但是在CLI出现意料之外的情况时很有用。通常可以将错误输出到错误日志。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aws servicename commandname options --debug 2&gt; debug.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>–generate-cli-skeleton</strong><br>不常用，至少我自己没用过。它可以帮你生成CLI命令的模版,模版中包括该命令的所有参数，你可以修改这个模版，删除你不需要的参数，然后填上你需要的参数。<br>最后运行CLI命令时使用<code>--cli-input-yaml</code>选项，就可以自动将你的参数带入命令中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ aws ec2 run-instances --generate-cli-skeleton yaml-input &gt; ec2runinst.yaml</span><br><span class="line">$ vim ec2runinst.yaml</span><br><span class="line">DryRun: true</span><br><span class="line">ImageId: &apos;ami-dfc39aef&apos;</span><br><span class="line">KeyName: &apos;mykey&apos;</span><br><span class="line">SecurityGroups:</span><br><span class="line">- &apos;my-sg&apos;</span><br><span class="line">InstanceType: &apos;t2.micro&apos;</span><br><span class="line">Monitoring: </span><br><span class="line">  Enabled: true</span><br><span class="line">$ aws ec2 run-instances --cli-input-yaml file://ec2runinst.yaml</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="返场："><a href="#返场：" class="headerlink" title="返场："></a>返场：</h2><ol>
+<li><p>设置AWS自动补全</p>
+<p>通常AWS安装后会有自动补全功能如果没有，首先找到AWS的命令补全程序的位置(通常和<code>aws</code>在同一目录下)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ which aws_completer</span><br><span class="line">/usr/local/bin/aws_completer</span><br></pre></td></tr></table></figure>
+
+<p><code>/usr/local/bin</code>已经在我的$PATH,如果路径不在<code>$PATH</code>需要在<code>~/.bash_profile</code>文件末尾中添加这一行，并应用生效<code>source ~/.bash_profile</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/other/path/folder:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>最后<code>bash</code>使用内置命令 <code>complete</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ complete -C &apos;/usr/local/aws/bin/aws_completer&apos; aws</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-completion.html" target="_blank" rel="noopener">https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-completion.html</a></p>
+</li>
+</ol>
+<p>以上完全基于<a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">AWS官方文档</a>，并结合自身理解创作</p>
+<p><a href="https://github.com/HKCM/HKCM.github.io/issues" target="_blank" rel="noopener">全文有任何错误或疏漏，烦请不吝指正</a></p>
+<p>本文采用知识共享 署名-相同方式共享 3.0协议</p>
+<p>署名-相同方式共享（BY-SA）：使用者可以对本创作进行转载、节选、混编、二次创作，可以将其运用于商业用途，唯须署名作者，并且采用本创作的内容必须同样采用本协议进行授权</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AWS-CLI/" rel="tag"># AWS CLI</a>
+              <a href="/tags/AWS-CLI基础入门/" rel="tag"># AWS CLI基础入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/14/AWS/存储类/S3/AWS-S3-3-CLI/" rel="prev" title="AWS S3-CLI">
+      <i class="fa fa-chevron-left"></i> AWS S3-CLI
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/AWS/CLI/AWS-CLI-2-使用/" rel="next" title="AWS CLI(2)使用">
+      AWS CLI(2)使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CLI-安装更新和删除"><span class="nav-number">1.</span> <span class="nav-text">CLI 安装更新和删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux安装"><span class="nav-number">1.1.</span> <span class="nav-text">Linux安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新"><span class="nav-number">1.2.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载"><span class="nav-number">1.3.</span> <span class="nav-text">卸载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置CLI"><span class="nav-number">2.</span> <span class="nav-text">配置CLI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础配置"><span class="nav-number">2.1.</span> <span class="nav-text">基础配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置设置"><span class="nav-number">2.2.</span> <span class="nav-text">配置设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#config中的s3设置"><span class="nav-number">2.3.</span> <span class="nav-text">config中的s3设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级"><span class="nav-number">2.4.</span> <span class="nav-text">优先级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CLI常用命令行选项"><span class="nav-number">3.</span> <span class="nav-text">CLI常用命令行选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返场："><span class="nav-number">4.</span> <span class="nav-text">返场：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HKCM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HKCM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
